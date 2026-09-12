@@ -19,6 +19,8 @@ def main():
     parser = argparse.ArgumentParser(description="The Vanishing Dose — End-to-End Pipeline")
     parser.add_argument("--synthea-dir", type=str, default="data/synthea_output",
                         help="Path to Synthea FHIR bundle directory")
+    parser.add_argument("--mimic-dir", type=str, default=None,
+                        help="Path to MIMIC-IV Demo NDJSON directory (optional, used for calibration)")
     parser.add_argument("--output-dir", type=str, default="data/processed",
                         help="Path to save processed feature files")
     parser.add_argument("--skip-training", action="store_true",
@@ -26,6 +28,7 @@ def main():
     args = parser.parse_args()
 
     synthea_dir = PROJECT_ROOT / args.synthea_dir
+    mimic_dir = PROJECT_ROOT / args.mimic_dir if args.mimic_dir else None
     output_dir = PROJECT_ROOT / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
     cal_dir = PROJECT_ROOT / "data" / "calibration"
@@ -36,7 +39,10 @@ def main():
     print("STEP 1: Parsing FHIR data")
     print("=" * 60)
 
-    from ingestion.fhir_parser import parse_synthea_bundle_dir
+    from ingestion.fhir_parser import (
+        parse_synthea_bundle_dir, parse_medication_dispenses, 
+        parse_encounters, parse_observations, parse_patients
+    )
 
     if not synthea_dir.exists():
         print(f"\nERROR: Synthea directory not found at {synthea_dir}")
