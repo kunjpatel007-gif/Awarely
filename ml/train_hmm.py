@@ -60,7 +60,7 @@ def decode_states(model, X, lengths, df):
     return patient_states
 
 def main():
-    base_dir = Path(r"c:\Projects\MANIPAL HACKATHON 26")
+    base_dir = Path(__file__).resolve().parent.parent
     if str(base_dir) not in sys.path:
         sys.path.append(str(base_dir))
         
