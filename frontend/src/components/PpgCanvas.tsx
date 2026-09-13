@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { TelemetrySample } from '../types';
 
 interface PpgCanvasProps {
@@ -45,20 +45,23 @@ export const PpgCanvas: React.FC<PpgCanvasProps> = ({ samples, height = 140, sho
     }
 
     // Determine points to draw
-    let points: number[] = [];
-    if (samples.length > 0) {
-      points = samples.map(s => s.ppg);
-    } else {
-      // Idle synthetic visual so canvas isn't blank prior to ESP32 connection
-      const count = 120;
-      for (let i = 0; i < count; i++) {
-        const t = i / 25;
-        const wave = 0.5 + 0.3 * Math.sin(t * 3.5) + 0.12 * Math.sin(t * 7);
-        points.push(wave);
-      }
-    }
+    const points: number[] = samples.map(s => s.ppg);
 
-    if (points.length < 2) return;
+    if (points.length < 2) {
+      // Draw flat baseline and standby notice
+      ctx.beginPath();
+      ctx.strokeStyle = '#222222';
+      ctx.lineWidth = 1;
+      ctx.moveTo(0, height / 2);
+      ctx.lineTo(width, height / 2);
+      ctx.stroke();
+
+      ctx.fillStyle = '#636363';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('STANDBY — Awaiting 50Hz ESP32 Hardware Telemetry Stream', width / 2, height / 2 - 10);
+      return;
+    }
 
     // Draw PPG Waveform
     ctx.beginPath();

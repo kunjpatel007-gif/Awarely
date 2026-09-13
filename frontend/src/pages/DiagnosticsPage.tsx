@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { PatientDiagnostics, TelemetrySample, JitaiAlert } from '../types';
 import { ConformalVisualizer } from '../components/ConformalVisualizer';
 import { ShapPanel } from '../components/ShapPanel';
@@ -85,7 +85,15 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
               {(patient.base_risk * 100).toFixed(1)}%
             </div>
           </div>
-          <div className="diag-subtext">Calibrated XGBoost Indirect Estimate</div>
+          <div className="diag-subtext">
+            {patient.is_clipped ? (
+              <span style={{ color: 'var(--status-warn)' }}>
+                Calibrated to 100% (Raw: {((patient.raw_point_estimate ?? patient.base_risk) * 100).toFixed(2)}%)
+              </span>
+            ) : (
+              'Calibrated XGBoost Indirect Estimate'
+            )}
+          </div>
         </div>
 
         <div className="diagnostic-card">
@@ -124,7 +132,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
           <div className="diag-subtext">
             Interval Width: {(patient.confidence_interval_90.width * 100).toFixed(1)}% (
-            {patient.requires_human_review ? 'High Uncertainty' : 'Acceptable'})
+            {patient.requires_human_review ? 'Human Review Required' : 'Acceptable'})
           </div>
         </div>
 
@@ -147,6 +155,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
         ci90={patient.confidence_interval_90}
         ci80={patient.confidence_interval_80}
         requiresReview={patient.requires_human_review}
+        reviewReason={patient.review_reason}
       />
 
       {/* SHAP Explainability & JITAI Grid */}
@@ -179,22 +188,40 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           <div className="vital-mini-card">
             <span className="vital-mini-label">Heart Rate (PR)</span>
             <div className="vital-mini-val">
-              {hrv.mean_hr_bpm.toFixed(0)}{' '}
-              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
+              {hrv.mean_hr_bpm > 0 ? (
+                <>
+                  {hrv.mean_hr_bpm.toFixed(0)}{' '}
+                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
+                </>
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>STANDBY</span>
+              )}
             </div>
           </div>
           <div className="vital-mini-card">
             <span className="vital-mini-label">HRV / SDNN</span>
             <div className="vital-mini-val">
-              {hrv.sdnn_ms.toFixed(1)}{' '}
-              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+              {hrv.sdnn_ms > 0 ? (
+                <>
+                  {hrv.sdnn_ms.toFixed(1)}{' '}
+                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+                </>
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>--</span>
+              )}
             </div>
           </div>
           <div className="vital-mini-card">
             <span className="vital-mini-label">RMSSD (Parasympathetic)</span>
             <div className="vital-mini-val">
-              {hrv.rmssd_ms.toFixed(1)}{' '}
-              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+              {hrv.rmssd_ms > 0 ? (
+                <>
+                  {hrv.rmssd_ms.toFixed(1)}{' '}
+                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+                </>
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>--</span>
+              )}
             </div>
           </div>
           <div className="vital-mini-card">
@@ -209,11 +236,11 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
               className="vital-mini-val"
               style={{
                 fontSize: '14px',
-                color: hrv.is_stressed ? 'var(--status-critical)' : 'var(--status-healthy)',
+                color: hrv.mean_hr_bpm === 0 ? 'var(--text-tertiary)' : hrv.is_stressed ? 'var(--status-critical)' : 'var(--status-healthy)',
                 paddingTop: '4px'
               }}
             >
-              {hrv.is_stressed ? 'ACUTE STRESS' : 'STABLE'}
+              {hrv.mean_hr_bpm === 0 ? 'STANDBY' : hrv.is_stressed ? 'ACUTE STRESS' : 'HOMEOSTASIS'}
             </div>
           </div>
         </div>

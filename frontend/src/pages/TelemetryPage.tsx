@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { TelemetrySample, JitaiAlert } from '../types';
 import { PpgCanvas } from '../components/PpgCanvas';
 
@@ -59,28 +59,46 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
           <div className="vital-mini-card">
             <span className="vital-mini-label">Heart Rate (PR)</span>
             <div className="vital-mini-val">
-              {hrv.mean_hr_bpm.toFixed(0)}{' '}
-              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
+              {hrv.mean_hr_bpm > 0 ? (
+                <>
+                  {hrv.mean_hr_bpm.toFixed(0)}{' '}
+                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
+                </>
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>STANDBY</span>
+              )}
             </div>
           </div>
           <div className="vital-mini-card">
             <span className="vital-mini-label">SDNN (HRV)</span>
             <div className="vital-mini-val">
-              {hrv.sdnn_ms.toFixed(1)}{' '}
-              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+              {hrv.sdnn_ms > 0 ? (
+                <>
+                  {hrv.sdnn_ms.toFixed(1)}{' '}
+                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+                </>
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>--</span>
+              )}
             </div>
           </div>
           <div className="vital-mini-card">
             <span className="vital-mini-label">RMSSD</span>
             <div className="vital-mini-val">
-              {hrv.rmssd_ms.toFixed(1)}{' '}
-              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+              {hrv.rmssd_ms > 0 ? (
+                <>
+                  {hrv.rmssd_ms.toFixed(1)}{' '}
+                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+                </>
+              ) : (
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>--</span>
+              )}
             </div>
           </div>
           <div className="vital-mini-card">
             <span className="vital-mini-label">Sampling Rate</span>
             <div className="vital-mini-val">
-              50.0 <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Hz</span>
+              {isConnected ? '50.0' : '0.0'} <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Hz</span>
             </div>
           </div>
           <div className="vital-mini-card">
@@ -88,12 +106,12 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
             <div
               className="vital-mini-val"
               style={{
-                color: hrv.is_stressed ? 'var(--status-critical)' : 'var(--status-healthy)',
+                color: hrv.mean_hr_bpm === 0 ? 'var(--text-tertiary)' : hrv.is_stressed ? 'var(--status-critical)' : 'var(--status-healthy)',
                 fontSize: '15px',
                 paddingTop: '2px'
               }}
             >
-              {hrv.is_stressed ? 'ACUTE STRESS' : 'HOMEOSTASIS'}
+              {hrv.mean_hr_bpm === 0 ? 'STANDBY' : hrv.is_stressed ? 'ACUTE STRESS' : 'HOMEOSTASIS'}
             </div>
           </div>
         </div>

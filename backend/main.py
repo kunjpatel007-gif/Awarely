@@ -466,14 +466,27 @@ async def get_patient_adherence(patient_id: str):
             f"(raw_width_90={raw_w90:.4f} <= 0.40, raw_base_risk={raw_base_risk:.4f} in [0.0, 1.0])."
         )
 
+    review_reason = None
+    if width_triggered and oob_triggered:
+        review_reason = "High Uncertainty & Out of Bounds"
+    elif width_triggered:
+        review_reason = f"High Epistemic Uncertainty (CI width {raw_w90:.2f} > 0.40)"
+    elif oob_triggered:
+        review_reason = f"Point Estimate Out of Bounds (Raw {raw_base_risk:.4f} outside [0.0, 1.0])"
+
+    is_clipped = bool(raw_base_risk < 0.0 or raw_base_risk > 1.0)
+
     response = {
         "patient_id": patient_id,
         "base_risk": round(base_risk, 4),
+        "raw_point_estimate": round(raw_base_risk, 4),
+        "is_clipped": is_clipped,
         "confidence_interval_90": ci_90,
         "confidence_interval_80": ci_80,
         "hidden_cognitive_state": hidden_cognitive_state,
         "shap_explanation": top_shap_explanation,
-        "requires_human_review": requires_human_review
+        "requires_human_review": requires_human_review,
+        "review_reason": review_reason
     }
 
     # Store in cache

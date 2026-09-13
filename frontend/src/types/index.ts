@@ -1,4 +1,4 @@
-﻿export interface PatientSummary {
+export interface PatientSummary {
   patient_id: string;
   base_risk: number;
   lower_90: number;
@@ -34,11 +34,14 @@ export interface ConfidenceInterval {
 export interface PatientDiagnostics {
   patient_id: string;
   base_risk: number;
+  raw_point_estimate?: number;
+  is_clipped?: boolean;
   confidence_interval_90: ConfidenceInterval;
   confidence_interval_80: ConfidenceInterval;
   hidden_cognitive_state: string;
   shap_explanation: Record<string, string>;
   requires_human_review: boolean;
+  review_reason?: string | null;
 }
 
 export interface HrvMetrics {

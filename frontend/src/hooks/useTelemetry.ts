@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { TelemetrySample, JitaiAlert, TelemetrySnapshot } from '../types';
 import { WS_BASE_URL, fetchLatestTelemetry } from '../services/api';
 
@@ -27,9 +27,9 @@ export function useTelemetry(): UseTelemetryReturn {
   ]);
 
   const [hrv, setHrv] = useState({
-    mean_hr_bpm: 72,
-    sdnn_ms: 31.5,
-    rmssd_ms: 26.2,
+    mean_hr_bpm: 0.0,
+    sdnn_ms: 0.0,
+    rmssd_ms: 0.0,
     is_stressed: false
   });
 
@@ -143,10 +143,16 @@ export function useTelemetry(): UseTelemetryReturn {
   }, [addLog]);
 
   const triggerSimulatedStress = useCallback(() => {
-    // Demonstration toggle
+    // Only permit client-side simulation when VITE_DEMO_MODE is explicitly true
+    const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+    if (!isDemoMode) {
+      addLog('⚠️ Live Mode: JITAI stress triggers must originate from backend WebSocket telemetry (run scripts/simulate_telemetry.py --stress)', false);
+      return;
+    }
+
     const simulatedAlert: JitaiAlert = {
       alert: 'JITAI_TRIGGERED',
-      msg: 'Acute sympathetic surge detected. Softening reminder delivery.',
+      msg: 'Acute sympathetic surge detected [DEMO MODE]. Softening reminder delivery.',
       sdnn_ms: 16.4,
       mean_hr_bpm: 108
     };
@@ -157,7 +163,7 @@ export function useTelemetry(): UseTelemetryReturn {
       rmssd_ms: 14.1,
       is_stressed: true
     });
-    addLog('🚨 Simulated Stress Episode: JITAI intervention triggered (HR: 108 BPM, SDNN: 16.4 ms)', true);
+    addLog('🚨 [DEMO MODE] Simulated Stress Episode: JITAI intervention triggered (HR: 108 BPM, SDNN: 16.4 ms)', true);
   }, [addLog]);
 
   return {
