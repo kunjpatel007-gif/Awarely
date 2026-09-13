@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { CohortSummary, PatientSummary } from '../types';
 
 interface OverviewPageProps {
@@ -27,49 +27,46 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
   return (
     <div className="view-panel active-view">
       <div className="page-intro">
-        <h1 className="page-headline">Clinical Cohort Adherence Intelligence</h1>
+        <h1 className="page-headline">Patient Overview</h1>
         <p className="page-desc">
-          Continuous surveillance of medication adherence via passive indirect behavioral EHR features,
-          Conformal Quantile Regression bounds, and real-time autonomic stress telemetry.
+          Monitor medication adherence across your patient cohort. Patients flagged for review
+          have high prediction uncertainty and require clinical judgement.
         </p>
       </div>
 
       {/* Metric Grid */}
       <div>
-        <div className="section-label">Top System Cohort Metrics (FastAPI GET /api/patients/summary)</div>
         <div className="stat-grid-4">
           <div className="stat-card">
             <span className="stat-label">Patients Monitored</span>
             <div className="stat-val-group">
               <span className="stat-value">{summary ? summary.patients_monitored : 198}</span>
-              <span className="stat-delta nominal">Calibrated Test Split</span>
             </div>
           </div>
           <div className="stat-card">
-            <span className="stat-label">Patients Requiring Review</span>
+            <span className="stat-label">Needs Review</span>
             <div className="stat-val-group">
               <span className="stat-value" style={{ color: 'var(--status-warn)' }}>
                 {summary ? summary.patients_requiring_review : 25}
               </span>
-              <span className="stat-delta warn">Uncertainty &gt; 40%</span>
+              <span className="stat-delta warn">High uncertainty</span>
             </div>
           </div>
           <div className="stat-card">
-            <span className="stat-label">High-Risk Non-Adherent</span>
+            <span className="stat-label">High Risk</span>
             <div className="stat-val-group">
               <span className="stat-value" style={{ color: 'var(--status-critical)' }}>
                 {summary ? summary.high_risk_non_adherent : 48}
               </span>
-              <span className="stat-delta crit">PDC &lt; 60%</span>
+              <span className="stat-delta crit">Adherence below 60%</span>
             </div>
           </div>
           <div className="stat-card">
-            <span className="stat-label">System Inference Status</span>
+            <span className="stat-label">System Status</span>
             <div className="stat-val-group">
-              <span className="stat-value" style={{ fontSize: '21px' }}>
-                {summary?.system_inference_status || 'NOMINAL'}
+              <span className="stat-value" style={{ fontSize: '21px', color: 'var(--status-healthy)' }}>
+                All Systems Online
               </span>
-              <span className="stat-delta nominal">Dual-Track Online</span>
             </div>
           </div>
         </div>
@@ -78,7 +75,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
       {/* Patient Cohort Table */}
       <div className="clinical-panel">
         <div className="panel-header">
-          <span className="panel-title">Monitored Patient Cohort (Click row to inspect diagnostics)</span>
+          <span className="panel-title">Patient List</span>
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               className={`btn-outline ${filter === 'all' ? 'active' : ''}`}
@@ -90,7 +87,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               className={`btn-outline ${filter === 'review' ? 'active' : ''}`}
               onClick={() => setFilter('review')}
             >
-              Review Flagged ({patients.filter(p => p.requires_human_review).length})
+              Needs Review ({patients.filter(p => p.requires_human_review).length})
             </button>
             <button
               className={`btn-outline ${filter === 'highrisk' ? 'active' : ''}`}
@@ -106,11 +103,11 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             <thead>
               <tr>
                 <th>Patient ID</th>
-                <th>Adherence (PDC)</th>
-                <th>90% Calibrated Interval</th>
-                <th>HMM Cognitive State</th>
-                <th>Human Review</th>
-                <th>Clinical Status</th>
+                <th>Adherence</th>
+                <th>Confidence Range</th>
+                <th>Behavioral Pattern</th>
+                <th>Review</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -118,7 +115,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               {isLoading ? (
                 <tr>
                   <td colSpan={7} style={{ textAlign: 'center', padding: '30px' }}>
-                    Loading clinical cohort...
+                    Loading patients...
                   </td>
                 </tr>
               ) : filteredPatients.length === 0 ? (
@@ -130,7 +127,6 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               ) : (
                 filteredPatients.slice(0, 50).map(p => {
                   const isCritical = p.base_risk < 0.60;
-                  const isWarn = p.requires_human_review;
 
                   return (
                     <tr
@@ -145,19 +141,15 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                       >
                         {(p.base_risk * 100).toFixed(1)}%
                       </td>
-                      <td
-                        className="mono-dim"
-                        style={isWarn ? { color: 'var(--status-warn)' } : undefined}
-                      >
-                        {(p.lower_90 * 100).toFixed(0)}% — {(p.upper_90 * 100).toFixed(0)}% (w:{' '}
-                        {(p.interval_width_90 * 100).toFixed(0)}%)
+                      <td className="mono-dim">
+                        {(p.lower_90 * 100).toFixed(0)}% — {(p.upper_90 * 100).toFixed(0)}%
                       </td>
                       <td>{p.hmm_state_label}</td>
                       <td>
                         {p.requires_human_review ? (
-                          <span className="clinical-badge badge-high-risk">Review Required</span>
+                          <span className="clinical-badge badge-high-risk">Review Needed</span>
                         ) : (
-                          <span className="clinical-badge badge-neutral">No Review</span>
+                          <span className="clinical-badge badge-neutral">OK</span>
                         )}
                       </td>
                       <td>
@@ -169,12 +161,12 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                         ) : p.clinical_status === 'Review Required' ? (
                           <span className="clinical-badge badge-monitor">
                             <span className="dot amber" />
-                            Review Required
+                            Review
                           </span>
                         ) : (
                           <span className="clinical-badge badge-normal">
                             <span className="dot green" />
-                            Nominal
+                            Normal
                           </span>
                         )}
                       </td>
@@ -186,7 +178,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                             onSelectPatient(p.patient_id);
                           }}
                         >
-                          Inspect
+                          View
                         </button>
                       </td>
                     </tr>

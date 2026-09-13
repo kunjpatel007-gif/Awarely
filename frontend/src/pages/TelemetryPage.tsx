@@ -27,28 +27,27 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
   return (
     <div className="view-panel active-view">
       <div className="page-intro">
-        <h1 className="page-headline">Dedicated Biosignal Telemetry Stream</h1>
+        <h1 className="page-headline">Live Vitals Monitor</h1>
         <p className="page-desc">
-          Direct streaming visualization of raw photoplethysmogram waveforms from edge IoT sensors
-          (ESP32 microcontrollers with MAX30102 pulse oximetry modules). Closed-loop JITAI engine detects
-          autonomic stress events and broadcasts interventions.
+          Real-time heart rate and pulse waveform from the patient's wearable sensor.
+          The system detects stress episodes and adjusts medication reminders accordingly.
         </p>
       </div>
 
       <div className="telemetry-live-box">
         <div className="telemetry-head">
           <div>
-            <span className="panel-title">Expanded Photoplethysmogram Analysis (50 Hz)</span>
+            <span className="panel-title">Pulse Waveform</span>
             <span className="brand-subtitle" style={{ marginTop: '2px' }}>
-              Systolic Peak &amp; Dicrotic Notch Biosignal Stream
+              Live stream from wearable pulse oximeter
             </span>
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <span className="mono-dim">
-              PACKETS BUFFERED: {samples.length} | BROKER: {isConnected ? 'ONLINE' : 'DISCONNECTED'}
+              {isConnected ? `${samples.length} samples received` : 'Waiting for sensor...'}
             </span>
             <button className="btn-outline" onClick={onSimulateStress}>
-              Trigger Stress Episode
+              Simulate Stress
             </button>
           </div>
         </div>
@@ -57,7 +56,7 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
 
         <div className="telemetry-vital-row" style={{ marginTop: '20px' }}>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Heart Rate (PR)</span>
+            <span className="vital-mini-label">Heart Rate</span>
             <div className="vital-mini-val">
               {hrv.mean_hr_bpm > 0 ? (
                 <>
@@ -65,12 +64,12 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
                   <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
                 </>
               ) : (
-                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>STANDBY</span>
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>Waiting...</span>
               )}
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">SDNN (HRV)</span>
+            <span className="vital-mini-label">Heart Rate Variability</span>
             <div className="vital-mini-val">
               {hrv.sdnn_ms > 0 ? (
                 <>
@@ -83,7 +82,7 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">RMSSD</span>
+            <span className="vital-mini-label">Parasympathetic Activity</span>
             <div className="vital-mini-val">
               {hrv.rmssd_ms > 0 ? (
                 <>
@@ -96,13 +95,13 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Sampling Rate</span>
-            <div className="vital-mini-val">
-              {isConnected ? '50.0' : '0.0'} <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Hz</span>
+            <span className="vital-mini-label">Sensor Status</span>
+            <div className="vital-mini-val" style={{ fontSize: '14px', paddingTop: '4px' }}>
+              {isConnected ? 'Connected' : 'Disconnected'}
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Autonomic Detector</span>
+            <span className="vital-mini-label">Stress Level</span>
             <div
               className="vital-mini-val"
               style={{
@@ -111,17 +110,16 @@ export const TelemetryPage: React.FC<TelemetryPageProps> = ({
                 paddingTop: '2px'
               }}
             >
-              {hrv.mean_hr_bpm === 0 ? 'STANDBY' : hrv.is_stressed ? 'ACUTE STRESS' : 'HOMEOSTASIS'}
+              {hrv.mean_hr_bpm === 0 ? 'Waiting...' : hrv.is_stressed ? 'Elevated' : 'Normal'}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Telemetry Audit Timeline */}
+      {/* Event Timeline */}
       <div className="clinical-panel">
         <div className="panel-header">
-          <span className="panel-title">Real-Time Biosignal Event Stream Log</span>
-          <span className="mono-dim">Live audit log from WebSocket broker</span>
+          <span className="panel-title">Event Log</span>
         </div>
         <div className="panel-body">
           <div className="timeline-list">

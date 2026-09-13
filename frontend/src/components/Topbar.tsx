@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ViewType } from '../types';
 
 interface TopbarProps {
@@ -14,13 +14,12 @@ export const Topbar: React.FC<TopbarProps> = ({
   patientStatus = 'Nominal',
   hmmLabel = 'Strictly Adherent'
 }) => {
-  const [clock, setClock] = useState<string>('SYNC: --:--:-- UTC');
+  const [clock, setClock] = useState<string>('');
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const utcStr = now.toISOString().substring(11, 19);
-      setClock(`SYNC: ${utcStr} UTC`);
+      setClock(now.toLocaleTimeString());
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -28,11 +27,11 @@ export const Topbar: React.FC<TopbarProps> = ({
   }, []);
 
   const titles: Record<ViewType, string> = {
-    overview: 'CLINICAL OVERVIEW',
-    diagnostics: 'PATIENT DIAGNOSTICS',
-    queue: 'UNCERTAINTY REVIEW QUEUE',
-    telemetry: 'LIVE TELEMETRY',
-    models: 'SYSTEM & MODEL ARCHITECTURE'
+    overview: 'Patient Overview',
+    diagnostics: 'Patient Details',
+    queue: 'Review Queue',
+    telemetry: 'Live Vitals',
+    models: 'How It Works'
   };
 
   const shortPatient = activePatientId ? activePatientId.replace('test-patient-', 'P-') : 'P-0825';
@@ -50,15 +49,11 @@ export const Topbar: React.FC<TopbarProps> = ({
         <span className="topbar-sep">/</span>
         <div className="patient-context-pill">
           <span className={`dot ${getStatusDot()}`} />
-          <span>PATIENT: {shortPatient}</span>
-          <span className="mono-dim">HMM: {hmmLabel.toUpperCase()}</span>
+          <span>{shortPatient}</span>
+          <span className="mono-dim">{hmmLabel}</span>
         </div>
       </div>
       <div className="topbar-right">
-        <span className="status-pill">
-          <span className="dot green" />
-          SYSTEM STATUS: NOMINAL
-        </span>
         <span className="time-indicator">{clock}</span>
       </div>
     </header>

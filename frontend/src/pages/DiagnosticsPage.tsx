@@ -33,7 +33,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
     return (
       <div className="view-panel active-view">
         <div style={{ textAlign: 'center', padding: '60px' }}>
-          <span className="mono-val">Loading patient indirect diagnostic package...</span>
+          <span className="mono-val">Loading patient data...</span>
         </div>
       </div>
     );
@@ -45,39 +45,39 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
 
   return (
     <div className="view-panel active-view">
-      {/* Metadata Header Banner */}
+      {/* Patient Header */}
       <div className="patient-meta-banner">
         <div className="meta-col">
-          <span className="meta-label">Subject Identifier</span>
-          <span className="meta-value">PATIENT {shortId}</span>
+          <span className="meta-label">Patient</span>
+          <span className="meta-value">{shortId}</span>
         </div>
         <div className="meta-col">
-          <span className="meta-label">Monitoring Regimen</span>
-          <span className="meta-value">Hypertension / ARB Protocol (Daily 08:00)</span>
+          <span className="meta-label">Medication</span>
+          <span className="meta-value">Hypertension — Daily 08:00</span>
         </div>
         <div className="meta-col">
-          <span className="meta-label">Telemetry Stream</span>
+          <span className="meta-label">Sensor</span>
           <span className="meta-value">
             <span className="dot green" />
-            ESP32 / MAX30102 Live
+            Pulse Oximeter Active
           </span>
         </div>
         <div className="meta-col">
-          <span className="meta-label">Latent Behavioral Trajectory</span>
+          <span className="meta-label">Behavioral Pattern</span>
           <span className="meta-value">{patient.hidden_cognitive_state}</span>
         </div>
         <div>
           <button className="btn-outline" onClick={onBackToCohort}>
-            ← Back to Cohort
+            ← Back
           </button>
         </div>
       </div>
 
-      {/* 4 Hero Diagnostic Metric Cards */}
+      {/* Key Metrics */}
       <div className="hero-diagnostic-grid">
         <div className="diagnostic-card">
           <div>
-            <div className="diag-title">Adherence Score (PDC Estimate)</div>
+            <div className="diag-title">Adherence Score</div>
             <div
               className="diag-big-val"
               style={isHighRisk ? { color: 'var(--status-critical)' } : undefined}
@@ -88,17 +88,17 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           <div className="diag-subtext">
             {patient.is_clipped ? (
               <span style={{ color: 'var(--status-warn)' }}>
-                Calibrated to 100% (Raw: {((patient.raw_point_estimate ?? patient.base_risk) * 100).toFixed(2)}%)
+                Adjusted (raw: {((patient.raw_point_estimate ?? patient.base_risk) * 100).toFixed(1)}%)
               </span>
             ) : (
-              'Calibrated XGBoost Indirect Estimate'
+              'Estimated from health records'
             )}
           </div>
         </div>
 
         <div className="diagnostic-card">
           <div>
-            <div className="diag-title">Clinical Risk Assessment</div>
+            <div className="diag-title">Risk Level</div>
             <div
               className="diag-big-val"
               style={{
@@ -115,41 +115,40 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
           <div className="diag-subtext">
             {isHighRisk
-              ? 'Below therapeutic threshold (PDC < 60%)'
+              ? 'Adherence below 60% — intervention recommended'
               : isModerate
-              ? 'Borderline adherence profile'
-              : 'Within therapeutic threshold'}
+              ? 'Borderline adherence — continued monitoring'
+              : 'Adherence within safe range'}
           </div>
         </div>
 
         <div className="diagnostic-card">
           <div>
-            <div className="diag-title">90% Confidence Interval</div>
+            <div className="diag-title">Prediction Confidence</div>
             <div className="diag-big-val" style={{ fontSize: '24px' }}>
               {(patient.confidence_interval_90.lower * 100).toFixed(0)}% —{' '}
               {(patient.confidence_interval_90.upper * 100).toFixed(0)}%
             </div>
           </div>
           <div className="diag-subtext">
-            Interval Width: {(patient.confidence_interval_90.width * 100).toFixed(1)}% (
-            {patient.requires_human_review ? 'Human Review Required' : 'Acceptable'})
+            {patient.requires_human_review ? 'Wide range — clinician review needed' : 'Narrow range — high confidence'}
           </div>
         </div>
 
         <div className="diagnostic-card">
           <div>
-            <div className="diag-title">HMM Latent Cognitive State</div>
+            <div className="diag-title">Behavioral Pattern</div>
             <div className="diag-big-val" style={{ fontSize: '20px', lineHeight: 1.3 }}>
               {patient.hidden_cognitive_state}
             </div>
           </div>
           <div className="diag-subtext">
-            Longitudinal Sequence: Hidden Markov Decoded Transition
+            Detected from longitudinal health records
           </div>
         </div>
       </div>
 
-      {/* Conformal Uncertainty Visualizer */}
+      {/* Confidence Visualizer */}
       <ConformalVisualizer
         pointEstimate={patient.base_risk}
         ci90={patient.confidence_interval_90}
@@ -158,35 +157,35 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
         reviewReason={patient.review_reason}
       />
 
-      {/* SHAP Explainability & JITAI Grid */}
+      {/* Explanation & Intervention Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         <ShapPanel explanation={patient.shap_explanation} />
         <JitaiPanel isStressed={hrv.is_stressed} latestAlert={latestAlert} />
       </div>
 
-      {/* Live Biosignal Telemetry Section */}
+      {/* Live Heart Rate Monitor */}
       <div className="telemetry-live-box">
         <div className="telemetry-head">
           <div>
-            <span className="panel-title">Live Biosignal Telemetry (WebSocket WS /ws/ppg)</span>
+            <span className="panel-title">Live Heart Rate Monitor</span>
             <span className="brand-subtitle" style={{ marginTop: '2px' }}>
-              Continuous Photoplethysmogram (PPG) Stream from ESP32 / MAX30102 Optical Sensor
+              Real-time pulse waveform from wearable sensor
             </span>
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <span className="status-pill">
               <span className={`dot ${hrv.is_stressed ? 'red' : 'green'}`} />
-              50 Hz Stream Online
+              {hrv.is_stressed ? 'Stress Detected' : 'Normal'}
             </span>
             <button className="btn-outline" onClick={onSimulateStress}>
-              Simulate Acute Stress Event
+              Simulate Stress
             </button>
           </div>
         </div>
 
         <div className="telemetry-vital-row">
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Heart Rate (PR)</span>
+            <span className="vital-mini-label">Heart Rate</span>
             <div className="vital-mini-val">
               {hrv.mean_hr_bpm > 0 ? (
                 <>
@@ -194,12 +193,12 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
                   <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
                 </>
               ) : (
-                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>STANDBY</span>
+                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>Waiting...</span>
               )}
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">HRV / SDNN</span>
+            <span className="vital-mini-label">Heart Rate Variability</span>
             <div className="vital-mini-val">
               {hrv.sdnn_ms > 0 ? (
                 <>
@@ -212,26 +211,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">RMSSD (Parasympathetic)</span>
-            <div className="vital-mini-val">
-              {hrv.rmssd_ms > 0 ? (
-                <>
-                  {hrv.rmssd_ms.toFixed(1)}{' '}
-                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
-                </>
-              ) : (
-                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>--</span>
-              )}
-            </div>
-          </div>
-          <div className="vital-mini-card">
-            <span className="vital-mini-label">Sensor Hardware</span>
-            <div className="vital-mini-val" style={{ fontSize: '14px', paddingTop: '4px' }}>
-              MAX30102
-            </div>
-          </div>
-          <div className="vital-mini-card">
-            <span className="vital-mini-label">Autonomic State</span>
+            <span className="vital-mini-label">Stress Indicator</span>
             <div
               className="vital-mini-val"
               style={{
@@ -240,7 +220,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
                 paddingTop: '4px'
               }}
             >
-              {hrv.mean_hr_bpm === 0 ? 'STANDBY' : hrv.is_stressed ? 'ACUTE STRESS' : 'HOMEOSTASIS'}
+              {hrv.mean_hr_bpm === 0 ? 'Waiting...' : hrv.is_stressed ? 'Elevated Stress' : 'Normal'}
             </div>
           </div>
         </div>

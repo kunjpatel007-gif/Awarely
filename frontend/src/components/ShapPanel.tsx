@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 interface ShapPanelProps {
   explanation: Record<string, string>;
@@ -11,22 +11,20 @@ export const ShapPanel: React.FC<ShapPanelProps> = ({ explanation }) => {
     <div className="shap-panel">
       <div className="panel-header" style={{ padding: '0 0 14px 0', background: 'transparent' }}>
         <div>
-          <span className="panel-title">Why This Prediction? (SHAP Explainability)</span>
+          <span className="panel-title">Why This Prediction?</span>
           <span className="brand-subtitle" style={{ marginTop: '2px' }}>
-            Top contributing indirect behavioral features to risk displacement
+            Key factors that influenced this patient's adherence score
           </span>
         </div>
-        <span className="mono-dim">TreeSHAP Kernel</span>
       </div>
 
       <div className="shap-list">
         {entries.length === 0 ? (
-          <div className="mono-dim" style={{ padding: '12px 0' }}>No dominant feature displacement calculated.</div>
+          <div className="mono-dim" style={{ padding: '12px 0' }}>No significant contributing factors identified.</div>
         ) : (
           entries.map(([feature, valStr]) => {
             const numVal = parseFloat(valStr.replace('+', ''));
             const isPos = numVal > 0;
-            // Normalize width for bar (max ~ 0.5)
             const barWidth = Math.min(100, Math.max(10, Math.abs(numVal) * 200));
 
             return (
@@ -40,7 +38,7 @@ export const ShapPanel: React.FC<ShapPanelProps> = ({ explanation }) => {
                   />
                 </div>
                 <span className={`shap-impact-text ${isPos ? 'impact-pos' : 'impact-neg'}`}>
-                  {isPos ? 'Increases Risk' : 'Lowers Risk'}
+                  {isPos ? '↑ Increases Risk' : '↓ Lowers Risk'}
                 </span>
               </div>
             );

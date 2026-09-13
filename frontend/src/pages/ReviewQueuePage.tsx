@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { PatientSummary } from '../types';
 
 interface ReviewQueuePageProps {
@@ -12,12 +12,11 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
 }) => {
   const [resolvedIds, setResolvedIds] = useState<Set<string>>(new Set());
 
-  // Filter for patients requiring human review
   const reviewPatients = patients.filter(p => p.requires_human_review);
 
   const handleResolve = (pid: string, actionName: string) => {
     setResolvedIds(prev => new Set([...prev, pid]));
-    alert(`Action logged for ${pid}: "${actionName}". Forwarded to Active Learning retrain loop.`);
+    alert(`Action logged for ${pid}: "${actionName}". Patient flagged for follow-up.`);
   };
 
   const shortId = (pid: string) => pid.replace('test-patient-', 'P-');
@@ -25,20 +24,19 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
   return (
     <div className="view-panel active-view">
       <div className="page-intro">
-        <h1 className="page-headline">Active Learning: Uncertainty Review Queue</h1>
+        <h1 className="page-headline">Review Queue</h1>
         <p className="page-desc">
-          Defers cases to clinicians whenever Conformal Quantile Regression epistemic uncertainty exceeds
-          calibrated safety thresholds (&gt; 40% CI width or point estimate extrapolation failure).
-          Human-in-the-loop arbitration updates the latent HMM cognitive state and trains the model downstream.
+          These patients have been flagged because our prediction model is not confident enough
+          to make an automated assessment. A clinician should review the data and decide
+          on the appropriate next step.
         </p>
       </div>
 
       <div className="clinical-panel">
         <div className="panel-header">
           <span className="panel-title">
-            Deferred Uncertainty Queue ({reviewPatients.length} Patients Pending Evaluation)
+            {reviewPatients.length} Patients Pending Review
           </span>
-          <span className="mono-dim">Filter: Epistemic Uncertainty &gt; 40% or Bounds Violation</span>
         </div>
 
         <div className="table-responsive">
@@ -46,11 +44,11 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
             <thead>
               <tr>
                 <th>Patient ID</th>
-                <th>PDC Estimate</th>
-                <th>90% Calibrated CI</th>
-                <th>Interval Width</th>
-                <th>Latent Cognitive State</th>
-                <th>Review Trigger</th>
+                <th>Adherence</th>
+                <th>Confidence Range</th>
+                <th>Uncertainty</th>
+                <th>Behavioral Pattern</th>
+                <th>Reason</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -58,7 +56,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
               {reviewPatients.length === 0 ? (
                 <tr>
                   <td colSpan={7} style={{ textAlign: 'center', padding: '30px' }}>
-                    No patients currently require review. All model predictions are within safety bounds.
+                    No patients currently need review. All predictions are within safe bounds.
                   </td>
                 </tr>
               ) : (
@@ -80,12 +78,12 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
                         {(p.lower_90 * 100).toFixed(0)}% — {(p.upper_90 * 100).toFixed(0)}%
                       </td>
                       <td className="mono-val" style={{ color: 'var(--status-warn)' }}>
-                        {(p.interval_width_90 * 100).toFixed(1)}% (High)
+                        {(p.interval_width_90 * 100).toFixed(1)}%
                       </td>
                       <td>{p.hmm_state_label}</td>
                       <td>
                         <span className="clinical-badge badge-high-risk">
-                          {p.review_reason || 'Epistemic Uncertainty'}
+                          {p.review_reason || 'High Uncertainty'}
                         </span>
                       </td>
                       <td>
@@ -94,7 +92,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
                             className="btn-action"
                             onClick={() => onSelectPatient(p.patient_id)}
                           >
-                            Inspect
+                            View
                           </button>
                           <button
                             className="btn-action"
@@ -103,11 +101,11 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
                             onClick={() =>
                               handleResolve(
                                 p.patient_id,
-                                p.base_risk < 0.60 ? 'Dispatch Nurse Outreach' : 'Arbitrate Adherence'
+                                p.base_risk < 0.60 ? 'Schedule Nurse Visit' : 'Review Adherence'
                               )
                             }
                           >
-                            {isResolved ? 'Resolved ✓' : p.base_risk < 0.60 ? 'Nurse Outreach' : 'Arbitrate'}
+                            {isResolved ? 'Done ✓' : p.base_risk < 0.60 ? 'Nurse Visit' : 'Review'}
                           </button>
                         </div>
                       </td>
