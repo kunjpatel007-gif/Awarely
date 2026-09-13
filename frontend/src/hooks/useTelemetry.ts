@@ -48,9 +48,9 @@ export function useTelemetry(): UseTelemetryReturn {
         setLatestSnapshot(snapshot);
         if (snapshot.hrv) {
           setHrv({
-            mean_hr_bpm: snapshot.hrv.mean_hr_bpm || 72,
-            sdnn_ms: snapshot.hrv.sdnn_ms || 31.5,
-            rmssd_ms: snapshot.hrv.rmssd_ms || 26.2,
+            mean_hr_bpm: snapshot.hrv.mean_hr_bpm || 0.0,
+            sdnn_ms: snapshot.hrv.sdnn_ms || 0.0,
+            rmssd_ms: snapshot.hrv.rmssd_ms || 0.0,
             is_stressed: snapshot.hrv.is_stressed || false
           });
         }
@@ -90,9 +90,9 @@ export function useTelemetry(): UseTelemetryReturn {
               setLatestSnapshot(snap);
               if (snap.hrv) {
                 setHrv({
-                  mean_hr_bpm: snap.hrv.mean_hr_bpm || 72,
-                  sdnn_ms: snap.hrv.sdnn_ms || 31.5,
-                  rmssd_ms: snap.hrv.rmssd_ms || 26.2,
+                  mean_hr_bpm: snap.hrv.mean_hr_bpm || 0.0,
+                  sdnn_ms: snap.hrv.sdnn_ms || 0.0,
+                  rmssd_ms: snap.hrv.rmssd_ms || 0.0,
                   is_stressed: snap.hrv.is_stressed || false
                 });
               }
