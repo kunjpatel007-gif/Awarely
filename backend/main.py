@@ -50,12 +50,16 @@ app = FastAPI(
     version="2.1.0"
 )
 
+# Configurable CORS origins
+CORS_ORIGINS_RAW = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000")
+ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ORIGINS_RAW.split(",") if origin.strip()]
+
 # Enable CORS for browser and dashboard clients
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -79,8 +83,68 @@ latest_telemetry_snapshot: Dict[str, Any] = {
     "last_alert": None
 }
 
-# Active WebSocket subscribers (e.g. Streamlit dashboards)
-connected_subscribers: List[WebSocket] = []
+class TelemetryBroker:
+    """
+    Manages WebSocket dashboard subscribers cleanly isolated from hardware producers.
+    Allows React frontends to passively subscribe to 50Hz telemetry, HRV metrics, and JITAI alerts
+    without locking or interfering with the ESP32 /ws/ppg producer loop.
+    """
+    def __init__(self):
+        self.subscribers: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.subscribers.append(websocket)
+        logger.info(f"[Broker] New telemetry subscriber connected ({len(self.subscribers)} total)")
+        # Send current snapshot upon connection
+        try:
+            await websocket.send_json({
+                "type": "SNAPSHOT",
+                "telemetry": latest_telemetry_snapshot
+            })
+        except Exception as e:
+            logger.debug(f"[Broker] Initial snapshot send failed: {e}")
+
+    def disconnect(self, websocket: WebSocket):
+        if websocket in self.subscribers:
+            self.subscribers.remove(websocket)
+            logger.info(f"[Broker] Telemetry subscriber disconnected ({len(self.subscribers)} remaining)")
+
+    async def broadcast_sample(self, sample: Dict[str, Any]):
+        """Broadcast live biosignal tick to all connected frontend subscribers."""
+        if not self.subscribers:
+            return
+        dead = []
+        payload = {
+            "type": "SAMPLE",
+            "data": sample
+        }
+        for ws in self.subscribers:
+            try:
+                await ws.send_json(payload)
+            except Exception:
+                dead.append(ws)
+        for ws in dead:
+            self.disconnect(ws)
+
+    async def broadcast_alert(self, alert_payload: Dict[str, Any]):
+        """Broadcast JITAI alert to all connected frontend subscribers."""
+        if not self.subscribers:
+            return
+        dead = []
+        payload = {
+            "type": "JITAI_ALERT",
+            "data": alert_payload
+        }
+        for ws in self.subscribers:
+            try:
+                await ws.send_json(payload)
+            except Exception:
+                dead.append(ws)
+        for ws in dead:
+            self.disconnect(ws)
+
+telemetry_broker = TelemetryBroker()
 
 
 def _calibrate_bounded_metric(val: float, metric_name: str, patient_id: str) -> float:
@@ -103,8 +167,6 @@ def _load_clinical_data():
     logger.info("Initializing clinical data stores and ML inferences...")
 
     # 1. Load CQR Predictions
-    # NOTE: cqr_predictions.csv contains exactly 198 rows (representing the 20% test split
-    # of the 990-patient cohort after dropna). Exactly 198 rows are loaded; none are dropped.
     if CQR_PREDS_PATH.exists():
         _cqr_df = pd.read_csv(CQR_PREDS_PATH)
         logger.info(f"Loaded {len(_cqr_df)} patient records from {CQR_PREDS_PATH.name} (full test split)")
@@ -115,7 +177,6 @@ def _load_clinical_data():
     # 2. Load HMM States Fallback
     if HMM_STATES_PATH.exists():
         hmm_df = pd.read_csv(HMM_STATES_PATH)
-        # Take the most recent decoded state for each patient
         latest_states = hmm_df.groupby("patient_id").last().reset_index()
         _hmm_latest_map = dict(zip(latest_states["patient_id"], latest_states["hmm_state"]))
         logger.info(f"Indexed {len(_hmm_latest_map)} patient HMM states from {HMM_STATES_PATH.name}")
@@ -123,18 +184,27 @@ def _load_clinical_data():
         logger.warning(f"HMM states file not found at {HMM_STATES_PATH}")
 
     # 3. Build fast in-memory roster
-    patient_ids = set()
+    # CQR test split contains exactly the 198 monitored patients evaluated by CQR + MAPIE
+    cqr_patient_ids = []
     if not _cqr_df.empty and "patient_id" in _cqr_df.columns:
-        patient_ids.update(_cqr_df["patient_id"].dropna().tolist())
-    if _hmm_latest_map:
-        patient_ids.update(_hmm_latest_map.keys())
+        cqr_patient_ids = _cqr_df["patient_id"].dropna().tolist()
+    
+    patient_ids = cqr_patient_ids if cqr_patient_ids else sorted(list(_hmm_latest_map.keys()))
 
     _patient_list = []
     cqr_indexed = _cqr_df.set_index("patient_id") if not _cqr_df.empty else pd.DataFrame()
 
+    state_labels = {
+        0: "Strictly Adherent",
+        1: "Intermittent",
+        2: "Non-Adherent"
+    }
+
     for pid in sorted(list(patient_ids)):
         cqr_row = cqr_indexed.loc[pid] if pid in cqr_indexed.index else None
         raw_est = float(cqr_row["point_estimate"]) if cqr_row is not None and "point_estimate" in cqr_row else 0.75
+        raw_l90 = float(cqr_row["lower_90"]) if cqr_row is not None and "lower_90" in cqr_row else raw_est - 0.13
+        raw_u90 = float(cqr_row["upper_90"]) if cqr_row is not None and "upper_90" in cqr_row else raw_est + 0.13
         raw_w90 = float(cqr_row["interval_width_90"]) if cqr_row is not None and "interval_width_90" in cqr_row else 0.25
         
         # Evaluated from raw pre-clipped values: Trigger 1 (width > 0.40), Trigger 2 (out of bounds)
@@ -142,14 +212,41 @@ def _load_clinical_data():
         oob_triggered = bool(raw_est < 0.0 or raw_est > 1.0)
         requires_review = width_triggered or oob_triggered
         
+        # Determine specific review reason for UI badges
+        review_reason = None
+        if width_triggered and oob_triggered:
+            review_reason = "High Uncertainty & Out of Bounds"
+        elif width_triggered:
+            review_reason = "High Epistemic Uncertainty (CI > 0.40)"
+        elif oob_triggered:
+            review_reason = "Point Estimate Out of Bounds"
+
         # Bounded adherence for clinical display in [0.0, 1.0]
         cal_point_est = float(np.clip(raw_est, 0.0, 1.0))
+        cal_l90 = float(np.clip(raw_l90, 0.0, 1.0))
+        cal_u90 = float(np.clip(raw_u90, 0.0, 1.0))
+
+        # Clinical status categorization
+        if cal_point_est < 0.60:
+            clinical_status = "High Risk"
+        elif requires_review:
+            clinical_status = "Review Required"
+        else:
+            clinical_status = "Nominal"
+
+        raw_hmm_state = _hmm_latest_map.get(pid, 0)
 
         _patient_list.append({
             "patient_id": pid,
             "base_risk": round(cal_point_est, 4),
+            "lower_90": round(cal_l90, 4),
+            "upper_90": round(cal_u90, 4),
             "interval_width_90": round(raw_w90, 4),
-            "requires_human_review": requires_review
+            "requires_human_review": requires_review,
+            "review_reason": review_reason,
+            "clinical_status": clinical_status,
+            "hmm_state": raw_hmm_state,
+            "hmm_state_label": state_labels.get(raw_hmm_state, f"State {raw_hmm_state}")
         })
 
 
@@ -164,17 +261,41 @@ _load_clinical_data()
 # ─────────────────────────────────────────────────────────────────────────────
 # WEBSOCKET TELEMETRY & JITAI ENGINE
 # ─────────────────────────────────────────────────────────────────────────────
+@app.websocket("/ws/telemetry/subscribe")
+async def websocket_telemetry_subscriber(websocket: WebSocket):
+    """
+    Dedicated pub/sub subscriber endpoint for React dashboard clients.
+    Passively receives live PPG biosignals, HRV stress metrics, and JITAI alerts.
+    Does not require or expect incoming client telemetry.
+    """
+    await telemetry_broker.connect(websocket)
+    try:
+        while True:
+            # Keep connection alive; discard any unexpected incoming messages
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        telemetry_broker.disconnect(websocket)
+    except Exception as e:
+        logger.debug(f"[Subscriber WS Error]: {e}")
+        telemetry_broker.disconnect(websocket)
+
+
 @app.websocket("/ws/ppg")
-async def websocket_ppg_endpoint(websocket: WebSocket):
+async def websocket_ppg_endpoint(websocket: WebSocket, role: str = Query("producer")):
     """
     WebSocket endpoint for bidirectional biosignal telemetry and JITAI feedback.
-    - ESP32 sends: {"timestamp": 12345, "ppg": 0.82, "source": "MAX30102" | "SYNTHETIC", "raw_ir": 55000}
-    - Server responds with JITAI alerts when stress is detected.
-    - Also forwards telemetry snapshots to connected dashboards.
+    - If role == "subscriber": acts as a telemetry subscriber (backward compatible).
+    - If role == "producer" (default, ESP32):
+      Receives: {"timestamp": 12345, "ppg": 0.82, "source": "MAX30102" | "SYNTHETIC", "raw_ir": 55000}
+      Responds with JITAI alerts when stress is detected (blinks ESP32 LED).
+      Broadcasts samples and alerts to all connected dashboard subscribers via TelemetryBroker.
     """
+    if role == "subscriber":
+        await websocket_telemetry_subscriber(websocket)
+        return
+
     await websocket.accept()
-    connected_subscribers.append(websocket)
-    logger.info(f"WebSocket client connected ({len(connected_subscribers)} active)")
+    logger.info("ESP32 Telemetry Producer connected to /ws/ppg")
 
     global active_ppg_stream, active_raw_stream, latest_telemetry_snapshot
 
@@ -186,6 +307,7 @@ async def websocket_ppg_endpoint(websocket: WebSocket):
             ppg_val = float(data.get("ppg", 0.0))
             raw_ir = int(data.get("raw_ir", 0))
             source = data.get("source", "UNKNOWN")
+            timestamp = data.get("timestamp", 0)
 
             active_ppg_stream.append(ppg_val)
             active_raw_stream.append(raw_ir)
@@ -194,6 +316,15 @@ async def websocket_ppg_endpoint(websocket: WebSocket):
             if len(active_ppg_stream) > 200:
                 active_ppg_stream.pop(0)
                 active_raw_stream.pop(0)
+
+            # Broadcast raw sample to dashboard subscribers immediately
+            sample_payload = {
+                "timestamp": timestamp,
+                "ppg": ppg_val,
+                "raw_ir": raw_ir,
+                "source": source
+            }
+            await telemetry_broker.broadcast_sample(sample_payload)
 
             # Every 100 samples (2 seconds of data), evaluate JITAI stress metrics
             if len(active_ppg_stream) >= 100 and len(active_ppg_stream) % 25 == 0:
@@ -215,17 +346,16 @@ async def websocket_ppg_endpoint(websocket: WebSocket):
                         "mean_hr_bpm": hrv_results["mean_hr_bpm"]
                     }
                     latest_telemetry_snapshot["last_alert"] = alert_payload
-                    # Send alert back to the ESP32 to trigger onboard hardware indicator
+                    
+                    # 1. Send alert back to ESP32 to trigger onboard hardware indicator
                     await websocket.send_json(alert_payload)
+                    # 2. Broadcast alert to dashboard subscribers
+                    await telemetry_broker.broadcast_alert(alert_payload)
 
     except WebSocketDisconnect:
-        if websocket in connected_subscribers:
-            connected_subscribers.remove(websocket)
-        logger.info(f"WebSocket client disconnected ({len(connected_subscribers)} active)")
+        logger.info("ESP32 Telemetry Producer disconnected from /ws/ppg")
     except Exception as e:
-        if websocket in connected_subscribers:
-            connected_subscribers.remove(websocket)
-        logger.error(f"WebSocket error: {e}")
+        logger.error(f"WebSocket producer error: {e}")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -337,14 +467,27 @@ async def get_patient_adherence(patient_id: str):
             f"(raw_width_90={raw_w90:.4f} <= 0.40, raw_base_risk={raw_base_risk:.4f} in [0.0, 1.0])."
         )
 
+    review_reason = None
+    if width_triggered and oob_triggered:
+        review_reason = "High Uncertainty & Out of Bounds"
+    elif width_triggered:
+        review_reason = f"High Epistemic Uncertainty (CI width {raw_w90:.2f} > 0.40)"
+    elif oob_triggered:
+        review_reason = f"Point Estimate Out of Bounds (Raw {raw_base_risk:.4f} outside [0.0, 1.0])"
+
+    is_clipped = bool(raw_base_risk < 0.0 or raw_base_risk > 1.0)
+
     response = {
         "patient_id": patient_id,
         "base_risk": round(base_risk, 4),
+        "raw_point_estimate": round(raw_base_risk, 4),
+        "is_clipped": is_clipped,
         "confidence_interval_90": ci_90,
         "confidence_interval_80": ci_80,
         "hidden_cognitive_state": hidden_cognitive_state,
         "shap_explanation": top_shap_explanation,
-        "requires_human_review": requires_human_review
+        "requires_human_review": requires_human_review,
+        "review_reason": review_reason
     }
 
     # Store in cache
@@ -355,18 +498,51 @@ async def get_patient_adherence(patient_id: str):
 # ─────────────────────────────────────────────────────────────────────────────
 # PERSON B EXTENSIONS (Roster, Live Telemetry Snapshot, Health)
 # ─────────────────────────────────────────────────────────────────────────────
+@app.get("/api/patients/summary")
+async def get_patients_summary():
+    """
+    Returns executive clinical cohort summary for the dashboard overview cards:
+    - Total monitored patients (198 in calibrated test split)
+    - Total requiring human review (epistemic uncertainty CI > 0.40 or out of bounds)
+    - Total high-risk non-adherent (PDC < 60%)
+    - Active learning deferred rate (%)
+    - System inference status
+    """
+    total_patients = len(_patient_list)
+    review_patients = sum(1 for p in _patient_list if p.get("requires_human_review"))
+    high_risk_patients = sum(1 for p in _patient_list if p.get("base_risk", 1.0) < 0.60)
+    deferred_rate = round((review_patients / total_patients * 100), 1) if total_patients > 0 else 0.0
+
+    return {
+        "patients_monitored": total_patients,
+        "patients_requiring_review": review_patients,
+        "high_risk_non_adherent": high_risk_patients,
+        "active_learning_deferred_rate_pct": deferred_rate,
+        "system_inference_status": "NOMINAL",
+        "models_active": {
+            "cqr_mapie": True,
+            "hmm_cognitive": True,
+            "shap_explainer": True,
+            "jitai_biosignal": True
+        }
+    }
+
+
 @app.get("/api/patients")
 async def list_patients(
     requires_review: Optional[bool] = Query(None, description="Filter for patients needing review (CI width > 0.40)"),
-    limit: int = Query(50, ge=1, le=500)
+    status: Optional[str] = Query(None, description="Filter by clinical_status: 'High Risk', 'Review Required', 'Nominal'"),
+    limit: int = Query(250, ge=1, le=1000)
 ):
     """
     [Person B Extension] Lists cohort patients with adherence and uncertainty metrics.
-    Enables Streamlit dashboard patient selector and Active Learning review queue.
+    Enables React clinical dashboard patient selector and Active Learning review queue.
     """
     results = _patient_list
     if requires_review is not None:
         results = [p for p in results if p["requires_human_review"] == requires_review]
+    if status is not None:
+        results = [p for p in results if p.get("clinical_status") == status]
     return {
         "total_count": len(results),
         "patients": results[:limit]

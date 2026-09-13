@@ -18,3 +18,5 @@ firmware/src/secrets.h
 Thumbs.db
 .ipynb_checkpoints/
 .pytest_cache/
+frontend/node_modules/
+frontend/dist/

@@ -31,13 +31,12 @@
 #define FORCE_SIMULATION false
 
 // WiFi Credentials
-const char* WIFI_SSID = "Wokwi-GUEST"; // Default Wokwi WiFi; change for real AP
-const char* WIFI_PASS = "";
+const char* WIFI_SSID = "WifiH"; // Change this to your real WiFi or Hotspot Name
+const char* WIFI_PASS = "12345678";
 
 // FastAPI Gateway WebSocket Host & Port
 // For local physical testing, change to your PC's LAN IP (e.g., "192.168.1.50")
-// In Wokwi with Wokwi Bridge: "localhost" or "host.wokwi.internal"
-const char* WS_HOST = "127.0.0.1";
+const char* WS_HOST = "10.221.129.235"; // <--- IMPORTANT: DO NOT LEAVE AS 127.0.0.1
 const int   WS_PORT = 8000;
 const char* WS_PATH = "/ws/ppg";
 
@@ -96,13 +95,28 @@ void setup() {
 
     if (!FORCE_SIMULATION) {
         Serial.println("[HW] Probing for MAX30102 sensor at I2C 0x57...");
-        if (particleSensor.begin(Wire, I2C_SPEED_FAST)) {
+        
+        // HACK: Retry loop for loose wires
+        int retries = 0;
+        bool found = false;
+        while (retries < 15 && !found) {
+            Wire.setClock(10000); // Slow clock for loose connections
+            if (particleSensor.begin(Wire, I2C_SPEED_FAST)) {
+                found = true;
+            } else {
+                retries++;
+                Serial.printf("[HW] Attempt %d/15 failed. Wiggle the wires! Retrying in 1 second...\n", retries);
+                delay(1000);
+            }
+        }
+
+        if (found) {
             sensorConnected = true;
             Serial.println("[HW] MAX30102 found! Configuring sensor registers...");
             // Configure sensor: LED brightness 60, sample average 4, mode 2 (Red+IR), sample rate 100, pulse width 411
             particleSensor.setup(60, 4, 2, 100, 411, 4096);
         } else {
-            Serial.println("[HW] MAX30102 not detected. Auto-falling back to SIMULATION MODE.");
+            Serial.println("[HW] MAX30102 not detected after 15 attempts. Auto-falling back to SIMULATION MODE.");
             sensorConnected = false;
         }
     } else {

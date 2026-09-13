@@ -1,0 +1,52 @@
+﻿import React from 'react';
+
+interface ShapPanelProps {
+  explanation: Record<string, string>;
+}
+
+export const ShapPanel: React.FC<ShapPanelProps> = ({ explanation }) => {
+  const entries = Object.entries(explanation);
+
+  return (
+    <div className="shap-panel">
+      <div className="panel-header" style={{ padding: '0 0 14px 0', background: 'transparent' }}>
+        <div>
+          <span className="panel-title">Why This Prediction? (SHAP Explainability)</span>
+          <span className="brand-subtitle" style={{ marginTop: '2px' }}>
+            Top contributing indirect behavioral features to risk displacement
+          </span>
+        </div>
+        <span className="mono-dim">TreeSHAP Kernel</span>
+      </div>
+
+      <div className="shap-list">
+        {entries.length === 0 ? (
+          <div className="mono-dim" style={{ padding: '12px 0' }}>No dominant feature displacement calculated.</div>
+        ) : (
+          entries.map(([feature, valStr]) => {
+            const numVal = parseFloat(valStr.replace('+', ''));
+            const isPos = numVal > 0;
+            // Normalize width for bar (max ~ 0.5)
+            const barWidth = Math.min(100, Math.max(10, Math.abs(numVal) * 200));
+
+            return (
+              <div className="shap-item" key={feature}>
+                <span className="shap-name">{feature.replace(/_/g, ' ')}</span>
+                <span className="shap-val">{valStr}</span>
+                <div className="shap-bar-container">
+                  <div
+                    className={`shap-bar-fill ${isPos ? 'pos' : 'neg'}`}
+                    style={{ width: `${barWidth / 2}%` }}
+                  />
+                </div>
+                <span className={`shap-impact-text ${isPos ? 'impact-pos' : 'impact-neg'}`}>
+                  {isPos ? 'Increases Risk' : 'Lowers Risk'}
+                </span>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
+};
