@@ -47,3 +47,27 @@ export async function fetchLatestTelemetry(): Promise<TelemetrySnapshot> {
   }
   return res.json();
 }
+
+export async function submitAdherenceReview(patientId: string, status: 'adherent' | 'non_adherent', method?: string): Promise<any> {
+  const res = await fetch(`${API_BASE_URL}/api/patients/${encodeURIComponent(patientId)}/adherence-review`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status, method })
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to submit adherence review: ${res.statusText}`);
+  }
+  return res.json();
+}
+
+export async function scheduleFollowUp(patientId: string, date: string, notes: string): Promise<any> {
+  const res = await fetch(`${API_BASE_URL}/api/patients/${encodeURIComponent(patientId)}/follow-up`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date, notes })
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to schedule follow-up: ${res.statusText}`);
+  }
+  return res.json();
+}

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CohortSummary, PatientSummary } from '../types';
 
+import { hmmStateToLabel, clinicalStatusToLabel } from '../lib/clinicalLabels';
+
 interface OverviewPageProps {
   summary: CohortSummary | null;
   patients: PatientSummary[];
@@ -17,8 +19,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
   const [filter, setFilter] = useState<'all' | 'review' | 'highrisk'>('all');
 
   const filteredPatients = patients.filter(p => {
-    if (filter === 'review') return p.requires_human_review;
-    if (filter === 'highrisk') return p.base_risk < 0.60;
+    if (filter === 'review') return p.requires_human_review || p.clinical_status === 'Review Required';
+    if (filter === 'highrisk') return p.clinical_status === 'High Risk' || p.base_risk < 0.60;
     return true;
   });
 
@@ -87,13 +89,13 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               className={`btn-outline ${filter === 'review' ? 'active' : ''}`}
               onClick={() => setFilter('review')}
             >
-              Needs Review ({patients.filter(p => p.requires_human_review).length})
+              Needs Review ({patients.filter(p => p.requires_human_review || p.clinical_status === 'Review Required').length})
             </button>
             <button
               className={`btn-outline ${filter === 'highrisk' ? 'active' : ''}`}
               onClick={() => setFilter('highrisk')}
             >
-              High Risk ({patients.filter(p => p.base_risk < 0.60).length})
+              High Risk ({patients.filter(p => p.clinical_status === 'High Risk' || p.base_risk < 0.60).length})
             </button>
           </div>
         </div>
@@ -104,8 +106,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               <tr>
                 <th>Patient ID</th>
                 <th>Adherence</th>
-                <th>Confidence Range</th>
-                <th>Behavioral Pattern</th>
+                <th>Score Range</th>
+                <th>Patient Phase</th>
                 <th>Review</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -127,6 +129,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
               ) : (
                 filteredPatients.slice(0, 50).map(p => {
                   const isCritical = p.base_risk < 0.60;
+                  const displayHmm = hmmStateToLabel(p.hmm_state);
+                  const displayStatus = clinicalStatusToLabel(p.clinical_status);
 
                   return (
                     <tr
@@ -144,7 +148,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                       <td className="mono-dim">
                         {(p.lower_90 * 100).toFixed(0)}% — {(p.upper_90 * 100).toFixed(0)}%
                       </td>
-                      <td>{p.hmm_state_label}</td>
+                      <td>{displayHmm}</td>
                       <td>
                         {p.requires_human_review ? (
                           <span className="clinical-badge badge-high-risk">Review Needed</span>
@@ -156,17 +160,17 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                         {p.clinical_status === 'High Risk' ? (
                           <span className="clinical-badge badge-high-risk">
                             <span className="dot red" />
-                            High Risk
+                            {displayStatus}
                           </span>
                         ) : p.clinical_status === 'Review Required' ? (
                           <span className="clinical-badge badge-monitor">
                             <span className="dot amber" />
-                            Review
+                            {displayStatus}
                           </span>
                         ) : (
                           <span className="clinical-badge badge-normal">
                             <span className="dot green" />
-                            Normal
+                            {displayStatus}
                           </span>
                         )}
                       </td>

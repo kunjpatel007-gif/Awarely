@@ -1,35 +1,36 @@
-﻿:root {
-  --bg-base: #0a0a0a;
-  --bg-surface: #111111;
-  --bg-subtle: #161616;
-  --bg-elevated: #1b1b1b;
-  --border-subtle: #222222;
-  --border-strong: #2f2f2f;
-  --border-accent: #3d3d3d;
+:root {
+  --bg-base: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F1F5F9;
+  --bg-elevated: #FFFFFF;
+  --border-subtle: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --border-accent: #94A3B8;
+  --accent-primary: #0284C7;
   
-  --text-pure: #f5f5f5;
-  --text-primary: #dcdcdc;
-  --text-secondary: #949494;
-  --text-tertiary: #636363;
-  --text-dim: #444444;
+  --text-pure: #0F172A;
+  --text-primary: #1E293B;
+  --text-secondary: #475569;
+  --text-tertiary: #64748B;
+  --text-dim: #94A3B8;
 
   /* Clinical Status Indicators */
-  --status-healthy: #39d98a;
-  --status-healthy-glow: rgba(57, 217, 138, 0.25);
-  --status-healthy-dim: rgba(57, 217, 138, 0.12);
+  --status-healthy: #10B981;
+  --status-healthy-glow: rgba(16, 185, 129, 0.25);
+  --status-healthy-dim: rgba(16, 185, 129, 0.12);
   
-  --status-warn: #e5a93c;
-  --status-warn-glow: rgba(229, 169, 60, 0.25);
-  --status-warn-dim: rgba(229, 169, 60, 0.12);
+  --status-warn: #F59E0B;
+  --status-warn-glow: rgba(245, 158, 11, 0.25);
+  --status-warn-dim: rgba(245, 158, 11, 0.12);
   
-  --status-critical: #e05353;
-  --status-critical-glow: rgba(224, 83, 83, 0.28);
-  --status-critical-dim: rgba(224, 83, 83, 0.12);
+  --status-critical: #EF4444;
+  --status-critical-glow: rgba(239, 68, 68, 0.28);
+  --status-critical-dim: rgba(239, 68, 68, 0.12);
 
-  --status-info: #79a8e0;
-  --status-info-dim: rgba(121, 168, 224, 0.12);
+  --status-info: #0284C7;
+  --status-info-dim: rgba(2, 132, 199, 0.12);
 
-  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Inter', 'Roboto', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -52,7 +53,7 @@ body {
 
 /* Sidebar */
 aside.sidebar {
-  background: #0d0d0d;
+  background: var(--bg-surface);
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
@@ -97,7 +98,7 @@ aside.sidebar {
 }
 .brand-subtitle {
   font-size: 9px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-tertiary);
@@ -134,11 +135,11 @@ aside.sidebar {
   border-color: var(--border-strong);
 }
 .nav-badge {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 10px;
   padding: 1px 6px;
   border-radius: 4px;
-  background: #1c1c1c;
+  background: var(--bg-subtle);
   color: var(--text-secondary);
   border: 1px solid var(--border-subtle);
 }
@@ -168,7 +169,7 @@ aside.sidebar {
 }
 .sys-status-label {
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -203,7 +204,7 @@ main.main-content {
 header.topbar {
   height: 64px;
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
@@ -230,7 +231,7 @@ header.topbar {
   font-size: 12px;
 }
 .patient-context-pill {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11px;
   background: var(--bg-surface);
   border: 1px solid var(--border-strong);
@@ -246,7 +247,7 @@ header.topbar {
   align-items: center;
   gap: 20px;
   font-size: 11.5px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   color: var(--text-tertiary);
 }
 .time-indicator {
@@ -308,7 +309,7 @@ header.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.01);
+  background: rgba(0,0,0,0.01);
 }
 .panel-title {
   font-size: 11px;
@@ -387,7 +388,7 @@ table.clinical-table th {
   color: var(--text-tertiary);
   padding: 12px 18px;
   border-bottom: 1px solid var(--border-strong);
-  background: #0f0f0f;
+  background: var(--bg-subtle);
 }
 table.clinical-table td {
   padding: 14px 18px;
@@ -399,7 +400,7 @@ table.clinical-table tr.clickable-row {
   cursor: pointer;
 }
 table.clinical-table tr.clickable-row:hover td {
-  background: #151515;
+  background: var(--bg-elevated);
   color: var(--text-pure);
 }
 table.clinical-table tr:last-child td {
@@ -424,7 +425,7 @@ table.clinical-table tr:last-child td {
   border-radius: 4px;
   font-size: 11px;
   font-weight: 500;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   border: 1px solid transparent;
 }
 .badge-normal {
@@ -443,7 +444,7 @@ table.clinical-table tr:last-child td {
   border-color: rgba(224, 83, 83, 0.25);
 }
 .badge-neutral {
-  background: #181818;
+  background: var(--bg-subtle);
   color: var(--text-secondary);
   border-color: var(--border-strong);
 }
@@ -470,10 +471,10 @@ table.clinical-table tr:last-child td {
   color: var(--text-pure);
 }
 .btn-action {
-  background: #1f1f1f;
+  background: var(--bg-surface);
   border: 1px solid var(--border-strong);
   color: var(--text-pure);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11px;
   padding: 5px 12px;
   border-radius: 4px;
@@ -481,7 +482,7 @@ table.clinical-table tr:last-child td {
   transition: all 0.15s ease;
 }
 .btn-action:hover {
-  background: #2a2a2a;
+  background: var(--bg-elevated);
   border-color: var(--text-secondary);
 }
 
@@ -507,7 +508,7 @@ table.clinical-table tr:last-child td {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 .meta-value {
   font-size: 12.5px;
@@ -518,10 +519,11 @@ table.clinical-table tr:last-child td {
   gap: 6px;
 }
 
-.hero-diagnostic-grid {
+.stats-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 .diagnostic-card {
   background: var(--bg-surface);
@@ -531,14 +533,31 @@ table.clinical-table tr:last-child td {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+}
+.diag-title-wrapper {
+  margin-bottom: 8px;
 }
 .diag-title {
   font-size: 10px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--text-tertiary);
-  margin-bottom: 8px;
   font-weight: 500;
+}
+.diag-value-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.diag-unified-val {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-pure);
+  letter-spacing: -1px;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 .diag-big-val {
   font-family: var(--font-mono);
@@ -548,10 +567,12 @@ table.clinical-table tr:last-child td {
   letter-spacing: -1px;
   line-height: 1.1;
 }
+.diag-subtext-wrapper {
+  margin-top: 8px;
+}
 .diag-subtext {
   font-size: 11px;
   color: var(--text-secondary);
-  margin-top: 8px;
 }
 
 /* Conformal Prediction Horizontal Range */
@@ -564,7 +585,7 @@ table.clinical-table tr:last-child td {
 .conformal-track {
   position: relative;
   height: 48px;
-  background: #0d0d0d;
+  background: var(--bg-surface);
   border-radius: 6px;
   margin: 28px 0 16px;
   border: 1px solid var(--border-subtle);
@@ -577,7 +598,7 @@ table.clinical-table tr:last-child td {
   top: -18px;
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 10px;
   color: var(--text-tertiary);
   padding: 0 4px;
@@ -585,8 +606,8 @@ table.clinical-table tr:last-child td {
 .ci-band-80 {
   position: absolute;
   height: 28px;
-  background: rgba(255,255,255,0.04);
-  border: 1px dashed #3a3a3a;
+  background: rgba(0,0,0,0.04);
+  border: 1px dashed var(--border-strong);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -595,7 +616,7 @@ table.clinical-table tr:last-child td {
 .ci-band-90 {
   position: absolute;
   height: 34px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.06);
   border: 1px solid var(--border-strong);
   border-radius: 4px;
 }
@@ -606,14 +627,14 @@ table.clinical-table tr:last-child td {
   background: var(--text-pure);
   border-radius: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   z-index: 10;
 }
 .ci-point-label {
   position: absolute;
   bottom: -24px;
   transform: translateX(-50%);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 600;
   color: var(--text-pure);
@@ -632,7 +653,7 @@ table.clinical-table tr:last-child td {
 .ci-stats-row {
   display: flex;
   gap: 24px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
 }
 
 /* Safety Alert Box */
@@ -648,17 +669,17 @@ table.clinical-table tr:last-child td {
 .safety-alert-strip.alert-safe {
   background: var(--status-healthy-dim);
   border: 1px solid rgba(57, 217, 138, 0.25);
-  color: #a8ecd0;
+  color: var(--status-healthy);
 }
 .safety-alert-strip.alert-review {
   background: var(--status-warn-dim);
   border: 1px solid rgba(229, 169, 60, 0.3);
-  color: #f7d896;
+  color: var(--status-warn);
 }
 .safety-alert-strip.alert-urgent {
   background: var(--status-critical-dim);
   border: 1px solid rgba(224, 83, 83, 0.35);
-  color: #f5a4a4;
+  color: var(--status-critical);
 }
 
 /* SHAP Explanation Section */
@@ -687,13 +708,13 @@ table.clinical-table tr:last-child td {
   font-weight: 500;
 }
 .shap-val {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   color: var(--text-pure);
   font-size: 11.5px;
 }
 .shap-bar-container {
   height: 8px;
-  background: #161616;
+  background: var(--bg-subtle);
   border-radius: 4px;
   position: relative;
   overflow: hidden;
@@ -714,7 +735,7 @@ table.clinical-table tr:last-child td {
 }
 .shap-impact-text {
   font-size: 10.5px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -745,12 +766,12 @@ table.clinical-table tr:last-child td {
   border: 1px solid var(--border-subtle);
 }
 .vital-mini-card {
-  background: #0f0f0f;
+  background: var(--bg-subtle);
   padding: 12px 16px;
 }
 .vital-mini-label {
   font-size: 9.5px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -764,7 +785,7 @@ table.clinical-table tr:last-child td {
 
 /* PPG Canvas / Waveform Visualizer */
 .waveform-container {
-  background: #090909;
+  background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   height: 140px;
@@ -783,10 +804,10 @@ table.clinical-table tr:last-child td {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 10px;
   color: var(--text-tertiary);
-  background: rgba(10, 10, 10, 0.7);
+  background: rgba(255, 255, 255, 0.7);
   padding: 4px 8px;
   border-radius: 4px;
   border: 1px solid var(--border-subtle);
@@ -811,7 +832,7 @@ table.clinical-table tr:last-child td {
   margin-top: 10px;
 }
 .jitai-rec-box {
-  background: #0c0c0c;
+  background: var(--bg-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   padding: 14px;
@@ -819,7 +840,7 @@ table.clinical-table tr:last-child td {
 }
 .jitai-rec-title {
   font-size: 10px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--text-tertiary);
@@ -851,7 +872,7 @@ table.clinical-table tr:last-child td {
   padding: 16px 0;
 }
 .pipe-node {
-  background: #141414;
+  background: var(--bg-subtle);
   border: 1px solid var(--border-strong);
   border-radius: 6px;
   padding: 14px 18px;
@@ -866,30 +887,30 @@ table.clinical-table tr:last-child td {
 }
 .pipe-node-desc {
   font-size: 10px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   color: var(--text-tertiary);
 }
 .pipe-arrow {
   color: var(--text-tertiary);
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 14px;
   flex-shrink: 0;
 }
 
 /* API Spec Box */
 .api-contract-box {
-  background: #0b0b0b;
+  background: var(--bg-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
   padding: 16px;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11px;
   color: var(--text-secondary);
 }
 .api-endpoint-badge {
   display: inline-block;
   padding: 2px 6px;
-  background: #1c1c1c;
+  background: var(--bg-subtle);
   border: 1px solid var(--border-strong);
   border-radius: 3px;
   color: var(--status-info);
@@ -909,11 +930,11 @@ table.clinical-table tr:last-child td {
   font-size: 12px;
   padding: 8px 12px;
   border-radius: 4px;
-  background: #0f0f0f;
-  border: 1px solid #1a1a1a;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
 }
 .time-stamp {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 11px;
   color: var(--text-tertiary);
   width: 80px;
@@ -945,3 +966,37 @@ table.clinical-table tr:last-child td {
   .telemetry-vital-row { grid-template-columns: repeat(2, 1fr); }
   .shap-item { grid-template-columns: 1fr; gap: 6px; }
 }
+
+.clinical-panel {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.clinical-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+.diagnostic-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.diagnostic-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+.jitai-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.jitai-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+
+.panel-container { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.panel-container:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+.overview-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.overview-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }

@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { TelemetrySample, JitaiAlert, TelemetrySnapshot } from '../types';
+import { TelemetrySample, JitaiAlert, TelemetrySnapshot, ConnectionState } from '../types';
 import { WS_BASE_URL, fetchLatestTelemetry } from '../services/api';
+import { HARDWARE_PATIENT_ID } from '../constants';
 
 export interface UseTelemetryReturn {
   samples: TelemetrySample[];
   latestSnapshot: TelemetrySnapshot | null;
   latestAlert: JitaiAlert | null;
   isConnected: boolean;
+  connectionState: ConnectionState;
   hrv: {
     mean_hr_bpm: number;
     sdnn_ms: number;
@@ -14,14 +16,14 @@ export interface UseTelemetryReturn {
     is_stressed: boolean;
   };
   eventLog: Array<{ time: string; text: string; isAlert: boolean }>;
-  triggerSimulatedStress: () => void;
 }
 
-export function useTelemetry(): UseTelemetryReturn {
+export function useTelemetry(activePatientId: string): UseTelemetryReturn {
   const [samples, setSamples] = useState<TelemetrySample[]>([]);
   const [latestSnapshot, setLatestSnapshot] = useState<TelemetrySnapshot | null>(null);
   const [latestAlert, setLatestAlert] = useState<JitaiAlert | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [connectionState, setConnectionState] = useState<ConnectionState>('disconnected');
   const [eventLog, setEventLog] = useState<Array<{ time: string; text: string; isAlert: boolean }>>([
     { time: new Date().toISOString().substring(11, 19), text: 'Telemetry subscriber initialized', isAlert: false }
   ]);
@@ -63,8 +65,25 @@ export function useTelemetry(): UseTelemetryReturn {
   useEffect(() => {
     let unmounted = false;
 
+    // Disconnect old socket
+    if (wsRef.current) {
+      wsRef.current.close();
+      wsRef.current = null;
+    }
+    if (reconnectTimeoutRef.current) {
+      clearTimeout(reconnectTimeoutRef.current);
+    }
+
     function connect() {
-      const wsUrl = `${WS_BASE_URL.replace(/^http/, 'ws')}/ws/telemetry/subscribe`;
+      if (!activePatientId) return;
+      
+      const isHardware = activePatientId === HARDWARE_PATIENT_ID;
+      const wsUrl = isHardware 
+        ? `${WS_BASE_URL.replace(/^http/, 'ws')}/ws/telemetry/subscribe`
+        : `${WS_BASE_URL.replace(/^http/, 'ws')}/ws/simulated/${activePatientId}`;
+        
+      setConnectionState('connecting');
+
       try {
         const ws = new WebSocket(wsUrl);
         wsRef.current = ws;
@@ -72,7 +91,8 @@ export function useTelemetry(): UseTelemetryReturn {
         ws.onopen = () => {
           if (unmounted) return;
           setIsConnected(true);
-          addLog('Connected to live biosignal broker (ws/telemetry/subscribe)');
+          setConnectionState('live');
+          addLog(`Connected to ${isHardware ? 'live biosignal broker' : `simulated telemetry (${activePatientId})`}`);
         };
 
         ws.onmessage = (event) => {
@@ -86,15 +106,17 @@ export function useTelemetry(): UseTelemetryReturn {
                 return next.length > 200 ? next.slice(next.length - 200) : next;
               });
             } else if (msg.type === 'SNAPSHOT') {
-              const snap: TelemetrySnapshot = msg.telemetry;
-              setLatestSnapshot(snap);
-              if (snap.hrv) {
-                setHrv({
-                  mean_hr_bpm: snap.hrv.mean_hr_bpm || 0.0,
-                  sdnn_ms: snap.hrv.sdnn_ms || 0.0,
-                  rmssd_ms: snap.hrv.rmssd_ms || 0.0,
-                  is_stressed: snap.hrv.is_stressed || false
-                });
+              const snap: TelemetrySnapshot = msg.telemetry || msg.data;
+              if (snap) {
+                setLatestSnapshot(snap);
+                if (snap.hrv) {
+                  setHrv({
+                    mean_hr_bpm: snap.hrv.mean_hr_bpm || 0.0,
+                    sdnn_ms: snap.hrv.sdnn_ms || 0.0,
+                    rmssd_ms: snap.hrv.rmssd_ms || 0.0,
+                    is_stressed: snap.hrv.is_stressed || false
+                  });
+                }
               }
             } else if (msg.type === 'JITAI_ALERT') {
               const alertData: JitaiAlert = msg.data;
@@ -105,7 +127,15 @@ export function useTelemetry(): UseTelemetryReturn {
                 sdnn_ms: alertData.sdnn_ms,
                 is_stressed: true
               }));
-              addLog(`🚨 JITAI Alert: ${alertData.msg} (HR: ${alertData.mean_hr_bpm} BPM, SDNN: ${alertData.sdnn_ms} ms)`, true);
+              addLog(`JITAI Alert: ${alertData.msg} (HR: ${alertData.mean_hr_bpm} BPM, SDNN: ${alertData.sdnn_ms} ms)`, true);
+            } else if (msg.type === 'HRV_UPDATE') {
+               const hrvData = msg.data;
+               setHrv({
+                  mean_hr_bpm: hrvData.mean_hr_bpm || 0.0,
+                  sdnn_ms: hrvData.sdnn_ms || 0.0,
+                  rmssd_ms: hrvData.rmssd_ms || 0.0,
+                  is_stressed: hrvData.is_stressed || false
+               });
             }
           } catch (e) {
             console.error('Failed to parse WebSocket message:', e);
@@ -115,6 +145,7 @@ export function useTelemetry(): UseTelemetryReturn {
         ws.onclose = () => {
           if (unmounted) return;
           setIsConnected(false);
+          setConnectionState('disconnected');
           addLog('Telemetry broker disconnected, retrying in 3s...');
           reconnectTimeoutRef.current = setTimeout(connect, 3000);
         };
@@ -122,6 +153,7 @@ export function useTelemetry(): UseTelemetryReturn {
         ws.onerror = () => {
           if (unmounted) return;
           setIsConnected(false);
+          setConnectionState('error');
           ws.close();
         };
       } catch (err) {
@@ -138,41 +170,18 @@ export function useTelemetry(): UseTelemetryReturn {
       if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
       if (wsRef.current) {
         wsRef.current.close();
+        wsRef.current = null;
       }
     };
-  }, [addLog]);
-
-  const triggerSimulatedStress = useCallback(() => {
-    // Only permit client-side simulation when VITE_DEMO_MODE is explicitly true
-    const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
-    if (!isDemoMode) {
-      addLog('⚠️ Live Mode: JITAI stress triggers must originate from backend WebSocket telemetry (run scripts/simulate_telemetry.py --stress)', false);
-      return;
-    }
-
-    const simulatedAlert: JitaiAlert = {
-      alert: 'JITAI_TRIGGERED',
-      msg: 'Acute sympathetic surge detected [DEMO MODE]. Softening reminder delivery.',
-      sdnn_ms: 16.4,
-      mean_hr_bpm: 108
-    };
-    setLatestAlert(simulatedAlert);
-    setHrv({
-      mean_hr_bpm: 108,
-      sdnn_ms: 16.4,
-      rmssd_ms: 14.1,
-      is_stressed: true
-    });
-    addLog('🚨 [DEMO MODE] Simulated Stress Episode: JITAI intervention triggered (HR: 108 BPM, SDNN: 16.4 ms)', true);
-  }, [addLog]);
+  }, [addLog, activePatientId]);
 
   return {
     samples,
     latestSnapshot,
     latestAlert,
     isConnected,
+    connectionState,
     hrv,
-    eventLog,
-    triggerSimulatedStress
+    eventLog
   };
 }

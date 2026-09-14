@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/stitch.css';
 import { ViewType, CohortSummary, PatientSummary, PatientDiagnostics } from './types';
 import { fetchCohortSummary, fetchPatients, fetchPatientDiagnostics } from './services/api';
@@ -9,7 +9,6 @@ import { Topbar } from './components/Topbar';
 import { OverviewPage } from './pages/OverviewPage';
 import { DiagnosticsPage } from './pages/DiagnosticsPage';
 import { ReviewQueuePage } from './pages/ReviewQueuePage';
-import { TelemetryPage } from './pages/TelemetryPage';
 import { SystemModelsPage } from './pages/SystemModelsPage';
 
 export const App: React.FC = () => {
@@ -29,48 +28,57 @@ export const App: React.FC = () => {
     samples,
     latestAlert,
     isConnected,
+    connectionState,
     hrv,
-    eventLog,
-    triggerSimulatedStress
-  } = useTelemetry();
+    eventLog
+  } = useTelemetry(activePatientId);
 
-  // Load Cohort Summary & Patient Roster
-  useEffect(() => {
+  const refreshData = () => {
     setIsLoadingPatients(true);
     Promise.all([
-      fetchCohortSummary().catch(err => {
-        console.warn('Failed to load summary, using defaults:', err);
-        return null;
-      }),
-      fetchPatients({ limit: 500 }).catch(err => {
-        console.warn('Failed to load patients, using defaults:', err);
-        return { total_count: 0, patients: [] };
-      })
+      fetchCohortSummary().catch(err => null),
+      fetchPatients({ limit: 500 }).catch(err => ({ total_count: 0, patients: [] }))
     ]).then(([sumData, patData]) => {
       if (sumData) setSummary(sumData);
       if (patData && patData.patients) {
         setPatients(patData.patients);
-        if (patData.patients.length > 0 && !activePatientId) {
-          setActivePatientId(patData.patients[0].patient_id);
-        }
       }
       setIsLoadingPatients(false);
     });
+
+    if (activePatientId) {
+      setIsLoadingDiagnostics(true);
+      fetchPatientDiagnostics(activePatientId)
+        .then(data => {
+          setPatientDiagnostics(data);
+          setIsLoadingDiagnostics(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setIsLoadingDiagnostics(false);
+        });
+    }
+  };
+
+  // Load Cohort Summary & Patient Roster
+  useEffect(() => {
+    refreshData();
   }, []);
 
-  // Load Active Patient Diagnostics
+  // Load Active Patient Diagnostics when activePatientId changes (except first load which is handled above)
   useEffect(() => {
-    if (!activePatientId) return;
-    setIsLoadingDiagnostics(true);
-    fetchPatientDiagnostics(activePatientId)
-      .then(diag => {
-        setPatientDiagnostics(diag);
-        setIsLoadingDiagnostics(false);
-      })
-      .catch(err => {
-        console.error('Failed to load diagnostics for', activePatientId, err);
-        setIsLoadingDiagnostics(false);
-      });
+    if (activePatientId) {
+      setIsLoadingDiagnostics(true);
+      fetchPatientDiagnostics(activePatientId)
+        .then(data => {
+          setPatientDiagnostics(data);
+          setIsLoadingDiagnostics(false);
+        })
+        .catch(err => {
+          console.error(err);
+          setIsLoadingDiagnostics(false);
+        });
+    }
   }, [activePatientId]);
 
   const handleSelectPatient = (patientId: string) => {
@@ -95,7 +103,7 @@ export const App: React.FC = () => {
           currentView={currentView}
           activePatientId={activePatientId}
           patientStatus={currentPatientObj?.clinical_status || 'Nominal'}
-          hmmLabel={currentPatientObj?.hmm_state_label || 'Strictly Adherent'}
+          hmm_state={currentPatientObj?.hmm_state || 0}
         />
 
         <div className="page-viewport">
@@ -114,8 +122,9 @@ export const App: React.FC = () => {
               samples={samples}
               hrv={hrv}
               latestAlert={latestAlert}
+              eventLog={eventLog}
               onBackToCohort={() => setCurrentView('overview')}
-              onSimulateStress={triggerSimulatedStress}
+              onRefresh={refreshData}
               isLoading={isLoadingDiagnostics}
             />
           )}
@@ -124,23 +133,14 @@ export const App: React.FC = () => {
             <ReviewQueuePage
               patients={patients}
               onSelectPatient={handleSelectPatient}
-            />
-          )}
-
-          {currentView === 'telemetry' && (
-            <TelemetryPage
-              samples={samples}
-              hrv={hrv}
-              latestAlert={latestAlert}
-              eventLog={eventLog}
-              isConnected={isConnected}
-              onSimulateStress={triggerSimulatedStress}
+              onRefresh={refreshData}
             />
           )}
 
           {currentView === 'models' && <SystemModelsPage />}
         </div>
       </main>
+
     </div>
   );
 };

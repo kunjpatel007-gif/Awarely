@@ -38,26 +38,13 @@ export const JitaiPanel: React.FC<JitaiPanelProps> = ({ isStressed, latestAlert 
         <div className="jitai-rec-content">
           {isStressed ? (
             latestAlert?.msg ||
-            'Patient is stressed. Softening reminders to avoid adding pressure. Non-urgent notifications delayed.'
+            'Patient exhibiting sympathetic overdrive. Deferring non-critical adherence protocols to minimize cognitive load.'
           ) : (
-            'Patient is calm. Standard gentle medication reminder scheduled for 08:00 AM.'
+            'Autonomic tone nominal. Standard adherence protocols active and scheduled.'
           )}
         </div>
       </div>
 
-      <div
-        style={{
-          marginTop: '14px',
-          fontSize: '11px',
-          color: 'var(--text-tertiary)',
-          lineHeight: '1.5',
-          borderLeft: '2px solid var(--border-strong)',
-          paddingLeft: '10px'
-        }}
-      >
-        Note: This system only adjusts the timing and tone of reminders.
-        It does <em>not</em> modify medication dosages.
-      </div>
     </div>
   );
 };

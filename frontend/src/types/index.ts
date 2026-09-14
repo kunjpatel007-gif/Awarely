@@ -1,3 +1,8 @@
+export interface Medication {
+  name: string;
+  time: string;
+}
+
 export interface PatientSummary {
   patient_id: string;
   base_risk: number;
@@ -9,6 +14,8 @@ export interface PatientSummary {
   clinical_status: 'Nominal' | 'Review Required' | 'High Risk';
   hmm_state: number;
   hmm_state_label: string;
+  is_hardware_patient?: boolean;
+  medications?: Medication[];
 }
 
 export interface CohortSummary {
@@ -42,6 +49,8 @@ export interface PatientDiagnostics {
   shap_explanation: Record<string, string>;
   requires_human_review: boolean;
   review_reason?: string | null;
+  clinical_features?: Record<string, any>;
+  medications?: Medication[];
 }
 
 export interface HrvMetrics {
@@ -72,4 +81,7 @@ export interface TelemetrySample {
   source: string;
 }
 
-export type ViewType = 'overview' | 'diagnostics' | 'queue' | 'telemetry' | 'models';
+export type ConnectionState = 'connecting' | 'live' | 'disconnected' | 'error';
+
+export type ViewType = 'overview' | 'diagnostics' | 'queue' | 'models';
+

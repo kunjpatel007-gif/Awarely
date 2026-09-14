@@ -54,13 +54,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="nav-badge alert">{summary ? summary.patients_requiring_review : 25}</span>
           </li>
 
-          <li
-            className={`nav-item ${currentView === 'telemetry' ? 'active' : ''}`}
-            onClick={() => onSelectView('telemetry')}
-          >
-            <span>Live Vitals</span>
-            <span className="nav-badge">{wsConnected ? 'Live' : '—'}</span>
-          </li>
 
           <li
             className={`nav-item ${currentView === 'models' ? 'active' : ''}`}

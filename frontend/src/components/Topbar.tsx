@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { ViewType } from '../types';
+import { hmmStateToLabel, clinicalStatusToLabel } from '../lib/clinicalLabels';
 
 interface TopbarProps {
   currentView: ViewType;
   activePatientId: string;
   patientStatus?: string;
-  hmmLabel?: string;
+  hmm_state?: number;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
   currentView,
   activePatientId,
   patientStatus = 'Nominal',
-  hmmLabel = 'Strictly Adherent'
+  hmm_state = 0
 }) => {
   const [clock, setClock] = useState<string>('');
 
@@ -30,11 +31,13 @@ export const Topbar: React.FC<TopbarProps> = ({
     overview: 'Patient Overview',
     diagnostics: 'Patient Details',
     queue: 'Review Queue',
-    telemetry: 'Live Vitals',
     models: 'How It Works'
   };
 
   const shortPatient = activePatientId ? activePatientId.replace('test-patient-', 'P-') : 'P-0825';
+  
+  const displayStatus = clinicalStatusToLabel(patientStatus);
+  const displayHmm = hmmStateToLabel(hmm_state);
 
   const getStatusDot = () => {
     if (patientStatus === 'High Risk') return 'red';
@@ -50,7 +53,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         <div className="patient-context-pill">
           <span className={`dot ${getStatusDot()}`} />
           <span>{shortPatient}</span>
-          <span className="mono-dim">{hmmLabel}</span>
+          <span className="mono-dim">{displayStatus} - {displayHmm}</span>
         </div>
       </div>
       <div className="topbar-right">
@@ -59,3 +62,4 @@ export const Topbar: React.FC<TopbarProps> = ({
     </header>
   );
 };
+

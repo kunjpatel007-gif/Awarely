@@ -66,12 +66,16 @@ app.add_middleware(
 # File Paths
 CQR_PREDS_PATH = PROJECT_ROOT / "ml" / "outputs" / "cqr_predictions.csv"
 HMM_STATES_PATH = PROJECT_ROOT / "ml" / "outputs" / "hmm_states.csv"
+TABULAR_FEATURES_PATH = PROJECT_ROOT / "ml" / "outputs" / "tabular_features.csv"
 XGB_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "xgb_model.json"
 
 # In-memory storage for loaded precomputed datasets
 _cqr_df: Optional[pd.DataFrame] = None
 _hmm_latest_map: Dict[str, int] = {}
+_tabular_features_map: Dict[str, Dict[str, Any]] = {}
 _patient_list: List[Dict[str, Any]] = []
+_patient_simulators: Dict[str, Any] = {}
+_audit_log: List[Dict[str, Any]] = []
 
 # Sliding window buffer for real-time PPG telemetry
 active_ppg_stream: List[float] = []
@@ -163,7 +167,7 @@ def _calibrate_bounded_metric(val: float, metric_name: str, patient_id: str) -> 
 
 
 def _load_clinical_data():
-    global _cqr_df, _hmm_latest_map, _patient_list
+    global _cqr_df, _hmm_latest_map, _tabular_features_map, _patient_list
     logger.info("Initializing clinical data stores and ML inferences...")
 
     # 1. Load CQR Predictions
@@ -182,6 +186,14 @@ def _load_clinical_data():
         logger.info(f"Indexed {len(_hmm_latest_map)} patient HMM states from {HMM_STATES_PATH.name}")
     else:
         logger.warning(f"HMM states file not found at {HMM_STATES_PATH}")
+
+    # 2.5 Load Actual Tabular Features
+    if TABULAR_FEATURES_PATH.exists():
+        tab_df = pd.read_csv(TABULAR_FEATURES_PATH)
+        _tabular_features_map = tab_df.set_index("patient_id").to_dict(orient="index")
+        logger.info(f"Loaded tabular features for {len(_tabular_features_map)} patients")
+    else:
+        logger.warning(f"Tabular features file not found at {TABULAR_FEATURES_PATH}")
 
     # 3. Build fast in-memory roster
     # CQR test split contains exactly the 198 monitored patients evaluated by CQR + MAPIE
@@ -326,9 +338,9 @@ async def websocket_ppg_endpoint(websocket: WebSocket, role: str = Query("produc
             }
             await telemetry_broker.broadcast_sample(sample_payload)
 
-            # Every 100 samples (2 seconds of data), evaluate JITAI stress metrics
-            if len(active_ppg_stream) >= 100 and len(active_ppg_stream) % 25 == 0:
-                recent_window = active_ppg_stream[-100:]
+            # Every 50 samples (1 second of data), evaluate JITAI stress metrics on last 30 seconds
+            if len(active_ppg_stream) >= 1500 and len(active_ppg_stream) % 50 == 0:
+                recent_window = active_ppg_stream[-1500:]
                 hrv_results = calculate_hrv_metrics(recent_window)
 
                 latest_telemetry_snapshot = {
@@ -418,14 +430,23 @@ async def get_patient_adherence(patient_id: str):
 
     # 4. Generate SHAP Explainability Receipt
     # Synthesize patient tabular features from available records or clinical priors
-    mock_features = {
-        "avg_refill_gap_90d": 12.0 if base_risk < 0.70 else 4.0,
+    mock_features = _tabular_features_map.get(patient_id, {
         "days_since_last_refill": 42.0 if base_risk < 0.70 else 25.0,
+        "avg_refill_gap_90d": 12.0 if base_risk < 0.70 else 4.0,
+        "refill_gap_std": 3.5 if base_risk < 0.60 else 1.2,
+        "total_refills_90d": 1 if base_risk < 0.60 else 3,
         "missed_appointments_90d": 2 if base_risk < 0.60 else 0,
-        "rolling_7d_avg_hr": 78.0,
-        "spo2_avg_7d": 96.5,
-        "age": 58.0
-    }
+        "kept_appointments_90d": 1 if base_risk < 0.60 else 4,
+        "appointment_streak": 0 if base_risk < 0.60 else 3,
+        "spo2_avg_7d": 96.5 if base_risk > 0.40 else 98.2,
+        "rolling_7d_avg_hr": 78.0 if base_risk > 0.50 else 66.0,
+        "sbp_avg": 135.0 if base_risk < 0.60 else 118.0,
+        "age": 58.0,
+        "gender": 1.0,
+        "medication_count": 4 if base_risk < 0.60 else 2,
+        "days_on_therapy": 120.0,
+        "insurance_type_enc": 2.0
+    })
     shap_receipt = generate_shap_receipt(mock_features)
 
     # Format human-readable top impacts matching Section 5.1
@@ -486,6 +507,8 @@ async def get_patient_adherence(patient_id: str):
         "confidence_interval_80": ci_80,
         "hidden_cognitive_state": hidden_cognitive_state,
         "shap_explanation": top_shap_explanation,
+        "clinical_features": mock_features,
+        "medications": generate_medications(patient_id),
         "requires_human_review": requires_human_review,
         "review_reason": review_reason
     }
@@ -574,6 +597,67 @@ async def health_check():
     }
 
 
+import asyncio
+from fastapi import WebSocketDisconnect, Body
+from backend.ppg_simulator import PatientSimulator
+
+@app.websocket("/ws/simulated/{patient_id}")
+async def websocket_simulated(websocket: WebSocket, patient_id: str):
+    await websocket.accept()
+    
+    hmm_state = _hmm_latest_map.get(patient_id, 0)
+    # Fetch base_hr from tabular_features
+    mock_features = _tabular_features_map.get(patient_id, {})
+    base_hr = float(mock_features.get("rolling_7d_avg_hr", 70.0))
+    
+    if patient_id not in _patient_simulators:
+        _patient_simulators[patient_id] = PatientSimulator(patient_id, hmm_state, base_hr)
+    
+    sim = _patient_simulators[patient_id]
+    local_window = []
+    
+    try:
+        while True:
+            # 50 Hz
+            await asyncio.sleep(0.02)
+            sample = sim.tick()
+            await websocket.send_json({"type": "SAMPLE", "data": sample})
+            
+            local_window.append(sample["ppg"])
+            if len(local_window) > 1500:
+                local_window.pop(0)
+                
+            if len(local_window) >= 1500 and len(local_window) % 50 == 0:
+                hrv = calculate_hrv_metrics(local_window[-1500:])
+                await websocket.send_json({"type": "HRV_UPDATE", "data": hrv})
+                if hrv.get("is_stressed"):
+                    await websocket.send_json({
+                        "type": "JITAI_ALERT",
+                        "data": {
+                            "msg": "Elevated sympathetic tone detected.",
+                            "mean_hr_bpm": hrv["mean_hr_bpm"],
+                            "sdnn_ms": hrv["sdnn_ms"]
+                        }
+                    })
+    except WebSocketDisconnect:
+        pass
+    except Exception as e:
+        logger.error(f"Simulator WS error: {e}")
+
+@app.post("/api/patients/{patient_id}/adherence-review")
+async def submit_adherence_review(patient_id: str, body: dict = Body(...)):
+    for p in _patient_list:
+        if p["patient_id"] == patient_id:
+            p["requires_human_review"] = False
+            p["review_reason"] = None
+            _audit_log.append({"patient": patient_id, "action": "adherence_review", "body": body})
+            return {"status": "success"}
+    return {"status": "error", "message": "Patient not found"}
+
+@app.post("/api/patients/{patient_id}/follow-up")
+async def schedule_follow_up(patient_id: str, body: dict = Body(...)):
+    _audit_log.append({"patient": patient_id, "action": "follow_up", "body": body})
+    return {"status": "success"}
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)

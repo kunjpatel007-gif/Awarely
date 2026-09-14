@@ -59,45 +59,61 @@ export const PpgCanvas: React.FC<PpgCanvasProps> = ({ samples, height = 140, sho
       ctx.fillStyle = '#636363';
       ctx.font = '11px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('STANDBY — Awaiting 50Hz ESP32 Hardware Telemetry Stream', width / 2, height / 2 - 10);
+      ctx.fillText('STANDBY — Acquiring 50Hz Telemetry Stream', width / 2, height / 2 - 10);
       return;
     }
 
-    // Draw PPG Waveform
+    // Draw PPG Waveform in a sweeping clinical ECG style
     ctx.beginPath();
     ctx.strokeStyle = '#39d98a';
     ctx.lineWidth = 2;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
 
-    const step = width / (points.length - 1);
+    const WINDOW_MS = 4000; // 4 seconds sweep
+    let lastX = -1;
+    let currentX = 0;
 
-    points.forEach((val, idx) => {
-      // Normalize to canvas height with margins
-      // Expected ppg is roughly 0.0 - 1.0
-      const clamped = Math.max(0, Math.min(1.2, val));
+    samples.forEach((sample, idx) => {
+      const clamped = Math.max(0, Math.min(1.2, sample.ppg));
       const y = height - (clamped * (height - 30) + 15);
-      const x = idx * step;
+      const x = ((sample.timestamp % WINDOW_MS) / WINDOW_MS) * width;
 
-      if (idx === 0) {
+      if (idx === samples.length - 1) {
+        currentX = x;
+      }
+
+      if (lastX === -1 || x < lastX) {
+        // Wrapped around or first point, move without drawing
         ctx.moveTo(x, y);
       } else {
+        // Within the same sweep, draw line
         ctx.lineTo(x, y);
       }
+      lastX = x;
     });
 
     ctx.stroke();
 
-    // Subtle gradient glow below wave
-    ctx.lineTo(width, height);
-    ctx.lineTo(0, height);
-    ctx.closePath();
-    const gradient = ctx.createLinearGradient(0, 0, 0, height);
-    gradient.addColorStop(0, 'rgba(57, 217, 138, 0.15)');
-    gradient.addColorStop(1, 'rgba(57, 217, 138, 0.0)');
-    ctx.fillStyle = gradient;
-    ctx.fill();
+    // Draw the blanking bar (erases a chunk ahead of the sweep)
+    ctx.fillStyle = '#090909';
+    ctx.fillRect(currentX, 0, width * 0.05, height);
 
+    // Draw the glowing vertical sweep cursor
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(57, 217, 138, 0.8)';
+    ctx.lineWidth = 2;
+    ctx.moveTo(currentX, 0);
+    ctx.lineTo(currentX, height);
+    ctx.stroke();
+
+    // Add a glowing halo to the cursor
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(57, 217, 138, 0.2)';
+    ctx.lineWidth = 6;
+    ctx.moveTo(currentX, 0);
+    ctx.lineTo(currentX, height);
+    ctx.stroke();
   }, [samples, height]);
 
   return (
