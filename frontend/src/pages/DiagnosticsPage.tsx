@@ -87,8 +87,11 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
 
   const handleScheduleFollowUp = async () => {
     try {
-      await scheduleFollowUp(patient.patient_id, new Date().toISOString(), '');
+      const res = await scheduleFollowUp(patient.patient_id, new Date().toISOString(), '');
       showToast('Successfully scheduled follow-up');
+      if (res && res.email_dispatched) {
+        alert("Automated Email Dispatched:\n\n" + res.email_dispatched);
+      }
     } catch (err) {
       console.error(err);
       showToast('Failed to schedule follow-up');

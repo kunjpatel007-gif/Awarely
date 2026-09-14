@@ -45,6 +45,16 @@ export const Topbar: React.FC<TopbarProps> = ({
     return 'green';
   };
 
+  const handleResetDemo = async () => {
+    try {
+      await fetch('http://localhost:8000/api/reset', { method: 'POST' });
+      alert('Demo state has been reset successfully. The page will now reload.');
+      window.location.reload();
+    } catch (e) {
+      alert('Failed to reset demo state.');
+    }
+  };
+
   return (
     <header className="topbar">
       <div className="topbar-left">
@@ -57,6 +67,13 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
       </div>
       <div className="topbar-right">
+        <button 
+          className="btn-outline" 
+          onClick={handleResetDemo}
+          style={{ marginRight: '1rem', padding: '4px 8px', fontSize: '0.8rem', borderColor: 'var(--status-warn)', color: 'var(--status-warn)' }}
+        >
+          Reset Demo
+        </button>
         <span className="time-indicator">{clock}</span>
       </div>
     </header>

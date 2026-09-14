@@ -56,8 +56,12 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
 
   const handleScheduleFollowUp = async (pid: string) => {
     try {
-      await scheduleFollowUp(pid, new Date().toISOString(), 'Follow-up from review queue');
+      const res = await scheduleFollowUp(pid, new Date().toISOString(), 'Follow-up from review queue');
       showToast(`Scheduled Follow-up for ${shortId(pid)}`);
+      if (res && res.email_dispatched) {
+        alert("Automated Email Dispatched:\n\n" + res.email_dispatched);
+      }
+      onRefresh?.();
     } catch (err) {
       console.error(err);
       showToast(`Failed to schedule ${shortId(pid)}`);

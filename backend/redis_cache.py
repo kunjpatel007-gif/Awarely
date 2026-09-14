@@ -116,6 +116,16 @@ class CacheService:
                 pass
         return self._memory_cache.delete(key)
 
+    def clear(self) -> None:
+        if self._redis_client:
+            try:
+                self._redis_client.flushdb()
+            except Exception:
+                pass
+        with self._memory_cache._lock:
+            self._memory_cache._cache.clear()
+            self._memory_cache._expirations.clear()
+
     def status(self) -> Dict[str, Any]:
         return {
             "mode": self._mode,

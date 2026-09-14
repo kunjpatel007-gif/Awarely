@@ -699,10 +699,35 @@ async def submit_adherence_review(patient_id: str, body: dict = Body(...)):
             return {"status": "success"}
     return {"status": "error", "message": "Patient not found"}
 
+from backend.email_dispatcher import send_followup_email
+
 @app.post("/api/patients/{patient_id}/follow-up")
 async def schedule_follow_up(patient_id: str, body: dict = Body(...)):
-    _audit_log.append({"patient": patient_id, "action": "follow_up", "body": body})
+    # Dispatch the real or simulated email
+    success, email_content = send_followup_email(patient_id)
+    
+    for p in _patient_list:
+        if p["patient_id"] == patient_id:
+            p["requires_human_review"] = False
+            p["review_reason"] = None
+            p["clinical_status"] = "Follow-up Scheduled"
+            break
+            
+    _audit_log.append({"patient": patient_id, "action": "follow_up", "body": body, "email": email_content})
+    
+    with open("sent_emails.log", "a") as f:
+        f.write(email_content + "\n\n" + "="*50 + "\n\n")
+        
+    cache.delete(f"adherence:{patient_id}")
+    return {"status": "success", "email_dispatched": email_content, "real_email_sent": success}
+@app.post("/api/reset")
+async def reset_demo():
+    """Resets the in-memory patient list back to its original state for demo purposes."""
+    _load_clinical_data()
+    cache.clear() # Clear redis cache
+    _audit_log.clear()
     return {"status": "success"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
