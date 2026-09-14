@@ -22,6 +22,7 @@ PRE-BUILD RECONCILIATION & SPEC ALIGNMENT:
 import os
 import sys
 import json
+import random
 import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -67,6 +68,7 @@ app.add_middleware(
 CQR_PREDS_PATH = PROJECT_ROOT / "ml" / "outputs" / "cqr_predictions.csv"
 HMM_STATES_PATH = PROJECT_ROOT / "ml" / "outputs" / "hmm_states.csv"
 TABULAR_FEATURES_PATH = PROJECT_ROOT / "ml" / "outputs" / "tabular_features.csv"
+MEDICATIONS_PATH = PROJECT_ROOT / "ml" / "outputs" / "patient_medications.csv"
 XGB_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "xgb_model.json"
 
 # In-memory storage for loaded precomputed datasets
@@ -86,6 +88,12 @@ latest_telemetry_snapshot: Dict[str, Any] = {
     "source": "IDLE",
     "last_alert": None
 }
+
+_medications_map: Dict[str, List[Dict[str, str]]] = {}
+
+def generate_medications(patient_id: str, conditions: List[str] = None) -> List[Dict[str, str]]:
+    """Returns actual medications extracted from Synthea FHIR bundles instead of random pools."""
+    return _medications_map.get(patient_id, [])
 
 class TelemetryBroker:
     """
@@ -167,7 +175,7 @@ def _calibrate_bounded_metric(val: float, metric_name: str, patient_id: str) -> 
 
 
 def _load_clinical_data():
-    global _cqr_df, _hmm_latest_map, _tabular_features_map, _patient_list
+    global _cqr_df, _hmm_latest_map, _tabular_features_map, _patient_list, _medications_map
     logger.info("Initializing clinical data stores and ML inferences...")
 
     # 1. Load CQR Predictions
@@ -194,6 +202,22 @@ def _load_clinical_data():
         logger.info(f"Loaded tabular features for {len(_tabular_features_map)} patients")
     else:
         logger.warning(f"Tabular features file not found at {TABULAR_FEATURES_PATH}")
+
+    # 2.6 Load Actual Patient Medications
+    if MEDICATIONS_PATH.exists():
+        med_df = pd.read_csv(MEDICATIONS_PATH)
+        _medications_map.clear()
+        for _, row in med_df.iterrows():
+            pid = row["patient_id"]
+            if pid not in _medications_map:
+                _medications_map[pid] = []
+            _medications_map[pid].append({
+                "name": row["medication_name"],
+                "time": row["dosing_schedule"]
+            })
+        logger.info(f"Loaded actual medications for {len(_medications_map)} patients")
+    else:
+        logger.warning(f"Patient medications file not found at {MEDICATIONS_PATH}")
 
     # 3. Build fast in-memory roster
     # CQR test split contains exactly the 198 monitored patients evaluated by CQR + MAPIE
@@ -391,6 +415,9 @@ async def get_patient_adherence(patient_id: str):
 
     # 2. Lookup CQR Predictions
     base_risk = 0.75
+    raw_base_risk = 0.75
+    raw_w90 = 0.26
+    raw_w80 = 0.14
     ci_80 = {"lower": 0.68, "upper": 0.82, "width": 0.14}
     ci_90 = {"lower": 0.62, "upper": 0.88, "width": 0.26}
 
@@ -497,6 +524,17 @@ async def get_patient_adherence(patient_id: str):
         review_reason = f"Point Estimate Out of Bounds (Raw {raw_base_risk:.4f} outside [0.0, 1.0])"
 
     is_clipped = bool(raw_base_risk < 0.0 or raw_base_risk > 1.0)
+
+    # Respect manual overrides from the active session roster
+    for p in _patient_list:
+        if p["patient_id"] == patient_id:
+            if not p.get("requires_human_review", True):
+                requires_human_review = False
+                review_reason = None
+            if "base_risk" in p and p["base_risk"] != base_risk:
+                # Use the artificially boosted/tanked base risk if human overrode it
+                base_risk = p["base_risk"]
+            break
 
     response = {
         "patient_id": patient_id,
@@ -650,7 +688,14 @@ async def submit_adherence_review(patient_id: str, body: dict = Body(...)):
         if p["patient_id"] == patient_id:
             p["requires_human_review"] = False
             p["review_reason"] = None
+            if body.get("status") == "adherent":
+                p["clinical_status"] = "Nominal"
+                p["base_risk"] = max(p["base_risk"], 0.85) # Boost adherence
+            elif body.get("status") == "non_adherent":
+                p["clinical_status"] = "High Risk"
+                p["base_risk"] = min(p["base_risk"], 0.40) # Tank adherence
             _audit_log.append({"patient": patient_id, "action": "adherence_review", "body": body})
+            cache.delete(f"adherence:{patient_id}")
             return {"status": "success"}
     return {"status": "error", "message": "Patient not found"}
 

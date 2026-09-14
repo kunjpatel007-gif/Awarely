@@ -1,0 +1,1927 @@
+patient_id,rxnorm_code,medication_name,dosing_schedule,days_supply
+test-patient-0000,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0000,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0000,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0001,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0001,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0002,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0002,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0003,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0004,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0005,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0006,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0006,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0007,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0007,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0007,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0008,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0008,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0008,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0009,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0010,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0011,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0011,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0011,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0012,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0013,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0014,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0014,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0015,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0015,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0016,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0017,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0017,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0018,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0019,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0020,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0020,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0021,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0022,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0022,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0022,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0023,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0023,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0023,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0024,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0025,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0026,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0026,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0027,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0028,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0028,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0029,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0029,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0030,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0030,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0031,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0031,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0032,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0032,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0033,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0033,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0033,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0034,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0034,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0035,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0035,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0035,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0036,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0037,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0037,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0037,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0038,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0040,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0040,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0041,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0041,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0042,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0042,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0043,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0043,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0044,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0044,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0044,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0046,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0046,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0047,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0047,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0048,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0048,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0048,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0049,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0050,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0050,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0051,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0052,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0052,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0053,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0053,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0054,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0054,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0054,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0055,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0055,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0055,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0056,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0057,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0058,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0058,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0059,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0060,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0061,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0061,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0062,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0062,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0063,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0063,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0063,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0064,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0064,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0065,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0065,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0065,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0066,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0066,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0067,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0067,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0068,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0068,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0069,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0069,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0070,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0070,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0071,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0072,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0072,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0072,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0073,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0073,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0073,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0074,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0074,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0075,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0075,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0076,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0077,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0077,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0077,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0078,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0078,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0078,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0080,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0080,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0081,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0081,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0081,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0082,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0083,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0083,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0084,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0084,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0085,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0085,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0085,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0086,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0086,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0087,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0087,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0088,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0089,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0090,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0091,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0091,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0091,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0092,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0092,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0093,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0093,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0093,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0094,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0094,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0095,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0095,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0096,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0096,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0097,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0097,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0097,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0098,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0098,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0098,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0099,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0099,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0099,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0100,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0100,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0101,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0102,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0102,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0103,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0103,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0103,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0104,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0104,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0105,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0105,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0105,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0106,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0107,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0107,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0107,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0108,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0108,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0108,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0109,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0109,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0109,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0110,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0111,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0112,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0112,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0113,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0113,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0113,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0114,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0115,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0116,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0116,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0117,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0117,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0118,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0119,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0119,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0119,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0120,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0120,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0120,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0121,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0121,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0121,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0122,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0122,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0124,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0124,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0125,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0126,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0127,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0127,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0127,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0128,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0129,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0129,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0129,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0130,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0131,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0132,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0133,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0133,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0134,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0134,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0134,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0135,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0135,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0136,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0137,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0139,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0139,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0139,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0141,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0142,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0143,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0143,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0143,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0144,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0144,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0144,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0145,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0146,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0147,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0148,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0149,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0150,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0151,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0151,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0152,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0152,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0153,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0153,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0153,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0154,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0154,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0154,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0155,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0155,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0156,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0157,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0157,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0157,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0158,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0158,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0158,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0159,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0160,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0160,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0160,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0161,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0161,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0162,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0163,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0163,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0164,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0164,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0164,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0165,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0166,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0166,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0166,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0167,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0168,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0168,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0169,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0170,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0170,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0171,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0171,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0172,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0173,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0174,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0174,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0174,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0175,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0176,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0176,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0177,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0177,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0177,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0178,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0178,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0179,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0179,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0180,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0180,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0181,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0182,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0182,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0183,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0183,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0184,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0185,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0186,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0186,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0186,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0187,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0187,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0188,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0188,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0188,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0189,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0189,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0190,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0190,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0191,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0191,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0192,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0193,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0193,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0193,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0194,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0194,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0195,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0196,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0197,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0198,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0198,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0198,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0199,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0199,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0200,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0200,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0200,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0201,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0201,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0201,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0202,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0202,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0203,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0203,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0203,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0204,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0204,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0204,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0205,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0205,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0206,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0207,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0207,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0208,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0209,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0209,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0210,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0210,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0211,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0211,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0212,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0212,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0212,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0213,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0214,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0214,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0214,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0215,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0215,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0215,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0216,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0216,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0217,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0218,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0219,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0219,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0219,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0220,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0221,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0222,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0222,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0223,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0223,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0223,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0224,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0225,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0225,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0225,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0226,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0227,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0227,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0228,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0229,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0229,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0230,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0230,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0231,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0231,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0232,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0233,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0234,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0234,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0235,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0235,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0236,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0236,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0236,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0237,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0238,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0238,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0239,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0239,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0239,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0240,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0240,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0240,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0241,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0242,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0242,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0242,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0243,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0244,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0244,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0244,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0245,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0246,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0247,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0248,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0248,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0248,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0249,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0249,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0249,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0250,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0251,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0251,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0252,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0252,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0252,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0253,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0254,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0254,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0254,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0255,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0255,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0255,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0256,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0256,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0256,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0257,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0257,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0258,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0258,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0258,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0259,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0260,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0261,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0261,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0261,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0262,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0263,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0263,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0264,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0264,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0265,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0265,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0266,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0266,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0267,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0267,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0267,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0268,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0268,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0269,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0269,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0269,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0270,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0271,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0271,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0272,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0272,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0273,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0274,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0274,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0274,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0275,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0275,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0276,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0276,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0277,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0278,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0279,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0280,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0280,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0280,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0281,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0281,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0281,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0282,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0282,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0282,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0283,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0283,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0284,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0284,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0285,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0285,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0285,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0286,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0287,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0287,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0288,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0288,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0288,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0289,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0290,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0290,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0291,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0292,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0292,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0293,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0294,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0294,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0295,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0295,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0296,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0297,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0297,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0298,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0298,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0298,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0299,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0299,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0300,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0300,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0301,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0301,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0302,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0302,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0303,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0303,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0303,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0304,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0304,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0305,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0306,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0306,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0306,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0307,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0307,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0308,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0309,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0310,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0311,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0311,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0311,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0312,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0312,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0313,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0313,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0313,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0314,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0314,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0314,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0315,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0315,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0316,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0316,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0316,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0317,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0317,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0317,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0318,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0318,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0318,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0319,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0320,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0320,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0320,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0321,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0321,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0322,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0322,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0323,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0323,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0324,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0325,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0326,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0326,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0327,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0328,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0328,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0329,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0329,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0329,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0330,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0330,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0331,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0331,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0332,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0332,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0333,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0333,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0334,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0334,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0334,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0335,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0336,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0336,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0337,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0337,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0337,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0338,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0338,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0339,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0339,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0340,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0340,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0340,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0341,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0342,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0342,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0342,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0343,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0343,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0343,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0344,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0344,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0345,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0345,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0345,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0346,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0346,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0346,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0347,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0348,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0349,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0349,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0349,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0350,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0350,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0351,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0351,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0351,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0352,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0353,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0353,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0354,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0354,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0354,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0355,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0355,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0355,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0356,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0356,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0357,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0357,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0357,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0358,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0358,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0358,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0359,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0359,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0360,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0361,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0361,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0362,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0363,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0363,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0363,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0364,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0365,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0366,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0367,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0367,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0367,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0368,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0369,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0369,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0369,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0370,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0371,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0371,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0372,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0372,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0373,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0373,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0373,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0374,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0374,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0375,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0375,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0375,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0376,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0376,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0377,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0378,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0378,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0379,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0379,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0380,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0381,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0382,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0382,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0382,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0383,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0383,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0384,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0384,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0385,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0386,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0387,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0387,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0388,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0388,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0388,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0389,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0389,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0390,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0390,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0390,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0391,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0391,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0391,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0392,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0393,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0394,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0394,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0395,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0395,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0396,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0396,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0397,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0398,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0398,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0398,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0399,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0400,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0400,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0401,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0402,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0403,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0404,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0405,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0405,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0405,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0406,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0407,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0408,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0409,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0409,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0410,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0410,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0411,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0411,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0412,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0412,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0413,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0413,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0414,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0415,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0417,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0417,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0418,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0418,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0419,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0420,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0420,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0421,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0421,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0421,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0422,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0423,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0423,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0423,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0424,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0424,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0424,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0425,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0426,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0426,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0426,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0427,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0427,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0428,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0428,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0428,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0429,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0429,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0430,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0430,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0431,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0432,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0433,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0433,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0433,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0434,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0435,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0435,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0435,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0436,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0436,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0437,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0437,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0437,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0438,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0439,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0440,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0441,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0442,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0443,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0443,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0444,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0444,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0445,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0446,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0446,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0447,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0447,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0447,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0448,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0449,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0449,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0449,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0450,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0451,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0452,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0452,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0452,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0453,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0453,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0453,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0454,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0454,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0455,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0455,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0456,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0457,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0458,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0458,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0458,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0459,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0459,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0460,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0460,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0460,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0461,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0461,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0462,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0462,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0462,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0463,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0464,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0464,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0465,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0466,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0466,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0467,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0467,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0467,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0468,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0469,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0469,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0469,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0470,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0470,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0470,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0471,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0471,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0471,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0472,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0473,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0474,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0474,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0475,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0476,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0476,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0476,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0477,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0478,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0478,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0479,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0480,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0480,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0480,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0481,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0482,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0482,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0483,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0483,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0484,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0484,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0485,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0485,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0485,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0486,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0486,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0486,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0487,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0487,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0488,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0488,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0488,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0489,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0489,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0490,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0490,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0490,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0491,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0491,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0491,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0492,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0492,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0493,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0493,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0493,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0494,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0494,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0495,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0495,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0495,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0496,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0496,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0496,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0497,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0498,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0498,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0498,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0499,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0500,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0500,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0500,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0501,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0501,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0501,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0502,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0502,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0503,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0504,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0504,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0504,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0505,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0505,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0506,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0507,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0507,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0507,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0508,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0508,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0509,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0509,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0510,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0510,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0511,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0512,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0512,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0512,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0513,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0514,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0514,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0514,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0515,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0515,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0515,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0516,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0516,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0517,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0517,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0517,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0518,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0518,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0519,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0519,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0520,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0520,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0521,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0522,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0522,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0522,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0523,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0523,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0523,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0524,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0524,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0524,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0525,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0526,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0526,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0526,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0527,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0527,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0528,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0529,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0529,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0529,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0530,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0530,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0530,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0531,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0531,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0531,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0532,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0533,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0533,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0533,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0534,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0534,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0535,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0536,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0536,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0537,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0537,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0538,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0538,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0538,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0539,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0539,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0540,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0540,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0540,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0541,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0541,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0542,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0543,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0543,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0543,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0544,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0545,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0546,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0546,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0547,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0547,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0547,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0548,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0549,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0549,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0549,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0550,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0550,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0550,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0551,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0551,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0551,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0552,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0552,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0553,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0554,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0554,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0555,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0555,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0556,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0556,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0556,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0557,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0557,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0557,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0558,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0558,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0559,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0559,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0560,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0561,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0561,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0561,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0562,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0563,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0564,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0564,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0565,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0565,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0565,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0566,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0566,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0567,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0567,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0567,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0568,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0569,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0570,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0570,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0571,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0572,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0572,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0572,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0573,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0573,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0573,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0574,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0574,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0574,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0575,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0576,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0577,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0577,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0577,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0578,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0578,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0579,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0579,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0580,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0581,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0582,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0582,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0582,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0583,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0583,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0584,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0584,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0584,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0585,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0586,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0586,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0587,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0588,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0589,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0589,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0590,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0590,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0591,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0592,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0593,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0593,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0594,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0595,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0596,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0596,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0596,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0597,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0597,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0597,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0598,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0599,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0599,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0599,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0600,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0600,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0600,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0601,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0601,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0602,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0602,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0602,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0603,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0603,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0604,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0604,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0604,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0605,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0605,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0606,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0606,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0606,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0607,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0607,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0607,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0608,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0608,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0608,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0609,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0609,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0610,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0611,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0612,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0613,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0613,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0614,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0614,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0614,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0615,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0615,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0615,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0616,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0616,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0617,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0617,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0618,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0618,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0618,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0619,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0620,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0620,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0620,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0621,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0622,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0622,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0623,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0624,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0624,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0624,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0625,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0625,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0626,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0627,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0627,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0628,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0628,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0629,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0629,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0630,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0630,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0630,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0631,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0632,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0633,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0633,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0633,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0634,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0635,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0635,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0636,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0636,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0636,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0637,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0638,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0638,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0638,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0639,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0639,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0639,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0640,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0641,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0641,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0641,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0642,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0643,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0643,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0643,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0644,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0645,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0646,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0646,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0646,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0647,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0648,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0648,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0649,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0650,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0650,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0651,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0652,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0652,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0652,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0653,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0654,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0654,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0654,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0655,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0655,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0656,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0657,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0658,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0658,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0659,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0660,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0660,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0662,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0663,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0664,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0664,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0665,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0666,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0667,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0667,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0667,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0668,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0668,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0669,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0670,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0671,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0672,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0673,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0673,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0674,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0674,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0674,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0675,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0675,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0675,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0676,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0677,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0677,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0678,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0679,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0680,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0680,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0680,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0681,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0682,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0682,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0683,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0683,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0683,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0684,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0684,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0684,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0685,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0686,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0687,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0687,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0688,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0688,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0688,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0689,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0690,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0690,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0691,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0692,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0693,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0693,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0694,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0695,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0696,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0696,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0696,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0697,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0697,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0698,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0698,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0699,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0699,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0699,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0700,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0700,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0700,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0701,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0703,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0705,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0705,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0706,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0707,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0708,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0708,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0708,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0709,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0709,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0710,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0711,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0712,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0712,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0712,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0713,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0713,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0714,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0715,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0715,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0716,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0717,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0717,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0717,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0718,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0718,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0718,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0719,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0720,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0720,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0720,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0721,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0721,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0722,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0722,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0724,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0724,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0725,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0725,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0725,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0726,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0726,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0726,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0727,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0727,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0728,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0728,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0728,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0729,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0729,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0730,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0731,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0732,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0732,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0733,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0733,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0733,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0734,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0734,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0734,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0735,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0735,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0736,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0737,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0738,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0739,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0740,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0741,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0741,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0741,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0742,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0742,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0743,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0743,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0743,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0744,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0745,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0746,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0747,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0748,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0749,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0749,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0750,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0750,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0750,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0751,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0751,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0752,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0752,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0753,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0753,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0754,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0754,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0755,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0756,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0757,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0757,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0757,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0758,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0759,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0759,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0760,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0760,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0761,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0761,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0762,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0763,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0764,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0765,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0765,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0765,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0766,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0767,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0767,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0767,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0768,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0768,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0769,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0769,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0770,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0770,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0770,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0771,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0771,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0772,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0772,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0772,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0773,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0773,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0773,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0774,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0774,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0774,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0775,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0776,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0777,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0777,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0777,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0778,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0778,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0778,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0779,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0780,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0780,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0780,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0782,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0782,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0782,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0783,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0783,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0784,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0784,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0784,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0785,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0785,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0786,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0787,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0788,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0788,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0789,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0790,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0791,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0791,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0791,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0792,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0792,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0793,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0793,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0794,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0795,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0795,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0795,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0796,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0797,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0797,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0797,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0798,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0799,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0799,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0799,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0800,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0801,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0801,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0802,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0802,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0802,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0803,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0803,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0804,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0805,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0806,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0806,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0807,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0808,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0809,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0809,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0810,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0810,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0810,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0811,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0812,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0812,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0812,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0813,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0813,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0813,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0814,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0814,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0814,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0815,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0815,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0815,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0816,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0817,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0818,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0819,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0820,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0821,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0822,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0822,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0822,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0823,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0824,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0824,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0825,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0825,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0825,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0826,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0827,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0828,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0828,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0828,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0829,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0829,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0829,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0830,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0831,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0832,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0833,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0833,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0834,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0835,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0836,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0837,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0837,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0838,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0838,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0838,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0839,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0839,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0839,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0840,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0841,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0841,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0841,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0842,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0843,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0843,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0843,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0844,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0844,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0845,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0846,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0846,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0847,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0847,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0847,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0848,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0848,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0849,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0850,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0850,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0850,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0851,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0852,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0852,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0852,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0853,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0853,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0854,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0855,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0855,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0856,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0857,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0858,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0859,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0859,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0859,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0860,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0860,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0861,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0861,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0861,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0862,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0863,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0864,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0864,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0864,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0865,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0865,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0865,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0866,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0866,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0866,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0867,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0867,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0868,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0869,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0869,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0869,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0870,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0871,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0871,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0872,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0872,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0873,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0874,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0875,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0875,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0877,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0877,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0878,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0878,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0878,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0879,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0879,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0879,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0881,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0881,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0881,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0882,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0882,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0883,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0883,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0884,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0884,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0885,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0885,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0886,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0886,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0887,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0887,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0887,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0888,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0889,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0889,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0889,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0890,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0891,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0891,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0892,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0892,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0892,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0893,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0893,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0894,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0895,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0895,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0896,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0896,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0897,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0898,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0898,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0898,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0899,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0900,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0900,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0901,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0901,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0902,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0902,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0902,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0903,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0903,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0903,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0904,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0905,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0905,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0906,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0906,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0906,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0907,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0907,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0907,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0908,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0908,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0908,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0909,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0909,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0910,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0910,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0910,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0911,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0912,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0913,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0914,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0914,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0914,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0915,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0915,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0916,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0916,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0916,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0917,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0917,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0917,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0918,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0919,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0920,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0920,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0921,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0921,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0922,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0923,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0923,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0923,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0924,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0925,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0925,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0926,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0926,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0926,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0927,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0927,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0928,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0928,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0929,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0929,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0929,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0930,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0930,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0931,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0932,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0933,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0933,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0934,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0935,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0936,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0936,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0936,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0937,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0937,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0938,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0938,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0939,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0939,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0939,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0940,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0941,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0941,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0942,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0943,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0944,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0944,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0945,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0946,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0947,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0947,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0948,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0948,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0949,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0950,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0950,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0950,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0951,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0951,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0952,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0953,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0953,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0954,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0955,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0955,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0955,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0956,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0957,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0958,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0959,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0960,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0960,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0961,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0962,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0963,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0963,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0964,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0964,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0964,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0965,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0966,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0966,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0967,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0967,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0967,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0968,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0969,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0970,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0971,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0971,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0972,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0972,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0972,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0973,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0973,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0974,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0974,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0974,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0975,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0975,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0976,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0976,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0976,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0977,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0977,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0977,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0978,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0979,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0979,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0980,197361,Atorvastatin 20 MG Oral Tablet,Daily – Morning,30
+test-patient-0980,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0980,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0981,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0981,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0982,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0982,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
+test-patient-0982,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0983,198240,Metformin Hydrochloride 500 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0983,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0983,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0984,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0984,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0984,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0985,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0986,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0986,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0987,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0988,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0988,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0989,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0989,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0989,314076,Losartan Potassium 50 MG Oral Tablet,Daily – Morning,30
+test-patient-0990,197361,Atorvastatin 20 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0990,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0991,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0991,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0991,314076,Losartan Potassium 50 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0992,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0993,310798,Lisinopril 10 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0994,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0994,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0995,310798,Lisinopril 10 MG Oral Tablet,Daily – Morning,30
+test-patient-0995,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0996,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0996,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0997,312961,Amlodipine 5 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0997,314076,Losartan Potassium 50 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0997,198240,Metformin Hydrochloride 500 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0998,312961,Amlodipine 5 MG Oral Tablet,Daily – Morning,30
+test-patient-0998,197361,Atorvastatin 20 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0999,312961,Amlodipine 5 MG Oral Tablet,Twice Daily – Morning & Evening,60
+test-patient-0999,310798,Lisinopril 10 MG Oral Tablet,Once Daily – Morning,90
+test-patient-0999,198240,Metformin Hydrochloride 500 MG Oral Tablet,Daily – Morning,30
