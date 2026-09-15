@@ -1000,3 +1000,21 @@ table.clinical-table tr:last-child td {
 .panel-container:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
 .overview-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .overview-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+
+
+[data-theme='dark'] {
+  --bg-base: #0F172A;
+  --bg-surface: #1E293B;
+  --bg-subtle: #334155;
+  --bg-elevated: #334155;
+  --border-subtle: #334155;
+  --border-strong: #475569;
+  --border-accent: #64748B;
+  --accent-primary: #38BDF8;
+
+  --text-pure: #F8FAFC;
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #94A3B8;
+  --text-dim: #64748B;
+}

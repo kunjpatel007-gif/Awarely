@@ -16,6 +16,7 @@ export const Topbar: React.FC<TopbarProps> = ({
   hmm_state = 0
 }) => {
   const [clock, setClock] = useState<string>('');
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => document.documentElement.getAttribute('data-theme') === 'dark');
 
   useEffect(() => {
     const updateTime = () => {
@@ -26,6 +27,16 @@ export const Topbar: React.FC<TopbarProps> = ({
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    if (newMode) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  };
 
   const titles: Record<ViewType, string> = {
     overview: 'Patient Overview',
@@ -67,6 +78,13 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
       </div>
       <div className="topbar-right">
+        <button 
+          className="btn-outline" 
+          onClick={toggleDarkMode}
+          style={{ marginRight: '1rem', padding: '4px 8px', fontSize: '0.8rem', color: 'var(--text-primary)' }}
+        >
+          {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+        </button>
         <button 
           className="btn-outline" 
           onClick={handleResetDemo}
