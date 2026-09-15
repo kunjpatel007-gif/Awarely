@@ -128,6 +128,11 @@ export function formatFeatureName(feature: string): string {
 
 export function formatFeatureValue(feature: string, val: any): string {
   if (feature === 'gender') return val === 1.0 ? 'Male' : val === 0.0 ? 'Female' : 'Other';
+  
+  if (typeof val === 'string') {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  }
+
   const numStr = formatNum(val);
   if (feature === 'spo2_avg_7d') return `${numStr}%`;
   if (feature === 'rolling_7d_avg_hr') return `${numStr} BPM`;

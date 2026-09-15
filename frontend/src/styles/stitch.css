@@ -1018,3 +1018,8 @@ table.clinical-table tr:last-child td {
   --text-tertiary: #94A3B8;
   --text-dim: #64748B;
 }
+
+.diagnostic-card, .stat-card {
+    justify-content: center !important;
+    gap: 8px !important;
+}
