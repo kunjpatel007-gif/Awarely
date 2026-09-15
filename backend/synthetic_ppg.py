@@ -141,26 +141,44 @@ class SyntheticPPGSimulator:
 
     def _update_autonomic_state(self):
         """
-        Periodically alternates between normal tone and acute stress episodes
-        with transition probability weighted by patient HMM cognitive state.
+        Implements a 5-state Hidden Semi-Markov Model (HSMM) with log-normal dwell times.
+        States: 0=RESTING, 1=LIGHT_ACTIVITY, 2=PSYCHOLOGICAL_STRESS, 3=PHYSICAL_EXERTION, 4=SLEEP.
+        HMM state biases the transition probabilities.
         """
         self.time_in_state += self.dt
         if self.time_in_state >= self.state_duration:
             self.time_in_state = 0.0
-            if self.config.hmm_state == 2:
-                # State 2 (Burnout / Volatile): high likelihood of sustained stress
-                self.is_stressed = bool(self.rng.rand() < 0.75)
-                self.state_duration = float(self.rng.uniform(40.0, 100.0))
-            elif self.config.hmm_state == 1:
-                # State 1 (Intermittent): occasional stress episodes
-                self.is_stressed = not self.is_stressed
-                self.state_duration = float(self.rng.uniform(25.0, 60.0)) if self.is_stressed else float(self.rng.uniform(40.0, 120.0))
-            else:
-                # State 0 (Stable): rare transient stress episodes
-                self.is_stressed = bool(self.rng.rand() < 0.15)
-                self.state_duration = float(self.rng.uniform(15.0, 35.0)) if self.is_stressed else float(self.rng.uniform(90.0, 240.0))
-
-            self.stress_target_offset_bpm = 20.0 if self.is_stressed else 0.0
+            
+            # Transition logic biased by the clinical HMM state
+            if self.config.hmm_state == 2: # Volatile: high stress/exertion
+                probs = [0.10, 0.20, 0.50, 0.15, 0.05]
+            elif self.config.hmm_state == 1: # Intermittent
+                probs = [0.30, 0.35, 0.20, 0.10, 0.05]
+            else: # Stable
+                probs = [0.50, 0.30, 0.05, 0.05, 0.10]
+                
+            # Choose next state (0 to 4)
+            next_state = int(self.rng.choice(5, p=probs))
+            
+            # Log-normal dwell times (μ, σ) in seconds
+            dwell_params = {
+                0: (4.0, 0.5),  # RESTING (~50s)
+                1: (3.5, 0.4),  # LIGHT_ACTIVITY (~33s)
+                2: (3.8, 0.6),  # PSYCHOLOGICAL_STRESS (~44s)
+                3: (3.2, 0.3),  # PHYSICAL_EXERTION (~24s)
+                4: (5.0, 0.8)   # SLEEP (~150s)
+            }
+            mu, sigma = dwell_params[next_state]
+            self.state_duration = float(self.rng.lognormal(mean=mu, sigma=sigma))
+            
+            # Map state to sympathetic drive (is_stressed flag and target HR offset)
+            self.is_stressed = (next_state == 2 or next_state == 3)
+            
+            if next_state == 0: self.stress_target_offset_bpm = 0.0
+            elif next_state == 1: self.stress_target_offset_bpm = 8.0
+            elif next_state == 2: self.stress_target_offset_bpm = 20.0
+            elif next_state == 3: self.stress_target_offset_bpm = 35.0
+            elif next_state == 4: self.stress_target_offset_bpm = -10.0
 
         # Smooth transition of sympathetic tone (avoid discontinuous step jumps)
         alpha = 0.01
@@ -172,8 +190,13 @@ class SyntheticPPGSimulator:
         """
         self._update_autonomic_state()
 
-        # Effective baseline HR taking into account gradual sympathetic tone
-        effective_base_hr = self.base_hr + self.current_stress_offset
+        # Circadian Cosine Baseline (Process C)
+        # Assuming t is in seconds, a 24h cycle is 86400s. 
+        # A_1 is amplitude (5 BPM). phi is a random phase shift per patient.
+        circadian_component = 5.0 * math.cos(2.0 * math.pi * (self.t / 86400.0) + self.phi_drift)
+        
+        # Effective baseline HR taking into account gradual sympathetic tone and circadian rhythm
+        effective_base_hr = self.base_hr + self.current_stress_offset + circadian_component
         effective_mu_rr = 60.0 / effective_base_hr
 
         # Advance Ornstein-Uhlenbeck process by one beat interval
@@ -198,19 +221,35 @@ class SyntheticPPGSimulator:
         self.recent_simulated_rrs.append(rr)
 
         # Pulse morphology parameters scaled by beat duration RR
-        # Dicrotic notch is blunted under high sympathetic drive
         dicrotic_amp = 0.16 if self.is_stressed else 0.28
+        
+        # Offset to place the R-peak exactly at t_onset, delaying the PPG by Pulse Transit Time (~0.15s)
+        qt_interval = 0.35 * math.sqrt(rr) # Bazett's formula for T-wave positioning
 
         beat = {
             "t_onset": t_onset,
             "rr": rr,
-            "mu_sys": 0.14 * rr,
+            # PPG parameters (delayed relative to ECG R-peak)
+            "mu_sys": 0.15 * rr,  # Delayed after R-peak
             "sigma_up": 0.04 * rr,
             "sigma_down": 0.09 * rr,
             "mu_dia": 0.38 * rr,
             "sigma_dia": 0.07 * rr,
             "amp_sys": 1.0,
             "amp_dia": dicrotic_amp,
+            
+            # ECG parameters (centered around t_onset=0)
+            "p_mu": -0.15 * rr,
+            "p_sigma": 0.02 * rr,
+            "q_mu": -0.03 * rr,
+            "q_sigma": 0.01 * rr,
+            "r_mu": 0.0,
+            "r_sigma": 0.015 * rr,
+            "s_mu": 0.03 * rr,
+            "s_sigma": 0.01 * rr,
+            "t_mu": qt_interval,
+            "t_sigma": 0.04 * rr,
+            
             "duration": 1.25 * rr
         }
         self.active_beats.append(beat)
@@ -218,7 +257,7 @@ class SyntheticPPGSimulator:
 
     def next_sample(self) -> Dict[str, Any]:
         """
-        Generates and returns the single next 50 Hz PPG sample in sequence.
+        Generates and returns the single next 50 Hz PPG and ECG sample in sequence.
         Maintains internal streaming continuity.
         """
         # Schedule any beats whose occurrence time has arrived
@@ -227,26 +266,35 @@ class SyntheticPPGSimulator:
 
         # Accumulate pulse amplitudes from all overlapping active beats
         p_val = 0.0
+        ecg_val = 0.0
         retained_beats = deque()
 
         for b in self.active_beats:
             tau = self.t - b["t_onset"]
-            if tau < 0.0:
-                retained_beats.append(b)
-                continue
+            # Tau can be negative because ECG P-wave starts before t_onset (R-peak)
+            # We retain the beat as long as tau < b["duration"]
             if tau >= b["duration"]:
                 # Pulse has completely decayed; do not retain
                 continue
 
-            # Active beat: compute systolic and diastolic components
+            # Active beat: compute systolic and diastolic PPG components
+            # Avoid math domain error if tau is highly negative for PPG, though Gaussian drops to 0 anyway
             if tau < b["mu_sys"]:
                 p_sys = b["amp_sys"] * math.exp(-0.5 * ((tau - b["mu_sys"]) / b["sigma_up"])**2)
             else:
                 p_sys = b["amp_sys"] * math.exp(-0.5 * ((tau - b["mu_sys"]) / b["sigma_down"])**2)
 
             p_dia = b["amp_dia"] * math.exp(-0.5 * ((tau - b["mu_dia"]) / b["sigma_dia"])**2)
-
             p_val += p_sys + p_dia
+            
+            # Active beat: compute ECG components (P, Q, R, S, T)
+            ecg_p = 0.15 * math.exp(-0.5 * ((tau - b["p_mu"]) / b["p_sigma"])**2)
+            ecg_q = -0.15 * math.exp(-0.5 * ((tau - b["q_mu"]) / b["q_sigma"])**2)
+            ecg_r = 1.20 * math.exp(-0.5 * ((tau - b["r_mu"]) / b["r_sigma"])**2)
+            ecg_s = -0.25 * math.exp(-0.5 * ((tau - b["s_mu"]) / b["s_sigma"])**2)
+            ecg_t = 0.30 * math.exp(-0.5 * ((tau - b["t_mu"]) / b["t_sigma"])**2)
+            ecg_val += ecg_p + ecg_q + ecg_r + ecg_s + ecg_t
+
             retained_beats.append(b)
 
         self.active_beats = retained_beats
@@ -257,6 +305,11 @@ class SyntheticPPGSimulator:
 
         # Center AC signal roughly around zero [-0.5, 1.0]
         ppg_sample = p_val + drift + noise - 0.20
+        
+        # ECG baseline drift is typically lower frequency and amplitude
+        ecg_drift = self.config.drift_amp * 0.3 * math.sin(2.0 * math.pi * (self.config.drift_freq * 0.5) * self.t + self.phi_drift)
+        ecg_noise = float(self.rng.normal(0, self.config.noise_std * 0.5))
+        ecg_sample = ecg_val + ecg_drift + ecg_noise
 
         # Typical raw IR photodetector reading for MAX30102 sensor
         raw_ir = int(52000 + (ppg_sample * 5500))
@@ -269,6 +322,7 @@ class SyntheticPPGSimulator:
         return {
             "timestamp": now_ms,
             "ppg": round(float(ppg_sample), 4),
+            "ecg": round(float(ecg_sample), 4),
             "source": "SYNTHETIC",
             "raw_ir": raw_ir
         }
