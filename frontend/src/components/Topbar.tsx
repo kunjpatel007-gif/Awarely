@@ -83,7 +83,7 @@ export const Topbar: React.FC<TopbarProps> = ({
           onClick={toggleDarkMode}
           style={{ marginRight: '1rem', padding: '4px 8px', fontSize: '0.8rem', color: 'var(--text-primary)' }}
         >
-          {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
         <button 
           className="btn-outline" 

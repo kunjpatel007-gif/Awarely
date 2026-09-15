@@ -1,8 +1,8 @@
 :root {
-  --bg-base: #F8FAFC;
-  --bg-surface: #FFFFFF;
-  --bg-subtle: #F1F5F9;
-  --bg-elevated: #FFFFFF;
+  --bg-base: #E2E8F0;
+  --bg-surface: #F1F5F9;
+  --bg-subtle: #CBD5E1;
+  --bg-elevated: #F1F5F9;
   --border-subtle: #E2E8F0;
   --border-strong: #CBD5E1;
   --border-accent: #94A3B8;
@@ -204,7 +204,7 @@ main.main-content {
 header.topbar {
   height: 64px;
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-surface);
   backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
