@@ -20,3 +20,5 @@ Thumbs.db
 .pytest_cache/
 frontend/node_modules/
 frontend/dist/
+
+KUNJUPLOADED/

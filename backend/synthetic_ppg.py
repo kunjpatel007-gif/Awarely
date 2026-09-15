@@ -81,9 +81,9 @@ class SyntheticPPGConfig:
     sample_rate_hz: float = 50.0             # 50 Hz sampling (20 ms period)
     base_hr: float = 72.0                    # Patient baseline heart rate tendency (BPM)
     kappa: float = 0.70                      # Mean-reversion speed of the OU process (1/s)
-    sigma_ou: float = 0.065                  # Increased stochastic variability scale for more twitching
+    sigma_ou: float = 0.050                  # Moderated stochastic variability scale for slight twitching
     f_resp: float = 0.24                     # Respiration frequency (~14.4 breaths/min)
-    a_rsa_normal: float = 0.055              # Increased normal RSA amplitude (seconds, ~55 ms)
+    a_rsa_normal: float = 0.045              # Moderated normal RSA amplitude (seconds, ~45 ms)
     a_rsa_stress: float = 0.015              # Blunted RSA amplitude during stress (~10 ms)
     noise_std: float = 0.015                 # Measurement sensor noise scale
     drift_freq: float = 0.04                 # Slow baseline drift frequency (Hz)
