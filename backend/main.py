@@ -80,8 +80,9 @@ _patient_simulators: Dict[str, Any] = {}
 _audit_log: List[Dict[str, Any]] = []
 
 # Sliding window buffer for real-time PPG telemetry
-active_ppg_stream: List[float] = []
-active_raw_stream: List[int] = []
+active_ppg_stream: List[float] = []            # Display buffer (recent 200 samples = 4s for visualization)
+active_raw_stream: List[int] = []              # Raw IR display buffer
+active_ppg_analysis_buffer: List[float] = []   # Analysis buffer (up to 1500 samples = 30s for HRV)
 latest_telemetry_snapshot: Dict[str, Any] = {
     "points": [],
     "hrv": {"sdnn_ms": 0.0, "mean_hr_bpm": 0.0, "is_stressed": False},
@@ -333,9 +334,10 @@ async def websocket_ppg_endpoint(websocket: WebSocket, role: str = Query("produc
     await websocket.accept()
     logger.info("ESP32 Telemetry Producer connected to /ws/ppg")
 
-    global active_ppg_stream, active_raw_stream, latest_telemetry_snapshot
+    global active_ppg_stream, active_raw_stream, active_ppg_analysis_buffer, latest_telemetry_snapshot
 
     try:
+        sample_counter = 0
         while True:
             data = await websocket.receive_json()
 
@@ -347,11 +349,16 @@ async def websocket_ppg_endpoint(websocket: WebSocket, role: str = Query("produc
 
             active_ppg_stream.append(ppg_val)
             active_raw_stream.append(raw_ir)
+            active_ppg_analysis_buffer.append(ppg_val)
 
-            # Maintain a sliding window of 200 samples (4 seconds at 50 Hz)
+            # Maintain a sliding display window of 200 samples (4 seconds at 50 Hz)
             if len(active_ppg_stream) > 200:
                 active_ppg_stream.pop(0)
                 active_raw_stream.pop(0)
+
+            # Maintain a sliding analysis window of up to 1500 samples (30 seconds at 50 Hz)
+            if len(active_ppg_analysis_buffer) > 1500:
+                active_ppg_analysis_buffer.pop(0)
 
             # Broadcast raw sample to dashboard subscribers immediately
             sample_payload = {
@@ -362,31 +369,36 @@ async def websocket_ppg_endpoint(websocket: WebSocket, role: str = Query("produc
             }
             await telemetry_broker.broadcast_sample(sample_payload)
 
-            # Every 50 samples (1 second of data), evaluate JITAI stress metrics on last 30 seconds
-            if len(active_ppg_stream) >= 1500 and len(active_ppg_stream) % 50 == 0:
-                recent_window = active_ppg_stream[-1500:]
-                hrv_results = calculate_hrv_metrics(recent_window)
+            # Progressive evaluation: compute HRV metrics once we have >= 150 samples (3 seconds)
+            # Evaluate every 25 samples (every 0.5 second of data)
+            sample_counter += 1
+            if len(active_ppg_analysis_buffer) >= 150 and sample_counter % 25 == 0:
+                hrv_results = calculate_hrv_metrics(active_ppg_analysis_buffer)
 
-                latest_telemetry_snapshot = {
-                    "points": active_ppg_stream[-60:],
-                    "hrv": hrv_results,
-                    "source": source,
-                    "last_alert": None
-                }
-
-                if hrv_results["is_stressed"]:
-                    alert_payload = {
-                        "alert": "JITAI_TRIGGERED",
-                        "msg": "High stress detected. Softening reminders.",
-                        "sdnn_ms": hrv_results["sdnn_ms"],
-                        "mean_hr_bpm": hrv_results["mean_hr_bpm"]
+                if hrv_results["peak_count"] >= 2:
+                    latest_telemetry_snapshot = {
+                        "points": active_ppg_stream[-60:],
+                        "hrv": hrv_results,
+                        "source": source,
+                        "last_alert": None
                     }
-                    latest_telemetry_snapshot["last_alert"] = alert_payload
-                    
-                    # 1. Send alert back to ESP32 to trigger onboard hardware indicator
-                    await websocket.send_json(alert_payload)
-                    # 2. Broadcast alert to dashboard subscribers
-                    await telemetry_broker.broadcast_alert(alert_payload)
+
+                    if hrv_results["is_stressed"]:
+                        alert_payload = {
+                            "alert": "JITAI_TRIGGERED",
+                            "msg": "High stress detected. Softening reminders.",
+                            "sdnn_ms": hrv_results["sdnn_ms"],
+                            "mean_hr_bpm": hrv_results["mean_hr_bpm"]
+                        }
+                        latest_telemetry_snapshot["last_alert"] = alert_payload
+                        
+                        # 1. Send alert back to ESP32 to trigger onboard hardware indicator
+                        try:
+                            await websocket.send_json(alert_payload)
+                        except Exception:
+                            pass
+                        # 2. Broadcast alert to dashboard subscribers
+                        await telemetry_broker.broadcast_alert(alert_payload)
 
     except WebSocketDisconnect:
         logger.info("ESP32 Telemetry Producer disconnected from /ws/ppg")
@@ -660,8 +672,9 @@ async def websocket_simulated(websocket: WebSocket, patient_id: str):
     local_window = []
     
     try:
+        sample_counter = 0
         while True:
-            # 50 Hz
+            # 50 Hz transmission period
             await asyncio.sleep(0.02)
             sample = sim.tick()
             await websocket.send_json({"type": "SAMPLE", "data": sample})
@@ -670,18 +683,22 @@ async def websocket_simulated(websocket: WebSocket, patient_id: str):
             if len(local_window) > 1500:
                 local_window.pop(0)
                 
-            if len(local_window) >= 1500 and len(local_window) % 50 == 0:
-                hrv = calculate_hrv_metrics(local_window[-1500:])
-                await websocket.send_json({"type": "HRV_UPDATE", "data": hrv})
-                if hrv.get("is_stressed"):
-                    await websocket.send_json({
-                        "type": "JITAI_ALERT",
-                        "data": {
-                            "msg": "Elevated sympathetic tone detected.",
-                            "mean_hr_bpm": hrv["mean_hr_bpm"],
-                            "sdnn_ms": hrv["sdnn_ms"]
-                        }
-                    })
+            sample_counter += 1
+            # Progressive evaluation: begin calculating real peaks once >= 150 samples (3s) exist
+            # Evaluate every 25 samples (every 0.5s of data) up to full 30-second rolling window
+            if len(local_window) >= 150 and sample_counter % 25 == 0:
+                hrv = calculate_hrv_metrics(local_window)
+                if hrv["peak_count"] >= 2:
+                    await websocket.send_json({"type": "HRV_UPDATE", "data": hrv})
+                    if hrv.get("is_stressed"):
+                        await websocket.send_json({
+                            "type": "JITAI_ALERT",
+                            "data": {
+                                "msg": "Elevated sympathetic tone detected.",
+                                "mean_hr_bpm": hrv["mean_hr_bpm"],
+                                "sdnn_ms": hrv["sdnn_ms"]
+                            }
+                        })
     except WebSocketDisconnect:
         pass
     except Exception as e:

@@ -1,19 +1,52 @@
 """
 =============================================================================
 The Vanishing Dose — JITAI (Just-In-Time Adaptive Intervention) HRV Logic
-Author: Person B
+Author: Full-Stack / ML Integration Engineer
 Repository Root: D:/manipal h/Hackathon-Manipal
 
-UNIT RECONCILIATION & PHYSIOLOGICAL STANDARDS:
-- Sample transmission rate: 50 Hz (20 ms period), as specified in firmware delay(20).
-- Constant: SAMPLE_RATE_HZ = 50
-- Constant: MS_PER_SAMPLE = 1000.0 / SAMPLE_RATE_HZ (20.0 ms)
-- Intervals are converted explicitly from sample counts to milliseconds (ms):
-    intervals_ms = np.diff(peaks) * MS_PER_SAMPLE
-- Metrics calculated:
-    - SDNN (Standard Deviation of NN intervals) in milliseconds (ms)
-    - RMSSD (Root Mean Square of Successive Differences) in milliseconds (ms)
-    - Approximate Heart Rate (BPM)
+EXHAUSTIVE MATHEMATICAL DOCUMENTATION & CLINICAL STANDARDS:
+1. 50 Hz Sampling Interval:
+       Fs = 50.0 Hz
+       Ts = 1.0 / Fs = 0.020 seconds = 20.0 milliseconds per sample (MS_PER_SAMPLE)
+
+2. Peak Detection & Beat-to-Beat RR Intervals:
+       Given a discrete PPG buffer [p_0, p_1, ..., p_{N-1}], systolic peaks are
+       identified using SciPy `find_peaks(signal, distance=20, prominence=0.15)`.
+       The 20-sample minimum distance corresponds to a 400 ms refractory window:
+           20 samples * 20 ms/sample = 400 ms  -> max detectable HR = 60000 / 400 = 150 BPM
+       For detected peak sample indices [peak_0, peak_1, ..., peak_{K-1}]:
+           peak_diffs_samples_i = peak_{i+1} - peak_i
+           RR_i (in ms) = peak_diffs_samples_i * (1000.0 / Fs)
+
+3. Mean Heart Rate (BPM):
+       mean_interval_ms = (1 / (K - 1)) * sum_{i=0}^{K-2} RR_i
+       mean_hr_bpm = 60000.0 / mean_interval_ms
+
+4. SDNN (Standard Deviation of NN/RR intervals):
+       SDNN = sqrt( (1 / (K - 1)) * sum_{i=0}^{K-2} (RR_i - mean_interval_ms)^2 )
+       SDNN represents total autonomic heart rate variability.
+       Normal resting values typically range between 30 ms and 70 ms.
+       SDNN < 25 ms indicates low HRV / sympathetic hyperactivation / acute stress.
+
+5. RMSSD (Root Mean Square of Successive Differences):
+       delta_RR_i = RR_{i+1} - RR_i
+       RMSSD = sqrt( (1 / (K - 2)) * sum_{i=0}^{K-3} (delta_RR_i)^2 )
+       RMSSD reflects short-term parasympathetic (vagal) modulation.
+
+6. Why the Simulator Uses Correlated RR Variation:
+       In healthy living subjects, heart rate does not jump randomly between beats,
+       nor does it remain perfectly stationary like a digital crystal clock.
+       An Ornstein-Uhlenbeck stochastic mean-reverting process models autonomic tone
+       with continuous temporal correlation (RR[n] ~ RR[n-1]), while respiratory sinus
+       arrhythmia (RSA) simulates vagal modulation with breathing (~0.24 Hz).
+
+7. Why PPG is Generated from Beat Timing Instead of Directly Generating BPM:
+       Generating BPM directly and computing fake PPG from it reverses physical causality.
+       In real humans and physical MAX30102 sensors, heart muscle contractions produce
+       pulse pressure waves. The photoplethysmogram measures arterial volume changes.
+       By simulating beat timing -> pulse morphology -> raw PPG samples, the EXACT same
+       signal processing pipeline (find_peaks -> RR -> HR/SDNN) analyzes both physical
+       sensor data and simulated telemetry with zero discrepancies or fabricated outputs.
 =============================================================================
 """
 
@@ -21,7 +54,7 @@ import numpy as np
 from scipy.signal import find_peaks
 from typing import Dict, Any, List, Union
 
-# Constant defining transmission frequency from firmware
+# Sampling rate specification (matching ESP32 firmware delay(20) = 50 Hz)
 SAMPLE_RATE_HZ: float = 50.0
 MS_PER_SAMPLE: float = 1000.0 / SAMPLE_RATE_HZ  # 20.0 ms per sample
 
@@ -38,11 +71,12 @@ def calculate_hrv_metrics(ppg_array: Union[List[float], np.ndarray]) -> Dict[str
 
     Returns:
         Dict containing:
-            - "sdnn_ms": Standard deviation of intervals in milliseconds.
-            - "rmssd_ms": Root mean square of successive differences in milliseconds.
-            - "mean_hr_bpm": Estimated heart rate in beats per minute.
+            - "sdnn_ms": Standard deviation of intervals in milliseconds (0.0 if insufficient data).
+            - "rmssd_ms": Root mean square of successive differences in milliseconds (0.0 if insufficient data).
+            - "mean_hr_bpm": Estimated heart rate in beats per minute (0.0 if insufficient data).
             - "peak_count": Number of systolic peaks detected.
             - "is_stressed": Boolean indicating whether JITAI intervention should trigger.
+            - "sample_rate_hz": Nominal 50.0 Hz.
     """
     signal = np.asarray(ppg_array, dtype=np.float64)
     if len(signal) < 30:
@@ -56,8 +90,8 @@ def calculate_hrv_metrics(ppg_array: Union[List[float], np.ndarray]) -> Dict[str
         }
 
     # Detect systolic peaks in the AC waveform
-    # At 50 Hz, 30 samples distance = 600 ms refractory period (~ max 100 BPM)
-    # Using distance=20 (400 ms refractory period, accommodates up to 150 BPM)
+    # distance=20 samples = 400 ms refractory period (accommodates up to 150 BPM)
+    # prominence=0.15 rejects baseline drift and secondary dicrotic waves
     peaks, _ = find_peaks(signal, distance=20, prominence=0.15)
 
     if len(peaks) < 2:
@@ -70,7 +104,7 @@ def calculate_hrv_metrics(ppg_array: Union[List[float], np.ndarray]) -> Dict[str
             "sample_rate_hz": SAMPLE_RATE_HZ
         }
 
-    # Convert peak distance from sample indices to milliseconds using named constant
+    # Convert peak distance from sample indices to milliseconds
     peak_diffs_samples = np.diff(peaks)
     intervals_ms = peak_diffs_samples * (1000.0 / SAMPLE_RATE_HZ)
 
@@ -111,9 +145,9 @@ def calculate_hrv(ppg_array: Union[List[float], np.ndarray]) -> float:
 
 
 if __name__ == "__main__":
-    # Unit verification with synthetic 1.2 Hz cardiac signal
-    t = np.linspace(0, 4, int(4 * SAMPLE_RATE_HZ))  # 4 seconds at 50 Hz = 200 samples
-    synth_ppg = np.sin(2 * np.pi * 1.2 * t) + 0.3 * np.sin(4 * np.pi * 1.2 * t) + np.random.normal(0, 0.05, len(t))
-    results = calculate_hrv_metrics(synth_ppg.tolist())
-    print("HRV Calculation Unit Test Passed:")
+    from backend.synthetic_ppg import SyntheticPPGSimulator, SyntheticPPGConfig
+    sim = SyntheticPPGSimulator(SyntheticPPGConfig(base_hr=75.0, seed=42))
+    samples = [s["ppg"] for s in sim.generate_samples(1500)]
+    results = calculate_hrv_metrics(samples)
+    print("HRV Calculation Unit Verification:")
     print(results)

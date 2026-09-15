@@ -29,6 +29,14 @@ import streamlit as st
 import plotly.graph_objects as go
 from pathlib import Path
 
+# Ensure project root is on Python path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from backend.synthetic_ppg import SyntheticPPGSimulator, SyntheticPPGConfig
+from backend.jitai_logic import calculate_hrv_metrics
+
 # Backend URL configuration
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
@@ -120,23 +128,51 @@ def fetch_patient_adherence(patient_id: str):
     }
 
 
+def _get_fallback_simulator():
+    if "standalone_simulator" not in st.session_state:
+        st.session_state["standalone_simulator"] = SyntheticPPGSimulator(SyntheticPPGConfig(base_hr=72.0))
+        st.session_state["standalone_buffer"] = []
+    return st.session_state["standalone_simulator"]
+
+
 def fetch_telemetry_snapshot():
-    """Fetch current PPG buffer and HRV status from backend."""
+    """Fetch current PPG buffer and HRV status from backend or execute physiological simulation."""
     try:
         resp = requests.get(f"{BACKEND_URL}/api/telemetry/latest", timeout=1.0)
         if resp.status_code == 200:
-            return resp.json()
+            data = resp.json()
+            if data and data.get("source") != "IDLE" and data.get("points"):
+                return data
     except Exception:
         pass
     
-    # Generate local simulated waveform if backend buffer empty
-    t = time.time()
-    pts = [np.sin((t + i * 0.02) * 2 * np.pi * 1.2) + 0.3 * np.sin((t + i * 0.02) * 4 * np.pi * 1.2) for i in range(50)]
+    # Standalone physiological simulation fallback running through the SAME beat/peak pipeline
+    sim = _get_fallback_simulator()
+    samples = sim.generate_samples(50)
+    new_points = [s["ppg"] for s in samples]
+    
+    # Maintain rolling buffer for HRV calculation
+    buffer = st.session_state.get("standalone_buffer", [])
+    buffer.extend(new_points)
+    if len(buffer) > 1500:
+        buffer = buffer[-1500:]
+    st.session_state["standalone_buffer"] = buffer
+
+    # Calculate real derived metrics through SciPy find_peaks
+    hrv = calculate_hrv_metrics(buffer) if len(buffer) >= 150 else {
+        "sdnn_ms": 0.0, "rmssd_ms": 0.0, "mean_hr_bpm": 0.0, "is_stressed": False
+    }
+
     return {
-        "points": pts,
-        "hrv": {"sdnn_ms": 28.5, "mean_hr_bpm": 72.0, "is_stressed": False},
+        "points": buffer[-50:],
+        "hrv": hrv,
         "source": "SYNTHETIC (STANDALONE)",
-        "last_alert": None
+        "last_alert": {
+            "alert": "JITAI_TRIGGERED",
+            "msg": "High stress detected. Softening reminders.",
+            "sdnn_ms": hrv["sdnn_ms"],
+            "mean_hr_bpm": hrv["mean_hr_bpm"]
+        } if hrv.get("is_stressed") else None
     }
 
 
@@ -195,7 +231,7 @@ if page == "🩺 Patient Diagnostics & Telemetry":
         # PPG Waveform Plot
         points = telemetry.get("points", [])
         if not points:
-            points = [np.sin(i * 0.15) for i in range(50)]
+            points = [0.0] * 50
 
         fig = go.Figure()
         fig.add_trace(go.Scatter(
@@ -216,9 +252,17 @@ if page == "🩺 Patient Diagnostics & Telemetry":
 
         # Biosignal Metrics
         m1, m2, m3 = st.columns(3)
-        m1.metric("Heart Rate", f"{hrv.get('mean_hr_bpm', 72.0):.0f} BPM")
-        m2.metric("HRV (SDNN)", f"{hrv.get('sdnn_ms', 28.5):.1f} ms", delta="-4.2 ms" if is_stressed else "+1.5 ms", delta_color="inverse")
-        m3.metric("RMSSD", f"{hrv.get('rmssd_ms', 26.0):.1f} ms")
+        mean_hr = hrv.get("mean_hr_bpm", 0.0)
+        sdnn = hrv.get("sdnn_ms", 0.0)
+        rmssd = hrv.get("rmssd_ms", 0.0)
+
+        hr_str = f"{mean_hr:.0f} BPM" if mean_hr > 0 else "Collecting..."
+        sdnn_str = f"{sdnn:.1f} ms" if sdnn > 0 else "--"
+        rmssd_str = f"{rmssd:.1f} ms" if rmssd > 0 else "--"
+
+        m1.metric("Heart Rate", hr_str)
+        m2.metric("HRV (SDNN)", sdnn_str, delta="-4.2 ms" if is_stressed else ("+1.5 ms" if sdnn > 0 else None), delta_color="inverse")
+        m3.metric("RMSSD", rmssd_str)
 
         st.caption("Telemetry feeds the Just-In-Time Adaptive Intervention (JITAI) loop to modulate reminder frequency.")
 
