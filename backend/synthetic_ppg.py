@@ -81,10 +81,10 @@ class SyntheticPPGConfig:
     sample_rate_hz: float = 50.0             # 50 Hz sampling (20 ms period)
     base_hr: float = 72.0                    # Patient baseline heart rate tendency (BPM)
     kappa: float = 0.70                      # Mean-reversion speed of the OU process (1/s)
-    sigma_ou: float = 0.035                  # Stochastic variability scale (s / sqrt(s))
+    sigma_ou: float = 0.065                  # Increased stochastic variability scale for more twitching
     f_resp: float = 0.24                     # Respiration frequency (~14.4 breaths/min)
-    a_rsa_normal: float = 0.035              # Normal RSA amplitude (seconds, ~35 ms)
-    a_rsa_stress: float = 0.010              # Blunted RSA amplitude during stress (~10 ms)
+    a_rsa_normal: float = 0.055              # Increased normal RSA amplitude (seconds, ~55 ms)
+    a_rsa_stress: float = 0.015              # Blunted RSA amplitude during stress (~10 ms)
     noise_std: float = 0.015                 # Measurement sensor noise scale
     drift_freq: float = 0.04                 # Slow baseline drift frequency (Hz)
     drift_amp: float = 0.03                  # Slow baseline drift amplitude
@@ -205,8 +205,8 @@ class SyntheticPPGSimulator:
         ou_diffusion = self.config.sigma_ou * math.sqrt(dt_beat) * float(self.rng.normal(0, 1))
         self.x += ou_drift + ou_diffusion
 
-        # Constrain OU deviation to physiological limits (+/- 18% of baseline interval)
-        max_dev = 0.18 * effective_mu_rr
+        # Constrain OU deviation to physiological limits (+/- 30% of baseline interval)
+        max_dev = 0.30 * effective_mu_rr
         self.x = max(-max_dev, min(max_dev, self.x))
 
         # Respiratory Sinus Arrhythmia (RSA) modulation
