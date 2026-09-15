@@ -536,6 +536,11 @@ async def get_patient_adherence(patient_id: str):
                 base_risk = p["base_risk"]
             break
 
+    clean_clinical_features = {
+        k: (round(v, 2) if isinstance(v, float) else v)
+        for k, v in mock_features.items()
+    }
+
     response = {
         "patient_id": patient_id,
         "base_risk": round(base_risk, 4),
@@ -545,7 +550,7 @@ async def get_patient_adherence(patient_id: str):
         "confidence_interval_80": ci_80,
         "hidden_cognitive_state": hidden_cognitive_state,
         "shap_explanation": top_shap_explanation,
-        "clinical_features": mock_features,
+        "clinical_features": clean_clinical_features,
         "medications": generate_medications(patient_id),
         "requires_human_review": requires_human_review,
         "review_reason": review_reason

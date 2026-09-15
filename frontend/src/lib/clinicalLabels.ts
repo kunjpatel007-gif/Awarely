@@ -31,6 +31,13 @@ export function reviewReasonToLabel(reason: string | null | undefined): string {
   return "Flagged for Review";
 }
 
+export function formatNum(v: any): string {
+  if (v === null || v === undefined) return '';
+  const n = Number(v);
+  if (isNaN(n)) return `${v}`;
+  return Number.isInteger(n) ? n.toString() : n.toFixed(2);
+}
+
 export function shapFeaturesToRiskFactors(
   explanation: Record<string, string>,
   clinical_features: Record<string, any> = {}
@@ -53,16 +60,16 @@ export function shapFeaturesToRiskFactors(
     }
 
     switch (feature) {
-      case 'missed_appointments_90d': return `${val} appointments missed in the last 90 days`;
-      case 'avg_refill_gap_90d': return `Average refill delay of ${val} days`;
-      case 'days_since_last_refill': return `${val} days since last prescription refill`;
-      case 'total_refills_90d': return `Only ${val} total refills in 90 days`;
-      case 'kept_appointments_90d': return `Only ${val} kept clinic appointments`;
-      case 'appointment_streak': return `Consecutive appointments kept dropped to ${val}`;
-      case 'refill_gap_std': return `Refill timing consistency standard deviation is ${val}`;
-      case 'spo2_avg_7d': return `Blood oxygen levels averaged ${val}%`;
-      case 'rolling_7d_avg_hr': return `Average heart rate elevated to ${val} BPM`;
-      case 'age': return `Patient age is ${val}`;
+      case 'missed_appointments_90d': return `${formatNum(val)} appointments missed in the last 90 days`;
+      case 'avg_refill_gap_90d': return `Average refill delay of ${formatNum(val)} days`;
+      case 'days_since_last_refill': return `${formatNum(val)} days since last prescription refill`;
+      case 'total_refills_90d': return `Only ${formatNum(val)} total refills in 90 days`;
+      case 'kept_appointments_90d': return `Only ${formatNum(val)} kept clinic appointments`;
+      case 'appointment_streak': return `Consecutive appointments kept dropped to ${formatNum(val)}`;
+      case 'refill_gap_std': return `Refill timing consistency standard deviation is ${formatNum(val)}`;
+      case 'spo2_avg_7d': return `Blood oxygen levels averaged ${formatNum(val)}%`;
+      case 'rolling_7d_avg_hr': return `Average heart rate elevated to ${formatNum(val)} BPM`;
+      case 'age': return `Patient age is ${formatNum(val)}`;
       default: return feature;
     }
   };
@@ -121,10 +128,11 @@ export function formatFeatureName(feature: string): string {
 
 export function formatFeatureValue(feature: string, val: any): string {
   if (feature === 'gender') return val === 1.0 ? 'Male' : val === 0.0 ? 'Female' : 'Other';
-  if (feature === 'spo2_avg_7d') return `${val}%`;
-  if (feature === 'rolling_7d_avg_hr') return `${val} BPM`;
-  if (feature === 'sbp_avg') return `${val} mmHg`;
-  if (feature === 'days_since_last_refill' || feature === 'avg_refill_gap_90d' || feature === 'days_on_therapy') return `${val} days`;
-  if (feature === 'insurance_type_enc') return `Tier ${val}`;
-  return `${val}`;
+  const numStr = formatNum(val);
+  if (feature === 'spo2_avg_7d') return `${numStr}%`;
+  if (feature === 'rolling_7d_avg_hr') return `${numStr} BPM`;
+  if (feature === 'sbp_avg') return `${numStr} mmHg`;
+  if (feature === 'days_since_last_refill' || feature === 'avg_refill_gap_90d' || feature === 'days_on_therapy') return `${numStr} days`;
+  if (feature === 'insurance_type_enc') return `Tier ${numStr}`;
+  return numStr;
 }
