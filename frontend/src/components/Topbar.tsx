@@ -18,18 +18,112 @@ interface TopbarProps {
    imperatively on <body> so it never re-renders React, and removed from the
    DOM when finished.
    ========================================================================== */
-const FX_SWAP_MS = 130;
-const FX_TOTAL_MS = 260;
 
-function playThemeVeil(toDark: boolean, onSwap: () => void): void {
+/* ==========================================================================
+   Theme "fracture" effect (v2). Cracks appear scattered across the whole
+   viewport at once — multiple origin points, not the toggle's position —
+   and light/darkness pops out of each one before a flood catches up and
+   covers the swap. Fast (~420ms total) and built imperatively on <body> so
+   it never re-renders React; removed from the DOM when finished.
+   ========================================================================== */
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const FX_SWAP_MS = 240;
+const FX_TOTAL_MS = 420;
+
+interface Crack { d: string; delay: number }
+interface Burst { x: number; y: number; delay: number }
+
+function buildScreenCracks(w: number, h: number): { cracks: Crack[]; bursts: Burst[] } {
+  const cracks: Crack[] = [];
+  const bursts: Burst[] = [];
+  const pt = (px: number, py: number) => `${px.toFixed(1)} ${py.toFixed(1)}`;
+
+  // Scatter origin points across the whole viewport in a jittered grid so
+  // cracks appear all over the screen rather than from one spot.
+  const cols = Math.max(3, Math.round(w / 340));
+  const rows = Math.max(2, Math.round(h / 340));
+  const cellW = w / cols;
+  const cellH = h / rows;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (Math.random() < 0.25) continue; // skip some cells so it isn't a perfect grid
+      const ox = c * cellW + cellW * (0.3 + Math.random() * 0.4);
+      const oy = r * cellH + cellH * (0.3 + Math.random() * 0.4);
+      const originDelay = Math.random() * 90;
+      bursts.push({ x: ox, y: oy, delay: originDelay + 40 });
+
+      const lines = 2 + Math.floor(Math.random() * 3); // 2-4 short cracks per origin
+      for (let i = 0; i < lines; i++) {
+        let angle = Math.random() * Math.PI * 2;
+        const len = Math.min(cellW, cellH) * (0.5 + Math.random() * 0.5);
+        let px = ox;
+        let py = oy;
+        let travelled = 0;
+        let d = `M${pt(px, py)}`;
+        while (travelled < len) {
+          const step = 14 + Math.random() * 26;
+          angle += (Math.random() - 0.5) * 0.7;
+          px += Math.cos(angle) * step;
+          py += Math.sin(angle) * step;
+          travelled += step;
+          d += ` L${pt(px, py)}`;
+        }
+        cracks.push({ d, delay: originDelay + Math.random() * 20 });
+      }
+    }
+  }
+  return { cracks, bursts };
+}
+
+function playThemeFracture(toDark: boolean, onSwap: () => void): void {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
   const fx = document.createElement('div');
   fx.className = `theme-fx ${toDark ? 'theme-fx--dark' : 'theme-fx--light'}`;
   fx.setAttribute('aria-hidden', 'true');
+
+  const { cracks, bursts } = buildScreenCracks(w, h);
+
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', 'theme-fx-cracks');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  for (const layer of ['glow', 'core'] as const) {
+    const g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('class', `theme-fx-${layer}`);
+    svg.appendChild(g);
+  }
+  const [glow, core] = Array.from(svg.children) as SVGGElement[];
+  for (const c of cracks) {
+    for (const g of [glow, core]) {
+      const path = document.createElementNS(SVG_NS, 'path');
+      path.setAttribute('d', c.d);
+      path.setAttribute('pathLength', '1');
+      path.style.animationDelay = `${Math.round(c.delay)}ms`;
+      g.appendChild(path);
+    }
+  }
+
+  const burstLayer = document.createDocumentFragment();
+  for (const b of bursts) {
+    const el = document.createElement('div');
+    el.className = 'theme-fx-burst';
+    el.style.left = `${b.x}px`;
+    el.style.top = `${b.y}px`;
+    el.style.animationDelay = `${Math.round(b.delay)}ms`;
+    burstLayer.appendChild(el);
+  }
+
+  const flood = document.createElement('div');
+  flood.className = 'theme-fx-flood';
+
+  fx.append(svg, burstLayer, flood);
   document.body.appendChild(fx);
 
   window.setTimeout(() => {
-    // Swap instantly at full opacity: suspend transitions for 2 frames so
-    // nothing visibly interpolates between the old and new palette.
+    // Swap under the flood: suspend transitions for 2 frames so nothing
+    // visibly interpolates between the old and new palette.
     const html = document.documentElement;
     html.classList.add('theme-fx-swapping');
     onSwap();
@@ -40,7 +134,6 @@ function playThemeVeil(toDark: boolean, onSwap: () => void): void {
     fx.remove();
   }, FX_TOTAL_MS);
 }
-
 const TopbarInner: React.FC<TopbarProps> = ({
   currentView,
   activePatientId,
@@ -79,7 +172,7 @@ const TopbarInner: React.FC<TopbarProps> = ({
       return;
     }
     fxPlaying.current = true;
-    playThemeVeil(newMode, apply);
+    playThemeFracture(newMode, apply);
     window.setTimeout(() => {
       fxPlaying.current = false;
     }, FX_TOTAL_MS);
