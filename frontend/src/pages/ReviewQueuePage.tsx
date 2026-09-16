@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import { PatientSummary } from '../types';
 import { clinicalStatusToLabel, reviewReasonToLabel } from '../lib/clinicalLabels';
 import { submitAdherenceReview, scheduleFollowUp } from '../services/api';
+import {
+  ChipGroup,
+  IconCalendar,
+  IconCheck,
+  IconCross,
+  IconEye,
+  IconSpinner,
+  Popover,
+  Toast
+} from '../components/ui';
+import { PatientPreview, statusBadgeClass, statusDot, statusTone } from '../components/PatientPreview';
 
 interface ReviewQueuePageProps {
   patients: PatientSummary[];
@@ -9,38 +20,7 @@ interface ReviewQueuePageProps {
   onRefresh?: () => void;
 }
 
-// Inline 16px stroke icons (icon strategy (a): no new file, no package)
-const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <svg
-    className="icon"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    focusable="false"
-  >
-    {children}
-  </svg>
-);
-const IconEye = () => (
-  <Svg>
-    <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" />
-    <circle cx="8" cy="8" r="2" />
-  </Svg>
-);
-const IconCheck = () => <Svg><path d="M3 8.5l3.2 3L13 4.5" /></Svg>;
-const IconCross = () => <Svg><path d="M4 4l8 8M12 4l-8 8" /></Svg>;
-const IconCalendar = () => (
-  <Svg>
-    <rect x="2.5" y="3.5" width="11" height="10" rx="1.5" />
-    <path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" />
-  </Svg>
-);
+type StatusFilter = 'all' | PatientSummary['clinical_status'];
 
 export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
   patients,
@@ -48,6 +28,8 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
   onRefresh
 }) => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [busy, setBusy] = useState<string | null>(null);
 
   const reviewPatients = [...patients.filter(p => p.requires_human_review)];
   
@@ -58,11 +40,10 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
     return (b.interval_width_90 || 0) - (a.interval_width_90 || 0);
   });
 
-  const shortId = (pid: string) => pid.replace('test-patient-', 'P-');
+  const countOf = (s: PatientSummary['clinical_status']) => reviewPatients.filter(p => p.clinical_status === s).length;
+  const shown = statusFilter === 'all' ? reviewPatients : reviewPatients.filter(p => p.clinical_status === statusFilter);
 
-  // Row accent follows the same status → colour mapping as the Status badge.
-  const rowAccent = (status: PatientSummary['clinical_status']) =>
-    status === 'High Risk' ? 'accent-critical' : status === 'Review Required' ? 'accent-warn' : 'accent-healthy';
+  const shortId = (pid: string) => pid.replace('test-patient-', 'P-');
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -105,6 +86,41 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
     }
   };
 
+  // Per-row spinner + double-submit guard around the unchanged handlers
+  const run = (pid: string, action: string, fn: (pid: string) => Promise<void>) => async () => {
+    const key = `${pid}:${action}`;
+    setBusy(key);
+    try {
+      await fn(pid);
+    } finally {
+      setBusy(b => (b === key ? null : b));
+    }
+  };
+
+  const rowAction = (
+    p: PatientSummary,
+    action: string,
+    label: string,
+    accent: string,
+    icon: React.ReactNode,
+    fn: (pid: string) => Promise<void>
+  ) => {
+    const isBusy = busy === `${p.patient_id}:${action}`;
+    const rowBusy = busy?.startsWith(`${p.patient_id}:`) ?? false;
+    return (
+      <button
+        type="button"
+        className={`btn-action accent-${accent}${isBusy ? ' is-busy' : ''}`}
+        onClick={run(p.patient_id, action, fn)}
+        disabled={rowBusy}
+        aria-busy={isBusy}
+      >
+        {isBusy ? <IconSpinner /> : icon}
+        {label}
+      </button>
+    );
+  };
+
   return (
     <div className="view-panel active-view view-stagger">
       <div className="page-intro">
@@ -114,17 +130,26 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
         </p>
       </div>
 
-      {toastMessage && (
-        <div className="action-toast" role="status" aria-live="polite">
-          {toastMessage}
-        </div>
-      )}
+      {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
 
       <div className="clinical-panel">
         <div className="panel-header">
           <span className="panel-title">
             {reviewPatients.length} Patients Pending Review
           </span>
+          <ChipGroup<StatusFilter>
+            label="Filter by status"
+            value={statusFilter}
+            onChange={setStatusFilter}
+            options={[
+              { value: 'all', label: 'All', count: reviewPatients.length },
+              { value: 'High Risk', label: clinicalStatusToLabel('High Risk'), count: countOf('High Risk'), tone: 'critical' },
+              { value: 'Review Required', label: clinicalStatusToLabel('Review Required'), count: countOf('Review Required'), tone: 'warn' },
+              ...(countOf('Nominal') > 0
+                ? [{ value: 'Nominal' as const, label: clinicalStatusToLabel('Nominal'), count: countOf('Nominal'), tone: 'healthy' as const }]
+                : [])
+            ]}
+          />
         </div>
 
         <div className="table-responsive">
@@ -148,36 +173,52 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
                     </div>
                   </td>
                 </tr>
+              ) : shown.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="table-state-cell">
+                    No patients in this group.
+                  </td>
+                </tr>
               ) : (
-                reviewPatients.map(p => {
+                shown.map(p => {
                   return (
-                    <tr key={p.patient_id} className={rowAccent(p.clinical_status)}>
-                      <td className="mono-val cell-id" title={p.patient_id}>{shortId(p.patient_id)}</td>
+                    <tr key={p.patient_id} className={`accent-${statusTone(p.clinical_status)}`}>
+                      <td className="mono-val cell-id">
+                        <Popover
+                          variant="card"
+                          placement="bottom"
+                          delay={350}
+                          content={<PatientPreview patient={p} />}
+                        >
+                          <span className="cell-id-text">{shortId(p.patient_id)}</span>
+                        </Popover>
+                      </td>
                       <td className={`mono-val num ${p.base_risk < 0.60 ? 'tone-critical' : 'tone-pure'}`}>
                         {(p.base_risk * 100).toFixed(1)}%
                       </td>
                       <td>
-                        <span className="clinical-badge badge-high-risk badge-block">
-                          {reviewReasonToLabel(p.review_reason)}
-                        </span>
+                        <Popover
+                          display="block"
+                          content={
+                            <div className="pop-body">
+                              <div className="pop-title">Model flag</div>
+                              <div>{p.review_reason || 'No reason recorded'}</div>
+                              <div className="pop-muted">
+                                90% range width: {((p.interval_width_90 || 0) * 100).toFixed(0)} points
+                              </div>
+                            </div>
+                          }
+                        >
+                          <span className="clinical-badge badge-high-risk badge-block">
+                            {reviewReasonToLabel(p.review_reason)}
+                          </span>
+                        </Popover>
                       </td>
                       <td>
-                        {p.clinical_status === 'High Risk' ? (
-                          <span className="clinical-badge badge-high-risk">
-                            <span className="dot red" aria-hidden="true" />
-                            {clinicalStatusToLabel(p.clinical_status)}
-                          </span>
-                        ) : p.clinical_status === 'Review Required' ? (
-                          <span className="clinical-badge badge-monitor">
-                            <span className="dot amber" aria-hidden="true" />
-                            {clinicalStatusToLabel(p.clinical_status)}
-                          </span>
-                        ) : (
-                          <span className="clinical-badge badge-normal">
-                            <span className="dot green" aria-hidden="true" />
-                            {clinicalStatusToLabel(p.clinical_status)}
-                          </span>
-                        )}
+                        <span className={`clinical-badge ${statusBadgeClass(p.clinical_status)}`}>
+                          <span className={`dot ${statusDot(p.clinical_status)}`} aria-hidden="true" />
+                          {clinicalStatusToLabel(p.clinical_status)}
+                        </span>
                       </td>
                       <td>
                         <div className="row-actions">
@@ -189,30 +230,9 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
                             <IconEye />
                             View Details
                           </button>
-                          <button
-                            type="button"
-                            className="btn-action accent-healthy"
-                            onClick={() => handleMarkAdherent(p.patient_id)}
-                          >
-                            <IconCheck />
-                            Mark Adherent
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action accent-critical"
-                            onClick={() => handleMarkNonAdherent(p.patient_id)}
-                          >
-                            <IconCross />
-                            Mark Non-Adherent
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action accent-warn"
-                            onClick={() => handleScheduleFollowUp(p.patient_id)}
-                          >
-                            <IconCalendar />
-                            Schedule Follow-up
-                          </button>
+                          {rowAction(p, 'adherent', 'Mark Adherent', 'healthy', <IconCheck />, handleMarkAdherent)}
+                          {rowAction(p, 'non-adherent', 'Mark Non-Adherent', 'critical', <IconCross />, handleMarkNonAdherent)}
+                          {rowAction(p, 'follow-up', 'Schedule Follow-up', 'warn', <IconCalendar />, handleScheduleFollowUp)}
                         </div>
                       </td>
                     </tr>

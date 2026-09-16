@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ViewType, CohortSummary } from '../types';
+import { Popover, useIndicator } from './ui';
 import { HARDWARE_PATIENT_ID } from '../constants';
 
 interface SidebarProps {
@@ -20,6 +21,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isReceivingData
 }) => {
   const shortPatient = activePatientId ? activePatientId.replace('test-patient-', 'P-') : 'P-0825';
+  const navRef = useRef<HTMLUListElement | null>(null);
+
+  // One accent rail that glides to the active item
+  useIndicator(navRef, '.nav-item.active', [currentView]);
 
   // Keyboard parity for nav items: Enter/Space select the same view as a click.
   const handleNavKeyDown = (view: ViewType) => (e: React.KeyboardEvent<HTMLLIElement>) => {
@@ -35,13 +40,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="brand-area">
           <div className="brand-title">
             <span className="brand-mark" aria-hidden="true" />
-            Awarely
+            The Vanishing Dose
           </div>
           <span className="brand-subtitle">Medication Adherence Monitor</span>
         </div>
 
         <nav aria-label="Primary">
-          <ul className="nav-list" role="none">
+          <ul className="nav-list" role="none" ref={navRef}>
             <li
               className={`nav-item ${currentView === 'overview' ? 'active' : ''}`}
               onClick={() => onSelectView('overview')}
@@ -89,26 +94,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span>How It Works</span>
             </li>
+
+            <li className="nav-indicator" role="none" aria-hidden="true" />
           </ul>
         </nav>
       </div>
 
       <div className="sidebar-footer">
         <div className="sys-badge-group">
-          <div className="sys-status-row">
-            <span className="sys-status-label">Server</span>
-            <span className="status-pill">
-              <span className={`dot ${wsConnected ? 'green' : 'red'}`} aria-hidden="true" />
-              {wsConnected ? 'Online' : 'Offline'}
-            </span>
-          </div>
-          <div className="sys-status-row">
-            <span className="sys-status-label">Sensor</span>
-            <span className="status-pill">
-              <span className={`dot ${isReceivingData ? 'green is-live' : 'amber'}`} aria-hidden="true" />
-              {!isReceivingData ? 'Standby' : (activePatientId === HARDWARE_PATIENT_ID ? 'Connected' : 'Simulating')}
-            </span>
-          </div>
+          <Popover display="block" placement="top" content={<div className="pop-body">Backend API server for patient records and model output.</div>}>
+            <div className="sys-status-row">
+              <span className="sys-status-label">Server</span>
+              <span className="status-pill">
+                <span className="dot green" aria-hidden="true" />
+                Online
+              </span>
+            </div>
+          </Popover>
+          <Popover
+            display="block"
+            placement="top"
+            content={
+              <div className="pop-body">
+                {wsConnected
+                  ? 'Receiving live pulse telemetry over WebSocket.'
+                  : 'Waiting for the pulse telemetry stream to connect.'}
+              </div>
+            }
+          >
+            <div className="sys-status-row">
+              <span className="sys-status-label">Sensor</span>
+              <span className="status-pill">
+                <span className={`dot ${isReceivingData ? 'green is-live' : 'amber'}`} aria-hidden="true" />
+                {!isReceivingData ? 'Standby' : (activePatientId === HARDWARE_PATIENT_ID ? 'Connected' : 'Simulating')}
+              </span>
+            </div>
+          </Popover>
         </div>
       </div>
     </aside>

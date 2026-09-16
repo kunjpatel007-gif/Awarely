@@ -10,6 +10,7 @@ import { OverviewPage } from './pages/OverviewPage';
 import { DiagnosticsPage } from './pages/DiagnosticsPage';
 import { ReviewQueuePage } from './pages/ReviewQueuePage';
 import { SystemModelsPage } from './pages/SystemModelsPage';
+import { CommandPalette } from './components/CommandPalette';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewType>('overview');
@@ -142,6 +143,12 @@ export const App: React.FC = () => {
           {currentView === 'models' && <SystemModelsPage />}
         </div>
       </main>
+
+      <CommandPalette
+        patients={patients}
+        onSelectPatient={handleSelectPatient}
+        onSelectView={setCurrentView}
+      />
 
     </div>
   );

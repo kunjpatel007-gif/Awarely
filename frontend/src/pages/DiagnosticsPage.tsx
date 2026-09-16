@@ -1,9 +1,35 @@
-import React, { useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { PatientDiagnostics, TelemetrySample, JitaiAlert } from '../types';
 import { JitaiPanel } from '../components/JitaiPanel';
 import { PpgCanvas } from '../components/PpgCanvas';
-import { hmmStateToLabel, confidenceToLabel, shapFeaturesToRiskFactors, formatFeatureName, formatFeatureValue } from '../lib/clinicalLabels';
+import { ConformalVisualizer } from '../components/ConformalVisualizer';
+import { ShapPanel } from '../components/ShapPanel';
+import { hmmStateToLabel, confidenceToLabel, shapFeaturesToRiskFactors, formatFeatureName, formatFeatureValue, reviewReasonToLabel } from '../lib/clinicalLabels';
 import { fetchPatientDiagnostics, submitAdherenceReview, scheduleFollowUp, remindRefill, remindAppointment } from '../services/api';
+import {
+  ChipGroup,
+  CollapsiblePanel,
+  IconAlert,
+  IconArrowDown,
+  IconArrowUp,
+  IconBack,
+  IconBell,
+  IconCalendar,
+  IconCheck,
+  IconCopy,
+  IconCross,
+  IconHeart,
+  IconInfoDot,
+  IconPill,
+  IconSpinner,
+  InfoTip,
+  Popover,
+  SearchField,
+  Tabs,
+  Toast,
+  highlight,
+  spotlight
+} from '../components/ui';
 
 interface DiagnosticsPageProps {
   patient: PatientDiagnostics | null;
@@ -21,54 +47,7 @@ interface DiagnosticsPageProps {
   isLoading: boolean;
 }
 
-// Inline 16px stroke icons (icon strategy (a): no new file, no package)
-const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <svg
-    className="icon"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    focusable="false"
-  >
-    {children}
-  </svg>
-);
-const IconCheck = () => <Svg><path d="M3 8.5l3.2 3L13 4.5" /></Svg>;
-const IconCross = () => <Svg><path d="M4 4l8 8M12 4l-8 8" /></Svg>;
-const IconCalendar = () => (
-  <Svg>
-    <rect x="2.5" y="3.5" width="11" height="10" rx="1.5" />
-    <path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" />
-  </Svg>
-);
-const IconPill = () => (
-  <Svg>
-    <rect x="1.8" y="5.5" width="12.4" height="5" rx="2.5" transform="rotate(-45 8 8)" />
-    <path d="M6.2 6.2l3.6 3.6" />
-  </Svg>
-);
-const IconBell = () => (
-  <Svg>
-    <path d="M4 11V7.5a4 4 0 0 1 8 0V11l1 1.5H3L4 11z" />
-    <path d="M6.5 14.5h3" />
-  </Svg>
-);
-const IconBack = () => <Svg><path d="M10 3.5L5.5 8l4.5 4.5" /></Svg>;
-const IconArrowUp = () => <Svg><path d="M8 13V3M4 7l4-4 4 4" /></Svg>;
-const IconArrowDown = () => <Svg><path d="M8 3v10M4 9l4 4 4-4" /></Svg>;
-const IconAlert = () => (
-  <Svg>
-    <path d="M8 2.5l6 10.5H2L8 2.5z" />
-    <path d="M8 6.5v3M8 11.25v.01" />
-  </Svg>
-);
-const IconInfoDot = () => <Svg><circle cx="8" cy="8" r="2.5" /></Svg>;
+type LogEntry = DiagnosticsPageProps['eventLog'][number];
 
 export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   patient,
@@ -81,11 +60,36 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   isLoading
 }) => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  // --- interaction state (all hooks must run before the loading early-return)
+  const [busyAction, setBusyAction] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [profileQuery, setProfileQuery] = useState('');
+  const [logFilter, setLogFilter] = useState<'all' | 'alerts'>('all');
+  const initialLogKeys = useRef<Set<string> | null>(null);
+
+  // Stable keys for log entries (newest are prepended), so only genuinely new
+  // entries animate in.
+  const keyedLog = useMemo(() => {
+    const counts = new Map<string, number>();
+    const out: Array<{ ev: LogEntry; key: string }> = new Array(eventLog.length);
+    for (let i = eventLog.length - 1; i >= 0; i--) {
+      const ev = eventLog[i];
+      const base = `${ev.time}|${ev.text}`;
+      const n = (counts.get(base) || 0) + 1;
+      counts.set(base, n);
+      out[i] = { ev, key: `${base}|${n}` };
+    }
+    return out;
+  }, [eventLog]);
+  if (initialLogKeys.current === null) {
+    initialLogKeys.current = new Set(keyedLog.map(k => k.key));
+  }
 
   if (isLoading || !patient) {
     return (
       <div className="view-panel active-view">
         <div className="loading-state">
+          <span className="loading-pulse" aria-hidden="true" />
           <span className="mono-val">Loading patient data...</span>
         </div>
       </div>
@@ -110,6 +114,18 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   // Presentation-only mappings of the SAME conditions used below
   const riskTone = isHighRisk ? 'critical' : isModerate ? 'warn' : 'healthy';
   const confidenceTone = confidence.severity === 'good' ? 'healthy' : confidence.severity === 'moderate' ? 'warn' : 'critical';
+  const maxImpact = Math.max(0, ...riskFactors.map(rf => Math.abs(parseFloat(rf.impact)) || 0));
+
+  const profileEntries = Object.entries(patient.clinical_features || {});
+  const pq = profileQuery.trim().toLowerCase();
+  const shownProfile = pq
+    ? profileEntries.filter(([key, value]) =>
+        `${formatFeatureName(key)} ${formatFeatureValue(key, value)}`.toLowerCase().includes(pq)
+      )
+    : profileEntries;
+
+  const alertCount = eventLog.filter(ev => ev.isAlert).length;
+  const shownLog = logFilter === 'alerts' ? keyedLog.filter(k => k.ev.isAlert) : keyedLog;
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -177,43 +193,105 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
     }
   };
 
+  // Spinner + double-submit guard around the unchanged handlers
+  const withBusy = (key: string, fn: () => Promise<void>) => async () => {
+    if (busyAction) return;
+    setBusyAction(key);
+    try {
+      await fn();
+    } finally {
+      setBusyAction(null);
+    }
+  };
+
+  const actionButton = (key: string, label: string, accent: string, icon: React.ReactNode, fn: () => Promise<void>) => (
+    <button
+      type="button"
+      className={`btn-outline btn-rail accent-${accent}${busyAction === key ? ' is-busy' : ''}`}
+      onClick={withBusy(key, fn)}
+      disabled={busyAction !== null}
+      aria-busy={busyAction === key}
+    >
+      {busyAction === key ? <IconSpinner /> : icon}
+      {label}
+    </button>
+  );
+
+  const copyId = () => {
+    navigator.clipboard?.writeText(patient.patient_id).then(
+      () => {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      },
+      () => undefined
+    );
+  };
+
+  const riskFactorList = (
+    <ul className="risk-factor-list">
+      {riskFactors.map((rf, i) => {
+        const magnitude = Math.abs(parseFloat(rf.impact)) || 0;
+        const width = maxImpact > 0 ? (magnitude / maxImpact) * 100 : 0;
+        return (
+          <li key={i} className={`risk-factor ${rf.direction === 'up' ? 'accent-critical' : 'accent-healthy'}`}>
+            <span className={`dot ${rf.direction === 'up' ? 'red' : 'green'}`} aria-hidden="true" />
+            <span className="risk-factor-arrow">
+              {rf.direction === 'up' ? <IconArrowUp /> : <IconArrowDown />}
+            </span>
+            <Popover
+              content={
+                <div className="pop-body">
+                  <div className="pop-title">Model contribution {rf.impact}</div>
+                  <div className="pop-muted">Positive values increase risk. Negative values lower it.</div>
+                </div>
+              }
+            >
+              <span className="risk-factor-label">{rf.label}</span>
+            </Popover>
+            <span className="risk-factor-direction">
+              {rf.direction === 'up' ? 'Increases risk' : 'Lowers risk'}
+            </span>
+            <span
+              className="risk-factor-bar"
+              style={{ '--bar-width': `${width}%` } as React.CSSProperties}
+              aria-hidden="true"
+            />
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <div className="view-panel active-view">
       {/* Action Banner & Toast */}
-      {toastMessage && (
-        <div className="action-toast" role="status" aria-live="polite">
-          {toastMessage}
-        </div>
-      )}
+      {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
       
       <div className="action-toolbar" role="group" aria-label="Patient actions">
-        <button type="button" className="btn-outline btn-rail accent-healthy" onClick={handleMarkAdherent}>
-          <IconCheck />
-          Mark Adherent
-        </button>
-        <button type="button" className="btn-outline btn-rail accent-critical" onClick={handleMarkNonAdherent}>
-          <IconCross />
-          Mark Non-Adherent
-        </button>
-        <button type="button" className="btn-outline btn-rail accent-warn" onClick={handleScheduleFollowUp}>
-          <IconCalendar />
-          Schedule Follow-up
-        </button>
-        <button type="button" className="btn-outline btn-rail accent-info" onClick={handleRemindRefill}>
-          <IconPill />
-          Remind Refill
-        </button>
-        <button type="button" className="btn-outline btn-rail accent-primary" onClick={handleRemindAppointment}>
-          <IconBell />
-          Remind Appointment
-        </button>
+        {actionButton('adherent', 'Mark Adherent', 'healthy', <IconCheck />, handleMarkAdherent)}
+        {actionButton('non-adherent', 'Mark Non-Adherent', 'critical', <IconCross />, handleMarkNonAdherent)}
+        {actionButton('follow-up', 'Schedule Follow-up', 'warn', <IconCalendar />, handleScheduleFollowUp)}
+        {actionButton('refill', 'Remind Refill', 'info', <IconPill />, handleRemindRefill)}
+        {actionButton('appointment', 'Remind Appointment', 'primary', <IconBell />, handleRemindAppointment)}
       </div>
 
       {/* Patient Header */}
       <div className="patient-meta-banner">
         <div className="meta-col">
           <span className="meta-label">Patient</span>
-          <span className="meta-value meta-value--mono">{shortId}</span>
+          <span className="meta-value meta-value--mono">
+            {shortId}
+            <Popover content={<div className="pop-body">{copied ? 'Copied' : 'Copy full patient ID'}</div>}>
+              <button
+                type="button"
+                className={`copy-btn${copied ? ' is-copied' : ''}`}
+                onClick={copyId}
+                aria-label={copied ? 'Patient ID copied' : 'Copy full patient ID'}
+              >
+                {copied ? <IconCheck /> : <IconCopy />}
+              </button>
+            </Popover>
+          </span>
         </div>
         <div className="meta-col">
           <span className="meta-label">Medication</span>
@@ -252,9 +330,13 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
 
       {/* Key Metrics */}
       <div className="stats-grid">
-        <div className={`diagnostic-card ${isHighRisk ? 'accent-critical' : ''}`}>
+        <div className={`diagnostic-card spotlight ${isHighRisk ? 'accent-critical' : ''}`} onMouseMove={spotlight}>
           <div className="diag-title-wrapper">
             <div className="diag-title">ADHERENCE SCORE</div>
+            <InfoTip label="About the adherence score">
+              Estimated likelihood this patient is taking their medication as prescribed, from refill and
+              appointment records.
+            </InfoTip>
           </div>
           <div className="diag-value-wrapper">
             <div className={`diag-unified-val ${isHighRisk ? 'tone-critical' : ''}`}>
@@ -266,9 +348,12 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
 
-        <div className={`diagnostic-card accent-${riskTone}`}>
+        <div className={`diagnostic-card spotlight accent-${riskTone}`} onMouseMove={spotlight}>
           <div className="diag-title-wrapper">
             <div className="diag-title">RISK LEVEL</div>
+            <InfoTip label="How risk level is set">
+              High risk below 60% adherence, monitor from 60% to 80%, low risk at 80% and above.
+            </InfoTip>
           </div>
           <div className="diag-value-wrapper">
             <div className={`diag-unified-val diag-unified-val--text tone-${riskTone}`}>
@@ -286,9 +371,13 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
 
-        <div className={`diagnostic-card accent-${confidenceTone}`}>
+        <div className={`diagnostic-card spotlight accent-${confidenceTone}`} onMouseMove={spotlight}>
           <div className="diag-title-wrapper">
             <div className="diag-title">ASSESSMENT CONFIDENCE</div>
+            <InfoTip label="How confidence is set">
+              From the width of the 90% prediction range: under 25 points is high, 25 to 40 is moderate,
+              40 or more is low. This patient's range is {(patient.confidence_interval_90.width * 100).toFixed(1)} points.
+            </InfoTip>
           </div>
           <div className="diag-value-wrapper">
             <div className={`diag-unified-val diag-unified-val--text tone-${confidenceTone}`}>
@@ -300,9 +389,12 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
 
-        <div className="diagnostic-card">
+        <div className="diagnostic-card spotlight" onMouseMove={spotlight}>
           <div className="diag-title-wrapper">
             <div className="diag-title">PATIENT PHASE</div>
+            <InfoTip label="About patient phase">
+              Behaviour pattern detected by a hidden Markov model over the patient's record history.
+            </InfoTip>
           </div>
           <div className="diag-value-wrapper">
             <div className="diag-unified-val diag-unified-val--text">
@@ -315,6 +407,15 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
         </div>
       </div>
 
+      {/* Prediction confidence range */}
+      <ConformalVisualizer
+        pointEstimate={patient.base_risk}
+        ci90={patient.confidence_interval_90}
+        ci80={patient.confidence_interval_80}
+        requiresReview={patient.requires_human_review}
+        reviewReason={patient.review_reason ? reviewReasonToLabel(patient.review_reason) : null}
+      />
+
       {/* Explanation & Intervention Grid */}
       <div className="diag-explain-grid">
         <div className="clinical-panel">
@@ -322,45 +423,54 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
             <span className="panel-title">Key Risk Factors</span>
           </div>
           <div className="panel-body">
-            <ul className="risk-factor-list">
-              {riskFactors.map((rf, i) => (
-                <li key={i} className={`risk-factor ${rf.direction === 'up' ? 'accent-critical' : 'accent-healthy'}`}>
-                  <span className={`dot ${rf.direction === 'up' ? 'red' : 'green'}`} aria-hidden="true" />
-                  <span className="risk-factor-arrow">
-                    {rf.direction === 'up' ? <IconArrowUp /> : <IconArrowDown />}
-                  </span>
-                  <span className="risk-factor-label">{rf.label}</span>
-                  <span className="risk-factor-direction">
-                    {rf.direction === 'up' ? 'Increases risk' : 'Lowers risk'}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <Tabs
+              label="Risk factor detail"
+              items={[
+                { id: 'top', label: 'Top factors', content: riskFactorList },
+                {
+                  id: 'all',
+                  label: `All contributions (${Object.keys(patient.shap_explanation || {}).length})`,
+                  content: <ShapPanel explanation={patient.shap_explanation || {}} />
+                }
+              ]}
+            />
           </div>
         </div>
         <JitaiPanel isStressed={hrv.is_stressed} latestAlert={latestAlert} />
       </div>
 
       {/* Full Clinical Profile */}
-      <div className="clinical-panel">
-        <div className="panel-header">
-          <span className="panel-title">Full Clinical Profile</span>
-        </div>
+      <CollapsiblePanel
+        title="Full Clinical Profile"
+        meta={`${profileEntries.length} features`}
+        actions={
+          <SearchField
+            compact
+            value={profileQuery}
+            onChange={setProfileQuery}
+            placeholder="Filter features"
+            label="Filter clinical profile"
+          />
+        }
+      >
         <div className="panel-body">
           <div className="profile-grid">
-            {patient.clinical_features && Object.entries(patient.clinical_features).map(([key, value]) => (
+            {shownProfile.map(([key, value]) => (
               <div key={key} className="profile-item">
                 <span className="profile-label">
-                  {formatFeatureName(key)}
+                  {highlight(formatFeatureName(key), profileQuery)}
                 </span>
                 <span className="profile-value">
-                  {formatFeatureValue(key, value)}
+                  {highlight(formatFeatureValue(key, value), profileQuery)}
                 </span>
               </div>
             ))}
+            {pq && shownProfile.length === 0 && (
+              <div className="profile-empty">No features match “{profileQuery.trim()}”.</div>
+            )}
           </div>
         </div>
-      </div>
+      </CollapsiblePanel>
 
       {/* Live Heart Rate Monitor */}
       <div className="telemetry-live-box">
@@ -381,7 +491,20 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
 
         <div className="telemetry-vital-row">
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Heart Rate</span>
+            <div className="vital-mini-label-row">
+              <span className="vital-mini-label">Heart Rate</span>
+              <span
+                className={`heartbeat${hrv.mean_hr_bpm > 0 ? ' is-beating' : ''}`}
+                style={
+                  hrv.mean_hr_bpm > 0
+                    ? ({ '--beat-duration': `${Math.max(0.3, 60 / hrv.mean_hr_bpm)}s` } as React.CSSProperties)
+                    : undefined
+                }
+                aria-hidden="true"
+              >
+                <IconHeart />
+              </span>
+            </div>
             <div className="vital-mini-val">
               {hrv.mean_hr_bpm > 0 ? (
                 <>
@@ -394,7 +517,12 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Heart Rate Variability</span>
+            <div className="vital-mini-label-row">
+              <span className="vital-mini-label">Heart Rate Variability</span>
+              <InfoTip label="About heart rate variability">
+                SDNN: how much the time between heartbeats varies. Lower values can indicate stress.
+              </InfoTip>
+            </div>
             <div className="vital-mini-val">
               {hrv.sdnn_ms > 0 ? (
                 <>
@@ -407,7 +535,9 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
             </div>
           </div>
           <div className="vital-mini-card">
-            <span className="vital-mini-label">Stress Indicator</span>
+            <div className="vital-mini-label-row">
+              <span className="vital-mini-label">Stress Indicator</span>
+            </div>
             <div
               className={`vital-mini-val vital-mini-val--status ${
                 hrv.mean_hr_bpm === 0 ? 'tone-muted' : hrv.is_stressed ? 'tone-critical' : 'tone-healthy'
@@ -422,14 +552,30 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       </div>
 
       {/* Event Timeline */}
-      <div className="clinical-panel">
-        <div className="panel-header">
-          <span className="panel-title">Event Log</span>
-        </div>
+      <CollapsiblePanel
+        title="Event Log"
+        meta={`${eventLog.length} events`}
+        actions={
+          <ChipGroup<'all' | 'alerts'>
+            label="Filter events"
+            value={logFilter}
+            onChange={setLogFilter}
+            options={[
+              { value: 'all', label: 'All', count: eventLog.length },
+              { value: 'alerts', label: 'Alerts', count: alertCount, tone: 'critical' }
+            ]}
+          />
+        }
+      >
         <div className="panel-body">
           <div className="timeline-list">
-            {eventLog.map((ev, idx) => (
-              <div className={`timeline-item ${ev.isAlert ? 'is-alert' : 'is-info'}`} key={idx}>
+            {shownLog.map(({ ev, key }) => (
+              <div
+                className={`timeline-item ${ev.isAlert ? 'is-alert' : 'is-info'}${
+                  initialLogKeys.current && !initialLogKeys.current.has(key) ? ' is-new' : ''
+                }`}
+                key={key}
+              >
                 <span className="timeline-marker">
                   {ev.isAlert ? <IconAlert /> : <IconInfoDot />}
                 </span>
@@ -437,9 +583,10 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
                 <span className={`time-event ${ev.isAlert ? 'alert' : ''}`}>{ev.text}</span>
               </div>
             ))}
+            {shownLog.length === 0 && <div className="timeline-empty">No alerts in this session.</div>}
           </div>
         </div>
-      </div>
+      </CollapsiblePanel>
     </div>
   );
 };

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { ConfidenceInterval } from '../types';
+import { InfoTip } from './ui';
 
 interface ConformalVisualizerProps {
   pointEstimate: number;
@@ -8,6 +9,8 @@ interface ConformalVisualizerProps {
   requiresReview: boolean;
   reviewReason?: string | null;
 }
+
+type Focus = '80' | '90' | 'point' | null;
 
 export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
   pointEstimate,
@@ -25,11 +28,35 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
   const u80Pct = Math.min(100, Math.max(0, ci80.upper * 100));
   const w80Pct = Math.max(0, u80Pct - l80Pct);
 
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const [cursor, setCursor] = useState<number | null>(null);
+  const [focus, setFocus] = useState<Focus>(null);
+
+  const onTrackMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    setCursor(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)));
+  };
+
+  const zone = (pct: number) =>
+    pct >= l80Pct && pct <= u80Pct
+      ? 'inside the 80% range'
+      : pct >= l90Pct && pct <= u90Pct
+      ? 'inside the 90% range'
+      : 'outside the 90% range';
+
   return (
     <div className="uncertainty-box">
       <div className="uncertainty-head">
         <div>
-          <div className="panel-title">Prediction Confidence Range</div>
+          <div className="title-with-tip">
+            <div className="panel-title">Prediction Confidence Range</div>
+            <InfoTip label="How to read the confidence range">
+              The model is 90% confident the true adherence lies in the hatched band, and 80% confident it lies
+              in the dashed band. Hover the track to read any point.
+            </InfoTip>
+          </div>
           <p className="uncertainty-desc">
             Shows how confident our model is about this patient's adherence score.
             Wider ranges mean less certainty.
@@ -39,7 +66,14 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
       </div>
 
       <div
-        className="conformal-track"
+        ref={trackRef}
+        className={`conformal-track${focus ? ` is-focus-${focus}` : ''}`}
+        style={cursor === null ? undefined : ({ '--ci-cursor': `${cursor}%` } as React.CSSProperties)}
+        onMouseMove={onTrackMove}
+        onMouseLeave={() => {
+          setCursor(null);
+          setFocus(null);
+        }}
         role="img"
         aria-label={`Adherence estimate ${(pointEstimate * 100).toFixed(1)}%. 90% range ${(ci90.lower * 100).toFixed(1)}% to ${(ci90.upper * 100).toFixed(1)}%. 80% range ${(ci80.lower * 100).toFixed(1)}% to ${(ci80.upper * 100).toFixed(1)}%.`}
       >
@@ -57,6 +91,8 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
             '--ci-left': `${l80Pct}%`,
             '--ci-width': `${w80Pct}%`
           } as React.CSSProperties}
+          onMouseEnter={() => setFocus('80')}
+          onMouseLeave={() => setFocus(null)}
           title={`80% CI: [${(ci80.lower * 100).toFixed(1)}% - ${(ci80.upper * 100).toFixed(1)}%]`}
         />
 
@@ -66,33 +102,53 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
             '--ci-left': `${l90Pct}%`,
             '--ci-width': `${w90Pct}%`
           } as React.CSSProperties}
+          onMouseEnter={() => setFocus('90')}
+          onMouseLeave={() => setFocus(null)}
           title={`90% CI: [${(ci90.lower * 100).toFixed(1)}% - ${(ci90.upper * 100).toFixed(1)}%]`}
         />
 
         <div
           className="ci-point-marker"
           style={{ '--ci-point': `${pointPct}%` } as React.CSSProperties}
+          onMouseEnter={() => setFocus('point')}
+          onMouseLeave={() => setFocus(null)}
         >
           <span className="ci-point-label">
             ● {pointPct.toFixed(1)}%
           </span>
         </div>
+
+        {cursor !== null && (
+          <div className="ci-cursor" aria-hidden="true">
+            <span className="ci-cursor-label">
+              <strong>{cursor.toFixed(0)}%</strong> {zone(cursor)}
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="ci-interval-legend">
         <div className="ci-stats-row">
-          <div className="ci-stat-chip">
+          <div className="ci-stat-chip" onMouseEnter={() => setFocus('90')} onMouseLeave={() => setFocus(null)}>
             <span className="mono-dim">Lower: </span>
             <span className="mono-val">{(ci90.lower * 100).toFixed(1)}%</span>
           </div>
-          <div className="ci-stat-chip">
+          <div className="ci-stat-chip" onMouseEnter={() => setFocus('point')} onMouseLeave={() => setFocus(null)}>
             <span className="mono-dim">Estimate: </span>
             <span className="mono-val">{(pointEstimate * 100).toFixed(1)}%</span>
           </div>
-          <div className="ci-stat-chip">
+          <div className="ci-stat-chip" onMouseEnter={() => setFocus('90')} onMouseLeave={() => setFocus(null)}>
             <span className="mono-dim">Upper: </span>
             <span className="mono-val">{(ci90.upper * 100).toFixed(1)}%</span>
           </div>
+        </div>
+        <div className="ci-key-row" aria-hidden="true">
+          <span className="ci-key" onMouseEnter={() => setFocus('80')} onMouseLeave={() => setFocus(null)}>
+            <span className="ci-key-swatch ci-key-swatch--80" />80% range
+          </span>
+          <span className="ci-key" onMouseEnter={() => setFocus('90')} onMouseLeave={() => setFocus(null)}>
+            <span className="ci-key-swatch ci-key-swatch--90" />90% range
+          </span>
         </div>
       </div>
 

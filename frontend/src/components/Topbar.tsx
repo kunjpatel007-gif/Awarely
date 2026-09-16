@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import { ViewType } from '../types';
 import { hmmStateToLabel, clinicalStatusToLabel } from '../lib/clinicalLabels';
+import { IconMoon, IconReset, IconSearch, IconSun, Kbd, OPEN_PALETTE_EVENT, Popover, modKeyLabel } from './ui';
 import { API_BASE_URL } from '../services/api';
 
 interface TopbarProps {
@@ -10,41 +12,7 @@ interface TopbarProps {
   hmm_state?: number;
 }
 
-// Inline 16px stroke icons (icon strategy (a): no new file, no package)
-const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <svg
-    className="icon"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    focusable="false"
-  >
-    {children}
-  </svg>
-);
-const IconSun = () => (
-  <Svg>
-    <circle cx="8" cy="8" r="2.75" />
-    <path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.06 1.06M11.54 11.54l1.06 1.06M3.4 12.6l1.06-1.06M11.54 4.46l1.06-1.06" />
-  </Svg>
-);
-const IconMoon = () => (
-  <Svg>
-    <path d="M13.5 9.6A5.5 5.5 0 0 1 6.4 2.5a5.5 5.5 0 1 0 7.1 7.1z" />
-  </Svg>
-);
-const IconReset = () => (
-  <Svg>
-    <path d="M2 8a6 6 0 1 0 6-6 6.5 6.5 0 0 0-4.5 1.83L2 5.33" />
-    <path d="M2 2v3.33h3.33" />
-  </Svg>
-);
+type ViewTransitionDocument = Document & { startViewTransition?: (cb: () => void) => unknown };
 
 export const Topbar: React.FC<TopbarProps> = ({
   currentView,
@@ -65,14 +33,36 @@ export const Topbar: React.FC<TopbarProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  const toggleDarkMode = () => {
+  const toggleDarkMode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    if (newMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
+    const apply = () => {
+      setIsDarkMode(newMode);
+      if (newMode) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    };
+
+    // Circular reveal from the button where the View Transitions API exists;
+    // identical instant switch everywhere else or with reduced motion.
+    const doc = document as ViewTransitionDocument;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (!doc.startViewTransition || reduce) {
+      apply();
+      return;
     }
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    const root = document.documentElement;
+    root.style.setProperty('--vt-x', `${x}px`);
+    root.style.setProperty('--vt-y', `${y}px`);
+    root.style.setProperty('--vt-r', `${radius}px`);
+    doc.startViewTransition(() => {
+      flushSync(apply);
+    });
   };
 
   const titles: Record<ViewType, string> = {
@@ -106,7 +96,7 @@ export const Topbar: React.FC<TopbarProps> = ({
   return (
     <header className="topbar">
       <div className="topbar-left">
-        <span className="topbar-title">{titles[currentView]}</span>
+        <span className="topbar-title" key={currentView}>{titles[currentView]}</span>
         {currentView === 'diagnostics' && (
           <>
             <span className="topbar-sep" aria-hidden="true">/</span>
@@ -119,23 +109,39 @@ export const Topbar: React.FC<TopbarProps> = ({
         )}
       </div>
       <div className="topbar-right">
-        <button 
+        <button
           type="button"
-          className="btn-outline btn-icon" 
-          onClick={toggleDarkMode}
-          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          title={isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          className="btn-outline search-trigger"
+          onClick={() => window.dispatchEvent(new Event(OPEN_PALETTE_EVENT))}
+          aria-label="Search patients and pages"
+          aria-keyshortcuts="Control+K Meta+K"
         >
-          {isDarkMode ? <IconSun /> : <IconMoon />}
+          <IconSearch />
+          <span className="search-trigger-label">Search patients</span>
+          <Kbd>{modKeyLabel}K</Kbd>
         </button>
-        <button 
-          type="button"
-          className="btn-outline btn-tone-warn" 
-          onClick={handleResetDemo}
-        >
-          <IconReset />
-          Reset Demo
-        </button>
+        <Popover content={<div className="pop-body">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</div>} placement="bottom">
+          <button 
+            type="button"
+            className="btn-outline btn-icon theme-toggle" 
+            onClick={toggleDarkMode}
+            aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            <span className="theme-toggle-icon" key={isDarkMode ? 'sun' : 'moon'}>
+              {isDarkMode ? <IconSun /> : <IconMoon />}
+            </span>
+          </button>
+        </Popover>
+        <Popover content={<div className="pop-body">Resets the demo backend state, then reloads the page.</div>} placement="bottom">
+          <button 
+            type="button"
+            className="btn-outline btn-tone-warn" 
+            onClick={handleResetDemo}
+          >
+            <IconReset />
+            Reset Demo
+          </button>
+        </Popover>
         <span className="time-indicator">{clock}</span>
       </div>
     </header>
