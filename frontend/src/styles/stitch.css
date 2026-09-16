@@ -43,7 +43,7 @@
   /* ---- Type -------------------------------------------------------------- */
   /* 'SF Pro Display' removed from the lead: not web-licensed, absent on
      Windows/Linux. -apple-system still resolves to SF on Apple platforms. */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', system-ui, sans-serif;
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', 'Roboto Mono', Consolas, monospace;
 
   --fs-display: 22px;   /* page headline — 700, -0.02em */
