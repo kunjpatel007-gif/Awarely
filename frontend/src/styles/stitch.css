@@ -3769,14 +3769,14 @@ th.num .th-sort {
 
 
 [data-theme='dark'] {
-  --bg-base: #0B1220;
-  --bg-surface: #131C2B;
-  --bg-subtle: #1A2536;
-  --bg-elevated: #1F2B3E;   /* previously duplicated --bg-subtle */
-  --bg-accent: #1B3550;
-  --border-subtle: #243044;
-  --border-strong: #3A4A61;
-  --border-accent: #6B7A90;
+  --bg-base: #000000;
+  --bg-surface: #0A0A0A;
+  --bg-subtle: #141414;
+  --bg-elevated: #1A1A1A;
+  --bg-accent: #262626;
+  --border-subtle: #242424;
+  --border-strong: #3A3A3A;
+  --border-accent: #555555;
   --accent-primary: #5CC1F5;
 
   --text-pure: #F8FAFC;
@@ -3802,7 +3802,7 @@ th.num .th-sort {
   --shadow-2: 0 2px 4px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .4);
   --hairline-top: rgba(255, 255, 255, .05);
 
-  --topbar-bg: rgba(19, 28, 43, .86);
+  --topbar-bg: rgba(10, 10, 10, .86);
   --overlay-hover: rgba(255, 255, 255, .05);
   --panel-header-tint: rgba(255, 255, 255, .015);
   --ci-band-80-bg: rgba(255, 255, 255, .05);
