@@ -27,10 +27,10 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
 
   return (
     <div className="uncertainty-box">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+      <div className="uncertainty-head">
         <div>
           <div className="panel-title">Prediction Confidence Range</div>
-          <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+          <p className="uncertainty-desc">
             Shows how confident our model is about this patient's adherence score.
             Wider ranges mean less certainty.
           </p>
@@ -38,8 +38,12 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
         <span className="clinical-badge badge-neutral">90% Confidence</span>
       </div>
 
-      <div className="conformal-track">
-        <div className="track-scale-marks">
+      <div
+        className="conformal-track"
+        role="img"
+        aria-label={`Adherence estimate ${(pointEstimate * 100).toFixed(1)}%. 90% range ${(ci90.lower * 100).toFixed(1)}% to ${(ci90.upper * 100).toFixed(1)}%. 80% range ${(ci80.lower * 100).toFixed(1)}% to ${(ci80.upper * 100).toFixed(1)}%.`}
+      >
+        <div className="track-scale-marks" aria-hidden="true">
           <span>0% (Non-Adherent)</span>
           <span>25%</span>
           <span>50%</span>
@@ -50,22 +54,25 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
         <div
           className="ci-band-80"
           style={{
-            left: `${l80Pct}%`,
-            width: `${w80Pct}%`
-          }}
+            '--ci-left': `${l80Pct}%`,
+            '--ci-width': `${w80Pct}%`
+          } as React.CSSProperties}
           title={`80% CI: [${(ci80.lower * 100).toFixed(1)}% - ${(ci80.upper * 100).toFixed(1)}%]`}
         />
 
         <div
           className="ci-band-90"
           style={{
-            left: `${l90Pct}%`,
-            width: `${w90Pct}%`
-          }}
+            '--ci-left': `${l90Pct}%`,
+            '--ci-width': `${w90Pct}%`
+          } as React.CSSProperties}
           title={`90% CI: [${(ci90.lower * 100).toFixed(1)}% - ${(ci90.upper * 100).toFixed(1)}%]`}
         />
 
-        <div className="ci-point-marker" style={{ left: `${pointPct}%` }}>
+        <div
+          className="ci-point-marker"
+          style={{ '--ci-point': `${pointPct}%` } as React.CSSProperties}
+        >
           <span className="ci-point-label">
             ● {pointPct.toFixed(1)}%
           </span>
@@ -74,15 +81,15 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
 
       <div className="ci-interval-legend">
         <div className="ci-stats-row">
-          <div>
+          <div className="ci-stat-chip">
             <span className="mono-dim">Lower: </span>
             <span className="mono-val">{(ci90.lower * 100).toFixed(1)}%</span>
           </div>
-          <div>
+          <div className="ci-stat-chip">
             <span className="mono-dim">Estimate: </span>
             <span className="mono-val">{(pointEstimate * 100).toFixed(1)}%</span>
           </div>
-          <div>
+          <div className="ci-stat-chip">
             <span className="mono-dim">Upper: </span>
             <span className="mono-val">{(ci90.upper * 100).toFixed(1)}%</span>
           </div>
@@ -91,20 +98,20 @@ export const ConformalVisualizer: React.FC<ConformalVisualizerProps> = ({
 
       {requiresReview ? (
         <div className="safety-alert-strip alert-review">
-          <span className="dot amber" style={{ marginTop: '3px' }} />
+          <span className="dot amber" aria-hidden="true" />
           <div>
             <strong>Clinician Review Recommended</strong>
-            <div style={{ fontSize: '11.5px', opacity: 0.9, marginTop: '2px' }}>
+            <div className="safety-alert-detail">
               {reviewReason || `The prediction range is wide (${(ci90.width * 100).toFixed(1)}%), indicating the model is uncertain. Please review this patient manually.`}
             </div>
           </div>
         </div>
       ) : (
         <div className="safety-alert-strip alert-safe">
-          <span className="dot green" style={{ marginTop: '3px' }} />
+          <span className="dot green" aria-hidden="true" />
           <div>
             <strong>Prediction Confidence: Good</strong>
-            <div style={{ fontSize: '11.5px', opacity: 0.9, marginTop: '2px' }}>
+            <div className="safety-alert-detail">
               The prediction range is narrow ({(ci90.width * 100).toFixed(1)}%), indicating high model confidence.
             </div>
           </div>

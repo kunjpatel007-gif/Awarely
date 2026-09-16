@@ -3,7 +3,7 @@ import { PatientDiagnostics, TelemetrySample, JitaiAlert } from '../types';
 import { JitaiPanel } from '../components/JitaiPanel';
 import { PpgCanvas } from '../components/PpgCanvas';
 import { hmmStateToLabel, confidenceToLabel, shapFeaturesToRiskFactors, formatFeatureName, formatFeatureValue } from '../lib/clinicalLabels';
-import { submitAdherenceReview, scheduleFollowUp } from '../services/api';
+import { fetchPatientDiagnostics, submitAdherenceReview, scheduleFollowUp, remindRefill, remindAppointment } from '../services/api';
 
 interface DiagnosticsPageProps {
   patient: PatientDiagnostics | null;
@@ -21,6 +21,55 @@ interface DiagnosticsPageProps {
   isLoading: boolean;
 }
 
+// Inline 16px stroke icons (icon strategy (a): no new file, no package)
+const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <svg
+    className="icon"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    {children}
+  </svg>
+);
+const IconCheck = () => <Svg><path d="M3 8.5l3.2 3L13 4.5" /></Svg>;
+const IconCross = () => <Svg><path d="M4 4l8 8M12 4l-8 8" /></Svg>;
+const IconCalendar = () => (
+  <Svg>
+    <rect x="2.5" y="3.5" width="11" height="10" rx="1.5" />
+    <path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" />
+  </Svg>
+);
+const IconPill = () => (
+  <Svg>
+    <rect x="1.8" y="5.5" width="12.4" height="5" rx="2.5" transform="rotate(-45 8 8)" />
+    <path d="M6.2 6.2l3.6 3.6" />
+  </Svg>
+);
+const IconBell = () => (
+  <Svg>
+    <path d="M4 11V7.5a4 4 0 0 1 8 0V11l1 1.5H3L4 11z" />
+    <path d="M6.5 14.5h3" />
+  </Svg>
+);
+const IconBack = () => <Svg><path d="M10 3.5L5.5 8l4.5 4.5" /></Svg>;
+const IconArrowUp = () => <Svg><path d="M8 13V3M4 7l4-4 4 4" /></Svg>;
+const IconArrowDown = () => <Svg><path d="M8 3v10M4 9l4 4 4-4" /></Svg>;
+const IconAlert = () => (
+  <Svg>
+    <path d="M8 2.5l6 10.5H2L8 2.5z" />
+    <path d="M8 6.5v3M8 11.25v.01" />
+  </Svg>
+);
+const IconInfoDot = () => <Svg><circle cx="8" cy="8" r="2.5" /></Svg>;
+
 export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   patient,
   samples,
@@ -36,7 +85,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   if (isLoading || !patient) {
     return (
       <div className="view-panel active-view">
-        <div style={{ textAlign: 'center', padding: '60px' }}>
+        <div className="loading-state">
           <span className="mono-val">Loading patient data...</span>
         </div>
       </div>
@@ -46,17 +95,21 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   const shortId = patient.patient_id.replace('test-patient-', 'P-');
   const isHighRisk = patient.base_risk < 0.60;
   const isModerate = patient.base_risk >= 0.60 && patient.base_risk < 0.80;
-  
+
   // Extract state number from the string e.g. "State 1" -> 1. If not found, default to 0
   let hmmStateNum = 0;
   const stateMatch = patient.hidden_cognitive_state.match(/\d+/);
   if (stateMatch) {
     hmmStateNum = parseInt(stateMatch[0], 10);
   }
-
+  
   const hmmLabel = hmmStateToLabel(hmmStateNum);
   const confidence = confidenceToLabel(patient.confidence_interval_90.width);
   const riskFactors = shapFeaturesToRiskFactors(patient.shap_explanation || {}, patient.clinical_features || {});
+
+  // Presentation-only mappings of the SAME conditions used below
+  const riskTone = isHighRisk ? 'critical' : isModerate ? 'warn' : 'healthy';
+  const confidenceTone = confidence.severity === 'good' ? 'healthy' : confidence.severity === 'moderate' ? 'warn' : 'critical';
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -98,24 +151,61 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
     }
   };
 
+  const handleRemindRefill = async () => {
+    try {
+      const res = await remindRefill(patient.patient_id);
+      showToast('Refill reminder dispatched');
+      if (res && res.email_dispatched) {
+        alert("Refill Reminder Dispatched:\n\n" + res.email_dispatched);
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to send refill reminder');
+    }
+  };
+
+  const handleRemindAppointment = async () => {
+    try {
+      const res = await remindAppointment(patient.patient_id);
+      showToast('Appointment reminder dispatched');
+      if (res && res.email_dispatched) {
+        alert("Appointment Reminder Dispatched:\n\n" + res.email_dispatched);
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to send appointment reminder');
+    }
+  };
+
   return (
     <div className="view-panel active-view">
       {/* Action Banner & Toast */}
       {toastMessage && (
-        <div style={{ backgroundColor: 'var(--bg-accent)', color: 'var(--text-pure)', padding: '12px', borderRadius: '4px', marginBottom: '16px' }}>
+        <div className="action-toast" role="status" aria-live="polite">
           {toastMessage}
         </div>
       )}
       
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-        <button className="btn-outline" onClick={handleMarkAdherent} style={{ borderColor: 'var(--status-healthy)' }}>
+      <div className="action-toolbar" role="group" aria-label="Patient actions">
+        <button type="button" className="btn-outline btn-rail accent-healthy" onClick={handleMarkAdherent}>
+          <IconCheck />
           Mark Adherent
         </button>
-        <button className="btn-outline" onClick={handleMarkNonAdherent} style={{ borderColor: 'var(--status-critical)' }}>
+        <button type="button" className="btn-outline btn-rail accent-critical" onClick={handleMarkNonAdherent}>
+          <IconCross />
           Mark Non-Adherent
         </button>
-        <button className="btn-outline" onClick={handleScheduleFollowUp} style={{ borderColor: 'var(--status-warn)' }}>
+        <button type="button" className="btn-outline btn-rail accent-warn" onClick={handleScheduleFollowUp}>
+          <IconCalendar />
           Schedule Follow-up
+        </button>
+        <button type="button" className="btn-outline btn-rail accent-info" onClick={handleRemindRefill}>
+          <IconPill />
+          Remind Refill
+        </button>
+        <button type="button" className="btn-outline btn-rail accent-primary" onClick={handleRemindAppointment}>
+          <IconBell />
+          Remind Appointment
         </button>
       </div>
 
@@ -123,16 +213,16 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       <div className="patient-meta-banner">
         <div className="meta-col">
           <span className="meta-label">Patient</span>
-          <span className="meta-value">{shortId}</span>
+          <span className="meta-value meta-value--mono">{shortId}</span>
         </div>
         <div className="meta-col">
           <span className="meta-label">Medication</span>
           <div className="meta-value">
             {patient.medications && patient.medications.length > 0 ? (
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              <ul className="med-list">
                 {patient.medications.map(med => (
-                  <li key={med.name} style={{ marginBottom: '4px' }}>
-                    <strong>{med.name}</strong> — {med.time}
+                  <li key={med.name}>
+                    <strong>{med.name}</strong> — <span className="mono-val">{med.time}</span>
                   </li>
                 ))}
               </ul>
@@ -144,7 +234,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
         <div className="meta-col">
           <span className="meta-label">Sensor</span>
           <span className="meta-value">
-            <span className="dot green" />
+            <span className="dot green" aria-hidden="true" />
             Pulse Oximeter Active
           </span>
         </div>
@@ -152,24 +242,22 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           <span className="meta-label">Patient Phase</span>
           <span className="meta-value">{hmmLabel}</span>
         </div>
-        <div>
-          <button className="btn-outline" onClick={onBackToCohort}>
-            ← Back
+        <div className="meta-actions">
+          <button type="button" className="btn-outline" onClick={onBackToCohort}>
+            <IconBack />
+            Back
           </button>
         </div>
       </div>
 
       {/* Key Metrics */}
       <div className="stats-grid">
-        <div className="diagnostic-card">
+        <div className={`diagnostic-card ${isHighRisk ? 'accent-critical' : ''}`}>
           <div className="diag-title-wrapper">
             <div className="diag-title">ADHERENCE SCORE</div>
           </div>
           <div className="diag-value-wrapper">
-            <div
-              className="diag-unified-val"
-              style={isHighRisk ? { color: 'var(--status-critical)' } : undefined}
-            >
+            <div className={`diag-unified-val ${isHighRisk ? 'tone-critical' : ''}`}>
               {(patient.base_risk * 100).toFixed(1)}%
             </div>
           </div>
@@ -178,21 +266,12 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
 
-        <div className="diagnostic-card">
+        <div className={`diagnostic-card accent-${riskTone}`}>
           <div className="diag-title-wrapper">
             <div className="diag-title">RISK LEVEL</div>
           </div>
           <div className="diag-value-wrapper">
-            <div
-              className="diag-unified-val"
-              style={{
-                color: isHighRisk
-                  ? 'var(--status-critical)'
-                  : isModerate
-                  ? 'var(--status-warn)'
-                  : 'var(--status-healthy)'
-              }}
-            >
+            <div className={`diag-unified-val diag-unified-val--text tone-${riskTone}`}>
               {isHighRisk ? 'HIGH RISK' : isModerate ? 'MONITOR' : 'LOW RISK'}
             </div>
           </div>
@@ -207,12 +286,12 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
 
-        <div className="diagnostic-card">
+        <div className={`diagnostic-card accent-${confidenceTone}`}>
           <div className="diag-title-wrapper">
             <div className="diag-title">ASSESSMENT CONFIDENCE</div>
           </div>
           <div className="diag-value-wrapper">
-            <div className="diag-unified-val" style={{ color: confidence.severity === 'good' ? 'var(--status-healthy)' : confidence.severity === 'moderate' ? 'var(--status-warn)' : 'var(--status-critical)' }}>
+            <div className={`diag-unified-val diag-unified-val--text tone-${confidenceTone}`}>
               {confidence.text}
             </div>
           </div>
@@ -226,7 +305,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
             <div className="diag-title">PATIENT PHASE</div>
           </div>
           <div className="diag-value-wrapper">
-            <div className="diag-unified-val">
+            <div className="diag-unified-val diag-unified-val--text">
               {hmmLabel}
             </div>
           </div>
@@ -237,26 +316,23 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       </div>
 
       {/* Explanation & Intervention Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+      <div className="diag-explain-grid">
         <div className="clinical-panel">
           <div className="panel-header">
             <span className="panel-title">Key Risk Factors</span>
           </div>
           <div className="panel-body">
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <ul className="risk-factor-list">
               {riskFactors.map((rf, i) => (
-                <li key={i} style={{ marginBottom: '12px', display: 'flex', alignItems: 'flex-start' }}>
-                  <span style={{ 
-                    display: 'inline-block', 
-                    width: '8px', 
-                    height: '8px', 
-                    borderRadius: '50%', 
-                    backgroundColor: rf.direction === 'up' ? 'var(--status-critical)' : 'var(--status-healthy)',
-                    marginRight: '12px',
-                    marginTop: '6px',
-                    flexShrink: 0
-                  }} />
-                  <span style={{ flex: 1, color: 'var(--text-pure)' }}>{rf.label}</span>
+                <li key={i} className={`risk-factor ${rf.direction === 'up' ? 'accent-critical' : 'accent-healthy'}`}>
+                  <span className={`dot ${rf.direction === 'up' ? 'red' : 'green'}`} aria-hidden="true" />
+                  <span className="risk-factor-arrow">
+                    {rf.direction === 'up' ? <IconArrowUp /> : <IconArrowDown />}
+                  </span>
+                  <span className="risk-factor-label">{rf.label}</span>
+                  <span className="risk-factor-direction">
+                    {rf.direction === 'up' ? 'Increases risk' : 'Lowers risk'}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -266,18 +342,18 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       </div>
 
       {/* Full Clinical Profile */}
-      <div className="clinical-panel" style={{ marginTop: '20px' }}>
+      <div className="clinical-panel">
         <div className="panel-header">
           <span className="panel-title">Full Clinical Profile</span>
         </div>
         <div className="panel-body">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+          <div className="profile-grid">
             {patient.clinical_features && Object.entries(patient.clinical_features).map(([key, value]) => (
-              <div key={key} style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div key={key} className="profile-item">
+                <span className="profile-label">
                   {formatFeatureName(key)}
                 </span>
-                <span style={{ fontSize: '14px', color: 'var(--text-pure)', fontWeight: 500 }}>
+                <span className="profile-value">
                   {formatFeatureValue(key, value)}
                 </span>
               </div>
@@ -291,13 +367,13 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
         <div className="telemetry-head">
           <div>
             <span className="panel-title">Live Heart Rate Monitor</span>
-            <span className="brand-subtitle" style={{ marginTop: '2px' }}>
+            <span className="brand-subtitle">
               Real-time pulse waveform from wearable sensor
             </span>
           </div>
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <div className="telemetry-head-meta">
             <span className="status-pill">
-              <span className={`dot ${hrv.is_stressed ? 'red' : 'green'}`} />
+              <span className={`dot ${hrv.is_stressed ? 'red' : 'green'}`} aria-hidden="true" />
               {hrv.is_stressed ? 'Stress Detected' : 'Normal'}
             </span>
           </div>
@@ -310,10 +386,10 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
               {hrv.mean_hr_bpm > 0 ? (
                 <>
                   {hrv.mean_hr_bpm.toFixed(0)}{' '}
-                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>BPM</span>
+                  <span className="vital-unit">BPM</span>
                 </>
               ) : (
-                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>Waiting...</span>
+                <span className="vital-waiting">Waiting...</span>
               )}
             </div>
           </div>
@@ -323,22 +399,19 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
               {hrv.sdnn_ms > 0 ? (
                 <>
                   {hrv.sdnn_ms.toFixed(1)}{' '}
-                  <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>ms</span>
+                  <span className="vital-unit">ms</span>
                 </>
               ) : (
-                <span style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>--</span>
+                <span className="vital-waiting">--</span>
               )}
             </div>
           </div>
           <div className="vital-mini-card">
             <span className="vital-mini-label">Stress Indicator</span>
             <div
-              className="vital-mini-val"
-              style={{
-                fontSize: '14px',
-                color: hrv.mean_hr_bpm === 0 ? 'var(--text-tertiary)' : hrv.is_stressed ? 'var(--status-critical)' : 'var(--status-healthy)',
-                paddingTop: '4px'
-              }}
+              className={`vital-mini-val vital-mini-val--status ${
+                hrv.mean_hr_bpm === 0 ? 'tone-muted' : hrv.is_stressed ? 'tone-critical' : 'tone-healthy'
+              }`}
             >
               {hrv.mean_hr_bpm === 0 ? 'Waiting...' : hrv.is_stressed ? 'Elevated Stress' : 'Normal'}
             </div>
@@ -349,14 +422,17 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       </div>
 
       {/* Event Timeline */}
-      <div className="clinical-panel" style={{ marginTop: '20px' }}>
+      <div className="clinical-panel">
         <div className="panel-header">
           <span className="panel-title">Event Log</span>
         </div>
         <div className="panel-body">
           <div className="timeline-list">
             {eventLog.map((ev, idx) => (
-              <div className="timeline-item" key={idx}>
+              <div className={`timeline-item ${ev.isAlert ? 'is-alert' : 'is-info'}`} key={idx}>
+                <span className="timeline-marker">
+                  {ev.isAlert ? <IconAlert /> : <IconInfoDot />}
+                </span>
                 <span className="time-stamp">{ev.time}</span>
                 <span className={`time-event ${ev.isAlert ? 'alert' : ''}`}>{ev.text}</span>
               </div>

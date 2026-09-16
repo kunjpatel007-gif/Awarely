@@ -9,6 +9,39 @@ interface ReviewQueuePageProps {
   onRefresh?: () => void;
 }
 
+// Inline 16px stroke icons (icon strategy (a): no new file, no package)
+const Svg: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <svg
+    className="icon"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    {children}
+  </svg>
+);
+const IconEye = () => (
+  <Svg>
+    <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" />
+    <circle cx="8" cy="8" r="2" />
+  </Svg>
+);
+const IconCheck = () => <Svg><path d="M3 8.5l3.2 3L13 4.5" /></Svg>;
+const IconCross = () => <Svg><path d="M4 4l8 8M12 4l-8 8" /></Svg>;
+const IconCalendar = () => (
+  <Svg>
+    <rect x="2.5" y="3.5" width="11" height="10" rx="1.5" />
+    <path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" />
+  </Svg>
+);
+
 export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
   patients,
   onSelectPatient,
@@ -26,6 +59,10 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
   });
 
   const shortId = (pid: string) => pid.replace('test-patient-', 'P-');
+
+  // Row accent follows the same status → colour mapping as the Status badge.
+  const rowAccent = (status: PatientSummary['clinical_status']) =>
+    status === 'High Risk' ? 'accent-critical' : status === 'Review Required' ? 'accent-warn' : 'accent-healthy';
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -69,7 +106,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
   };
 
   return (
-    <div className="view-panel active-view">
+    <div className="view-panel active-view view-stagger">
       <div className="page-intro">
         <h1 className="page-headline">Review Queue</h1>
         <p className="page-desc">
@@ -78,7 +115,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
       </div>
 
       {toastMessage && (
-        <div style={{ backgroundColor: 'var(--bg-accent)', color: 'var(--text-pure)', padding: '12px', borderRadius: '4px', marginBottom: '16px' }}>
+        <div className="action-toast" role="status" aria-live="polite">
           {toastMessage}
         </div>
       )}
@@ -95,7 +132,7 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
             <thead>
               <tr>
                 <th>Patient ID</th>
-                <th>Adherence</th>
+                <th className="num">Adherence</th>
                 <th>Flag Reason</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -104,73 +141,76 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
             <tbody>
               {reviewPatients.length === 0 ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: 'center', padding: '30px' }}>
-                    No patients currently need review.
+                  <td colSpan={5} className="table-state-cell">
+                    <div className="empty-state">
+                      <span className="empty-state-mark" aria-hidden="true" />
+                      No patients currently need review.
+                    </div>
                   </td>
                 </tr>
               ) : (
                 reviewPatients.map(p => {
                   return (
-                    <tr key={p.patient_id}>
-                      <td className="mono-val">{shortId(p.patient_id)}</td>
-                      <td
-                        className="mono-val"
-                        style={{
-                          color: p.base_risk < 0.60 ? 'var(--status-critical)' : 'var(--text-pure)'
-                        }}
-                      >
+                    <tr key={p.patient_id} className={rowAccent(p.clinical_status)}>
+                      <td className="mono-val cell-id" title={p.patient_id}>{shortId(p.patient_id)}</td>
+                      <td className={`mono-val num ${p.base_risk < 0.60 ? 'tone-critical' : 'tone-pure'}`}>
                         {(p.base_risk * 100).toFixed(1)}%
                       </td>
                       <td>
-                        <span className="clinical-badge badge-high-risk">
+                        <span className="clinical-badge badge-high-risk badge-block">
                           {reviewReasonToLabel(p.review_reason)}
                         </span>
                       </td>
                       <td>
                         {p.clinical_status === 'High Risk' ? (
                           <span className="clinical-badge badge-high-risk">
-                            <span className="dot red" />
+                            <span className="dot red" aria-hidden="true" />
                             {clinicalStatusToLabel(p.clinical_status)}
                           </span>
                         ) : p.clinical_status === 'Review Required' ? (
                           <span className="clinical-badge badge-monitor">
-                            <span className="dot amber" />
+                            <span className="dot amber" aria-hidden="true" />
                             {clinicalStatusToLabel(p.clinical_status)}
                           </span>
                         ) : (
                           <span className="clinical-badge badge-normal">
-                            <span className="dot green" />
+                            <span className="dot green" aria-hidden="true" />
                             {clinicalStatusToLabel(p.clinical_status)}
                           </span>
                         )}
                       </td>
                       <td>
-                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                        <div className="row-actions">
                           <button
-                            className="btn-action"
+                            type="button"
+                            className="btn-action accent-neutral"
                             onClick={() => onSelectPatient(p.patient_id)}
                           >
+                            <IconEye />
                             View Details
                           </button>
                           <button
-                            className="btn-action"
-                            style={{ borderColor: 'var(--status-healthy)' }}
+                            type="button"
+                            className="btn-action accent-healthy"
                             onClick={() => handleMarkAdherent(p.patient_id)}
                           >
+                            <IconCheck />
                             Mark Adherent
                           </button>
                           <button
-                            className="btn-action"
-                            style={{ borderColor: 'var(--status-critical)' }}
+                            type="button"
+                            className="btn-action accent-critical"
                             onClick={() => handleMarkNonAdherent(p.patient_id)}
                           >
+                            <IconCross />
                             Mark Non-Adherent
                           </button>
                           <button
-                            className="btn-action"
-                            style={{ borderColor: 'var(--status-warn)' }}
+                            type="button"
+                            className="btn-action accent-warn"
                             onClick={() => handleScheduleFollowUp(p.patient_id)}
                           >
+                            <IconCalendar />
                             Schedule Follow-up
                           </button>
                         </div>

@@ -8,24 +8,24 @@ interface JitaiPanelProps {
 
 export const JitaiPanel: React.FC<JitaiPanelProps> = ({ isStressed, latestAlert }) => {
   return (
-    <div className="clinical-panel" style={{ padding: '20px' }}>
-      <div className="panel-header" style={{ padding: '0 0 14px 0', background: 'transparent' }}>
+    <div className={`clinical-panel jitai-panel ${isStressed ? 'jitai-panel--stressed' : ''}`}>
+      <div className="panel-header panel-header--flush">
         <div>
           <span className="panel-title">Smart Reminder System</span>
-          <span className="brand-subtitle" style={{ marginTop: '2px' }}>
+          <span className="brand-subtitle">
             Adjusts medication reminders based on patient stress levels
           </span>
         </div>
         <span className={`clinical-badge ${isStressed ? 'badge-high-risk' : 'badge-normal'}`}>
-          <span className={`dot ${isStressed ? 'red' : 'green'}`} />
+          <span className={`dot ${isStressed ? 'red is-live' : 'green'}`} aria-hidden="true" />
           {isStressed ? 'Stress Detected' : 'Normal'}
         </span>
       </div>
 
       <div className="jitai-badge-row">
-        <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+        <div className="jitai-state-text">
           Current Patient State:{' '}
-          <strong style={{ color: isStressed ? 'var(--status-critical)' : 'var(--text-pure)' }}>
+          <strong className={isStressed ? 'tone-critical' : 'tone-pure'}>
             {isStressed
               ? 'Elevated Stress — Low Heart Rate Variability'
               : 'Relaxed — Normal Heart Rate'}
@@ -33,7 +33,10 @@ export const JitaiPanel: React.FC<JitaiPanelProps> = ({ isStressed, latestAlert 
         </div>
       </div>
 
-      <div className="jitai-rec-box">
+      <div
+        className={`jitai-rec-box ${isStressed ? 'accent-critical' : 'accent-healthy'}`}
+        aria-live="polite"
+      >
         <div className="jitai-rec-title">Recommended Action</div>
         <div className="jitai-rec-content">
           {isStressed ? (

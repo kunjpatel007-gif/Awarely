@@ -117,8 +117,16 @@ export const PpgCanvas: React.FC<PpgCanvasProps> = ({ samples, height = 140, sho
   }, [samples, height]);
 
   return (
-    <div className="waveform-container" style={{ height: `${height}px` }}>
-      <canvas ref={canvasRef} className="waveform-canvas" />
+    <div
+      className="waveform-container"
+      style={{ '--waveform-height': `${height}px` } as React.CSSProperties}
+    >
+      <canvas
+        ref={canvasRef}
+        className="waveform-canvas"
+        role="img"
+        aria-label="Live pulse waveform from wearable sensor"
+      />
       {showOverlay && (
         <div className="waveform-overlay">
           <span>SAMPLING: 50 SPS</span>

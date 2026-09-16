@@ -138,6 +138,8 @@ export function formatFeatureValue(feature: string, val: any): string {
   if (feature === 'rolling_7d_avg_hr') return `${numStr} BPM`;
   if (feature === 'sbp_avg') return `${numStr} mmHg`;
   if (feature === 'days_since_last_refill' || feature === 'avg_refill_gap_90d' || feature === 'days_on_therapy') return `${numStr} days`;
-  if (feature === 'insurance_type_enc') return `Tier ${numStr}`;
+  if (feature === 'insurance_type_enc') {
+    return val === 3 || val === '3' ? 'None' : `Tier ${numStr}`;
+  }
   return numStr;
 }

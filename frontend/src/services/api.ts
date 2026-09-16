@@ -71,3 +71,39 @@ export async function scheduleFollowUp(patientId: string, date: string, notes: s
   }
   return res.json();
 }
+
+export async function triggerJitaiReminder(patientId: string): Promise<any> {
+  const res = await fetch(`${API_BASE_URL}/api/patients/${encodeURIComponent(patientId)}/trigger-reminder`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to trigger JITAI reminder: ${res.statusText}`);
+  }
+  return res.json();
+}
+
+export async function remindRefill(patientId: string): Promise<any> {
+  const res = await fetch(`${API_BASE_URL}/api/patients/${encodeURIComponent(patientId)}/remind-refill`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to send refill reminder: ${res.statusText}`);
+  }
+  return res.json();
+}
+
+export async function remindAppointment(patientId: string): Promise<any> {
+  const res = await fetch(`${API_BASE_URL}/api/patients/${encodeURIComponent(patientId)}/remind-appointment`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to send appointment reminder: ${res.statusText}`);
+  }
+  return res.json();
+}

@@ -26,8 +26,12 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
 
   const shortId = (pid: string) => pid.replace('test-patient-', 'P-');
 
+  // Row accent follows the same status → colour mapping as the Status badge.
+  const rowAccent = (status: PatientSummary['clinical_status']) =>
+    status === 'High Risk' ? 'accent-critical' : status === 'Review Required' ? 'accent-warn' : 'accent-healthy';
+
   return (
-    <div className="view-panel active-view">
+    <div className="view-panel active-view view-stagger">
       <div className="page-intro">
         <h1 className="page-headline">Patient Overview</h1>
         <p className="page-desc">
@@ -44,32 +48,36 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             <div className="stat-val-group">
               <span className="stat-value">{summary ? summary.patients_monitored : 198}</span>
             </div>
+            <span className="stat-card-rule accent-info" aria-hidden="true" />
           </div>
           <div className="stat-card">
             <span className="stat-label">Needs Review</span>
             <div className="stat-val-group">
-              <span className="stat-value" style={{ color: 'var(--status-warn)' }}>
+              <span className="stat-value tone-warn">
                 {summary ? summary.patients_requiring_review : 25}
               </span>
               <span className="stat-delta warn">High uncertainty</span>
             </div>
+            <span className="stat-card-rule accent-warn" aria-hidden="true" />
           </div>
           <div className="stat-card">
             <span className="stat-label">High Risk</span>
             <div className="stat-val-group">
-              <span className="stat-value" style={{ color: 'var(--status-critical)' }}>
+              <span className="stat-value tone-critical">
                 {summary ? summary.high_risk_non_adherent : 48}
               </span>
               <span className="stat-delta crit">Adherence below 60%</span>
             </div>
+            <span className="stat-card-rule accent-critical" aria-hidden="true" />
           </div>
           <div className="stat-card">
             <span className="stat-label">System Status</span>
             <div className="stat-val-group">
-              <span className="stat-value" style={{ fontSize: '21px', color: 'var(--status-healthy)' }}>
+              <span className="stat-value stat-value--text tone-healthy">
                 All Systems Online
               </span>
             </div>
+            <span className="stat-card-rule accent-healthy" aria-hidden="true" />
           </div>
         </div>
       </div>
@@ -78,22 +86,28 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
       <div className="clinical-panel">
         <div className="panel-header">
           <span className="panel-title">Patient List</span>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div className="segmented" role="group" aria-label="Filter patients">
             <button
+              type="button"
               className={`btn-outline ${filter === 'all' ? 'active' : ''}`}
               onClick={() => setFilter('all')}
+              aria-pressed={filter === 'all'}
             >
               All ({patients.length})
             </button>
             <button
+              type="button"
               className={`btn-outline ${filter === 'review' ? 'active' : ''}`}
               onClick={() => setFilter('review')}
+              aria-pressed={filter === 'review'}
             >
               Needs Review ({patients.filter(p => p.requires_human_review || p.clinical_status === 'Review Required').length})
             </button>
             <button
+              type="button"
               className={`btn-outline ${filter === 'highrisk' ? 'active' : ''}`}
               onClick={() => setFilter('highrisk')}
+              aria-pressed={filter === 'highrisk'}
             >
               High Risk ({patients.filter(p => p.clinical_status === 'High Risk' || p.base_risk < 0.60).length})
             </button>
@@ -105,8 +119,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             <thead>
               <tr>
                 <th>Patient ID</th>
-                <th>Adherence</th>
-                <th>Score Range</th>
+                <th className="num">Adherence</th>
+                <th className="num">Score Range</th>
                 <th>Patient Phase</th>
                 <th>Review</th>
                 <th>Status</th>
@@ -116,13 +130,13 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center', padding: '30px' }}>
+                  <td colSpan={7} className="table-state-cell">
                     Loading patients...
                   </td>
                 </tr>
               ) : filteredPatients.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center', padding: '30px' }}>
+                  <td colSpan={7} className="table-state-cell">
                     No patients match the selected filter.
                   </td>
                 </tr>
@@ -135,17 +149,24 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                   return (
                     <tr
                       key={p.patient_id}
-                      className="clickable-row"
+                      className={`clickable-row ${rowAccent(p.clinical_status)}`}
                       onClick={() => onSelectPatient(p.patient_id)}
+                      tabIndex={0}
+                      role="button"
+                      onKeyDown={e => {
+                        // Only the row itself — keys on the inner button must not double-fire.
+                        if (e.target !== e.currentTarget) return;
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          onSelectPatient(p.patient_id);
+                        }
+                      }}
                     >
-                      <td className="mono-val">{shortId(p.patient_id)}</td>
-                      <td
-                        className="mono-val"
-                        style={isCritical ? { color: 'var(--status-critical)' } : undefined}
-                      >
+                      <td className="mono-val cell-id" title={p.patient_id}>{shortId(p.patient_id)}</td>
+                      <td className={`mono-val num ${isCritical ? 'tone-critical' : ''}`}>
                         {(p.base_risk * 100).toFixed(1)}%
                       </td>
-                      <td className="mono-dim">
+                      <td className="mono-dim num">
                         {(p.lower_90 * 100).toFixed(0)}% — {(p.upper_90 * 100).toFixed(0)}%
                       </td>
                       <td>{displayHmm}</td>
@@ -159,24 +180,26 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                       <td>
                         {p.clinical_status === 'High Risk' ? (
                           <span className="clinical-badge badge-high-risk">
-                            <span className="dot red" />
+                            <span className="dot red" aria-hidden="true" />
                             {displayStatus}
                           </span>
                         ) : p.clinical_status === 'Review Required' ? (
                           <span className="clinical-badge badge-monitor">
-                            <span className="dot amber" />
+                            <span className="dot amber" aria-hidden="true" />
                             {displayStatus}
                           </span>
                         ) : (
                           <span className="clinical-badge badge-normal">
-                            <span className="dot green" />
+                            <span className="dot green" aria-hidden="true" />
                             {displayStatus}
                           </span>
                         )}
                       </td>
                       <td>
                         <button
-                          className="btn-action"
+                          type="button"
+                          className="btn-action accent-neutral"
+                          tabIndex={-1}
                           onClick={e => {
                             e.stopPropagation();
                             onSelectPatient(p.patient_id);
