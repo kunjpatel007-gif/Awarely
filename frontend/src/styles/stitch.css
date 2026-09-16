@@ -3841,3 +3841,123 @@ th.num .th-sort {
     scroll-behavior: auto !important;
   }
 }
+/* Theme switch: "fracture". Cracks race out from the toggle, then light
+   (to light mode) or darkness (to dark mode) bursts through them. The theme
+   swaps under the burst peak at ~400 ms; everything is gone by ~800 ms. */
+html.theme-fx-swapping *,
+html.theme-fx-swapping *::before,
+html.theme-fx-swapping *::after {
+  transition: none !important;
+}
+.theme-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+.theme-fx--light {
+  --fx-core: #FFFFFF;
+  --fx-glow: rgba(255, 200, 90, .55);
+  --fx-ray: rgba(255, 244, 214, .9);
+  --fx-flood: 255, 248, 232;
+}
+.theme-fx--dark {
+  --fx-core: #04060D;
+  --fx-glow: rgba(76, 52, 160, .45);
+  --fx-ray: rgba(3, 5, 14, .92);
+  --fx-flood: 4, 6, 14;
+}
+
+/* Cracks: drawn outward, glow + sharp core, fade after the swap */
+.theme-fx-cracks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: fxCracksFade 800ms linear forwards;
+}
+.theme-fx-cracks path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: fxCrackDraw 210ms cubic-bezier(.2, .8, .2, 1) forwards;
+}
+.theme-fx-glow path { stroke: var(--fx-glow); stroke-width: 9; }
+.theme-fx-core path { stroke: var(--fx-core); stroke-width: 2.2; }
+.theme-fx-glow path.is-fork { stroke-width: 6; }
+.theme-fx-core path.is-fork { stroke-width: 1.4; }
+
+/* Impact point at the button */
+.theme-fx-impact {
+  position: absolute;
+  left: var(--fx-x);
+  top: var(--fx-y);
+  width: 120px;
+  height: 120px;
+  margin: -60px 0 0 -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--fx-core) 0 18%, var(--fx-glow) 40%, transparent 70%);
+  animation: fxImpact 420ms cubic-bezier(.2, .8, .2, 1) forwards;
+}
+
+/* Rays blasting out of the fracture point */
+.theme-fx-rays {
+  position: absolute;
+  left: var(--fx-x);
+  top: var(--fx-y);
+  width: 300vmax;
+  height: 300vmax;
+  margin: -150vmax 0 0 -150vmax;
+  background: repeating-conic-gradient(from 7deg, var(--fx-ray) 0deg 2.5deg, transparent 2.5deg 11deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0, #000 14%, transparent 48%);
+  mask-image: radial-gradient(circle, #000 0, #000 14%, transparent 48%);
+  opacity: 0;
+  animation: fxRays 580ms cubic-bezier(.16, 1, .3, 1) 180ms forwards;
+}
+
+/* Light / darkness flooding out, covering the swap */
+.theme-fx-flood {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle farthest-corner at var(--fx-x) var(--fx-y),
+    rgba(var(--fx-flood), 1) 0%, rgba(var(--fx-flood), .97) 45%, rgba(var(--fx-flood), .88) 100%);
+  transform-origin: var(--fx-x) var(--fx-y);
+  opacity: 0;
+  animation: fxFlood 580ms cubic-bezier(.4, 0, .2, 1) 210ms forwards;
+}
+
+#root.theme-fx-shake {
+  animation: fxShake 180ms linear;
+}
+
+@keyframes fxCrackDraw { to { stroke-dashoffset: 0; } }
+@keyframes fxCracksFade {
+  0%, 55% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes fxImpact {
+  0% { transform: scale(.2); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes fxRays {
+  0% { opacity: 0; transform: scale(.15) rotate(0deg); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.1) rotate(14deg); }
+}
+@keyframes fxFlood {
+  0% { opacity: 0; transform: scale(.94); }
+  30% { opacity: .97; transform: scale(1); }
+  52% { opacity: .97; }
+  100% { opacity: 0; transform: scale(1.02); }
+}
+@keyframes fxShake {
+  0%, 100% { transform: none; }
+  20% { transform: translate(-2px, 1px); }
+  45% { transform: translate(2px, -1px); }
+  70% { transform: translate(-1px, 1px); }
+}
+
