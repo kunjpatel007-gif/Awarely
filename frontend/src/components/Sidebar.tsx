@@ -40,7 +40,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="brand-area">
           <div className="brand-title">
             <span className="brand-mark" aria-hidden="true" />
-            The Vanishing Dose
+            Awarely
           </div>
           <span className="brand-subtitle">Medication Adherence Monitor</span>
         </div>
