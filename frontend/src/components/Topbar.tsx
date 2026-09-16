@@ -21,7 +21,6 @@ const TopbarInner: React.FC<TopbarProps> = ({
   hmm_state = 0
 }) => {
   const [clock, setClock] = useState<string>('');
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => document.documentElement.getAttribute('data-theme') === 'dark');
 
   useEffect(() => {
     const updateTime = () => {
@@ -32,38 +31,6 @@ const TopbarInner: React.FC<TopbarProps> = ({
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  const toggleDarkMode = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const newMode = !isDarkMode;
-    const apply = () => {
-      setIsDarkMode(newMode);
-      if (newMode) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    };
-
-    // Circular reveal from the button where the View Transitions API exists;
-    // identical instant switch everywhere else or with reduced motion.
-    const doc = document as ViewTransitionDocument;
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (!doc.startViewTransition || reduce) {
-      apply();
-      return;
-    }
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = r.left + r.width / 2;
-    const y = r.top + r.height / 2;
-    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-    const root = document.documentElement;
-    root.style.setProperty('--vt-x', `${x}px`);
-    root.style.setProperty('--vt-y', `${y}px`);
-    root.style.setProperty('--vt-r', `${radius}px`);
-    doc.startViewTransition(() => {
-      flushSync(apply);
-    });
-  };
 
   const titles: Record<ViewType, string> = {
     overview: 'Patient Overview',
@@ -120,18 +87,6 @@ const TopbarInner: React.FC<TopbarProps> = ({
           <span className="search-trigger-label">Search patients</span>
           <Kbd>{modKeyLabel}K</Kbd>
         </button>
-        <Popover content={<div className="pop-body">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</div>} placement="bottom">
-          <button 
-            type="button"
-            className="btn-outline btn-icon theme-toggle" 
-            onClick={toggleDarkMode}
-            aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            <span className="theme-toggle-icon" key={isDarkMode ? 'sun' : 'moon'}>
-              {isDarkMode ? <IconSun /> : <IconMoon />}
-            </span>
-          </button>
-        </Popover>
         <Popover content={<div className="pop-body">Resets the demo backend state, then reloads the page.</div>} placement="bottom">
           <button 
             type="button"
