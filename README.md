@@ -8,17 +8,18 @@ A full-stack clinical decision support system that infers medication non-adheren
 
 ## Table of Contents
 
-1. [Problem Statement](#problem-statement)
-2. [System Architecture](#system-architecture)
-3. [ML Pipeline](#ml-pipeline)
-4. [Real-Time Telemetry and JITAI Engine](#real-time-telemetry-and-jitai-engine)
-5. [Backend API Reference](#backend-api-reference)
-6. [Frontend Architecture](#frontend-architecture)
-7. [Hardware Integration](#hardware-integration)
-8. [Data Pipeline](#data-pipeline)
-9. [Deployment](#deployment)
-10. [Directory Structure](#directory-structure)
-11. [Environment Variables](#environment-variables)
+1. [Key Highlight: Cloud-Native IoT Telemetry](#key-highlight-cloud-native-iot-telemetry)
+2. [Problem Statement](#problem-statement)
+3. [System Architecture](#system-architecture)
+4. [ML Pipeline](#ml-pipeline)
+5. [Real-Time Telemetry and JITAI Engine](#real-time-telemetry-and-jitai-engine)
+6. [Backend API Reference](#backend-api-reference)
+7. [Frontend Architecture](#frontend-architecture)
+8. [Hardware Integration](#hardware-integration)
+9. [Data Pipeline](#data-pipeline)
+10. [Cloud Architecture & Hosting](#cloud-architecture--hosting)
+11. [Directory Structure](#directory-structure)
+12. [Environment Variables](#environment-variables)
 
 ---
 
