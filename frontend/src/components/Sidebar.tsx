@@ -1,5 +1,6 @@
 import React from 'react';
 import { ViewType, CohortSummary } from '../types';
+import { HARDWARE_PATIENT_ID } from '../constants';
 
 interface SidebarProps {
   currentView: ViewType;
@@ -105,7 +106,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="sys-status-label">Sensor</span>
             <span className="status-pill">
               <span className={`dot ${isReceivingData ? 'green is-live' : 'amber'}`} aria-hidden="true" />
-              {isReceivingData ? 'Connected' : 'Standby'}
+              {!isReceivingData ? 'Standby' : (activePatientId === HARDWARE_PATIENT_ID ? 'Connected' : 'Simulating')}
             </span>
           </div>
         </div>
