@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy requirements and install
 COPY requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
-RUN --mount=type=cache,target=/root/.cache/pip pip install redis
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir redis
 
 # Copy application source
 COPY . .
