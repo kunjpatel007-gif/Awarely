@@ -8,6 +8,7 @@ export interface UseTelemetryReturn {
   latestSnapshot: TelemetrySnapshot | null;
   latestAlert: JitaiAlert | null;
   isConnected: boolean;
+  isReceivingData: boolean;
   connectionState: ConnectionState;
   hrv: {
     mean_hr_bpm: number;
@@ -23,6 +24,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
   const [latestSnapshot, setLatestSnapshot] = useState<TelemetrySnapshot | null>(null);
   const [latestAlert, setLatestAlert] = useState<JitaiAlert | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [isReceivingData, setIsReceivingData] = useState<boolean>(false);
   const [connectionState, setConnectionState] = useState<ConnectionState>('disconnected');
   const [eventLog, setEventLog] = useState<Array<{ time: string; text: string; isAlert: boolean }>>([
     { time: new Date().toISOString().substring(11, 19), text: 'Telemetry subscriber initialized', isAlert: false }
@@ -37,6 +39,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<any>(null);
+  const dataTimeoutRef = useRef<any>(null);
 
   const addLog = useCallback((text: string, isAlert = false) => {
     const time = new Date().toISOString().substring(11, 19);
@@ -73,6 +76,10 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
     }
+    if (dataTimeoutRef.current) {
+      clearTimeout(dataTimeoutRef.current);
+      setIsReceivingData(false);
+    }
 
     function connect() {
       if (!activePatientId) return;
@@ -100,6 +107,12 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
           try {
             const msg = JSON.parse(event.data);
             if (msg.type === 'SAMPLE') {
+              setIsReceivingData(true);
+              if (dataTimeoutRef.current) clearTimeout(dataTimeoutRef.current);
+              dataTimeoutRef.current = setTimeout(() => {
+                if (!unmounted) setIsReceivingData(false);
+              }, 2000);
+
               const sample: TelemetrySample = msg.data;
               setSamples(prev => {
                 const next = [...prev, sample];
@@ -168,6 +181,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
     return () => {
       unmounted = true;
       if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+      if (dataTimeoutRef.current) clearTimeout(dataTimeoutRef.current);
       if (wsRef.current) {
         wsRef.current.close();
         wsRef.current = null;
@@ -180,6 +194,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
     latestSnapshot,
     latestAlert,
     isConnected,
+    isReceivingData,
     connectionState,
     hrv,
     eventLog

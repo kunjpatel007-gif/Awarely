@@ -28,6 +28,7 @@ export const App: React.FC = () => {
     samples,
     latestAlert,
     isConnected,
+    isReceivingData,
     connectionState,
     hrv,
     eventLog
@@ -96,6 +97,7 @@ export const App: React.FC = () => {
         activePatientId={activePatientId}
         summary={summary}
         wsConnected={isConnected}
+        isReceivingData={isReceivingData}
       />
 
       <main className="main-content">

@@ -6,12 +6,19 @@
 #include "MAX30105.h"
 
 #define FORCE_SIMULATION false
+#define CLOUD_MODE true  // <--- SET TO true FOR RENDER, false FOR LOCALHOST
 
 const char* WIFI_SSID = "WifiH"; // Change this to your real WiFi or Hotspot Name
 const char* WIFI_PASS = "12345678";
 
-const char* WS_HOST = "10.221.129.235"; // <--- IMPORTANT: DO NOT LEAVE AS 127.0.0.1
-const int   WS_PORT = 8000;
+#if CLOUD_MODE
+  const char* WS_HOST = "awarely-hmfd.onrender.com";
+  const int   WS_PORT = 443;
+#else
+  const char* WS_HOST = "10.221.129.235"; // Your laptop's local IP
+  const int   WS_PORT = 8000;
+#endif
+
 const char* WS_PATH = "/ws/ppg";
 
 #define LED_PIN 2       // ESP32 onboard blue LED
@@ -92,9 +99,12 @@ void setup() {
         Serial.printf("\n[WiFi] Connected! IP: %s\n", WiFi.localIP().toString().c_str());
     } else {
         Serial.println("\n[WiFi] Warning: Connection timeout. Continuing in offline buffer mode.");
-    }
+    #if CLOUD_MODE
+      webSocket.beginSSL(WS_HOST, WS_PORT, WS_PATH);
+    #else
+      webSocket.begin(WS_HOST, WS_PORT, WS_PATH);
+    #endif
 
-    webSocket.begin(WS_HOST, WS_PORT, WS_PATH);
     webSocket.onEvent(webSocketEvent);
     webSocket.setReconnectInterval(3000);
 }

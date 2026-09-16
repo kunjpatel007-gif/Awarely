@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ViewType } from '../types';
 import { hmmStateToLabel, clinicalStatusToLabel } from '../lib/clinicalLabels';
+import { API_BASE_URL } from '../services/api';
 
 interface TopbarProps {
   currentView: ViewType;
@@ -94,7 +95,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 
   const handleResetDemo = async () => {
     try {
-      await fetch('http://localhost:8000/api/reset', { method: 'POST' });
+      await fetch(`${API_BASE_URL}/api/reset`, { method: 'POST' });
       alert('Demo state has been reset successfully. The page will now reload.');
       window.location.reload();
     } catch (e) {

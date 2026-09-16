@@ -7,6 +7,7 @@ interface SidebarProps {
   activePatientId: string;
   summary: CohortSummary | null;
   wsConnected: boolean;
+  isReceivingData: boolean;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -14,7 +15,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectView,
   activePatientId,
   summary,
-  wsConnected
+  wsConnected,
+  isReceivingData
 }) => {
   const shortPatient = activePatientId ? activePatientId.replace('test-patient-', 'P-') : 'P-0825';
 
@@ -102,8 +104,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="sys-status-row">
             <span className="sys-status-label">Sensor</span>
             <span className="status-pill">
-              <span className={`dot ${wsConnected ? 'green is-live' : 'amber'}`} aria-hidden="true" />
-              {wsConnected ? 'Connected' : 'Standby'}
+              <span className={`dot ${isReceivingData ? 'green is-live' : 'amber'}`} aria-hidden="true" />
+              {isReceivingData ? 'Connected' : 'Standby'}
             </span>
           </div>
         </div>

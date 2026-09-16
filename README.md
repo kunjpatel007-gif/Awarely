@@ -20,6 +20,10 @@ A full-stack clinical decision support system that infers medication non-adheren
 
 ---
 
+## Key Highlight: Cloud-Native IoT Telemetry
+
+A core feature of the Awarely architecture is its fully decoupled, cloud-native hardware integration. The system supports remote physiological monitoring via an ESP32 microcontroller that streams high-frequency Photoplethysmography (PPG) data directly to the cloud backend over secure WebSockets (WSS). This permits true remote patient monitoring—clinical staff can view live physiological streams on the dashboard from any device, anywhere in the world, while the patient hardware operates completely autonomously on a standard WiFi connection.
+
 ## Problem Statement
 
 Medication non-adherence causes approximately 125,000 deaths and costs the US healthcare system $300 billion annually. Patients routinely over-report adherence, making self-report an unreliable clinical instrument. This system treats adherence as a latent variable, estimating it from observable indirect signals via a multi-model ensemble with calibrated uncertainty quantification, triggering Just-In-Time Adaptive Interventions (JITAI) when physiological stress is detected.
