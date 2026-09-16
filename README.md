@@ -1,5 +1,7 @@
 # Awarely — Indirect-Signal Medication Adherence Intelligence Platform
 
+**🔴 Live Demo:** [https://awarely-iota.vercel.app](https://awarely-iota.vercel.app)
+
 A full-stack clinical decision support system that infers medication non-adherence from indirect signals — pharmacy refill records, appointment history, and real-time biosignal telemetry — without relying on patient self-report. Developed for the Manipal Institute of Technology Hackathon 2026.
 
 ---
@@ -335,33 +337,31 @@ Patient medications are extracted directly from Synthea FHIR `MedicationRequest`
 
 ---
 
-## Deployment
+## Cloud Architecture & Hosting
 
-### Prerequisites
+The application is deployed using a decoupled, serverless microservice architecture to ensure high availability and scalable WebSocket connections.
 
-- Docker Desktop 4.x or later with the `docker compose` v2 plugin
+### 1. Frontend (Vercel)
+The React/Vite frontend is continuously deployed on **Vercel** via GitHub integration. Vercel's Edge Network serves the static assets and provides automatic SSL termination.
+- **Environment Variables**: 
+  - `VITE_API_URL` -> Points to the Google Cloud Run backend REST URL.
+  - `VITE_WS_URL` -> Points to the secure `wss://` Google Cloud Run WebSocket URL.
 
-### Quick Start
+### 2. Backend (Google Cloud Run)
+The FastAPI backend and machine learning inference engine are containerized and deployed on **Google Cloud Run**.
+- **Continuous Deployment**: Connected directly to the GitHub repository using GCP Cloud Build. Upon every push to the `main` branch, Cloud Build compiles the Docker image and pushes it to **Artifact Registry**, which automatically provisions a new Cloud Run revision.
+- **Concurrency**: Configured to support up to 80 concurrent requests per container to maintain stable 50Hz WebSocket streams for the hardware integration.
+- **Stateless ML Models**: The XGBoost and HMM models are pre-trained, pickled, and embedded directly into the Docker container. 
 
-```bash
-git clone https://github.com/kunjpatel007-gif/Hackathon-Manipal.git
-cd Hackathon-Manipal
+### 3. Edge Hardware (ESP32)
+The ESP32 microcontroller (utilizing an HW-605 / MAX30102 sensor) is flashed via PlatformIO. 
+- It establishes a direct TLS encrypted `wss://` WebSocket connection to the Cloud Run backend.
+- It operates at a stable I2C standard speed (100kHz) and streams raw PPG buffers at an effective 50Hz.
+- Includes automatic fallback to simulated synthetic waveform generation if the physical I2C sensor is disconnected.
 
-# Configure SMTP credentials
-cp .env.example .env
+---
 
-docker-compose up --build -d
-docker-compose ps
-```
-
-| Service | Container | Host Port |
-|---|---|---|
-| Frontend (nginx) | `vanishing_dose_frontend` | 5173 |
-| Backend (uvicorn) | `vanishing_dose_backend` | 8000 |
-| Redis | `vanishing_dose_redis` | 6379 |
-
-Dashboard: `http://localhost:5173`  
-API documentation (Swagger UI): `http://localhost:8000/docs`
+### Local Development Quick Start
 
 ### Docker Build Configurations (Local vs. Cloud)
 
