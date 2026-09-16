@@ -24,7 +24,10 @@ import {
   IconSpinner,
   InfoTip,
   Popover,
+  ProgressRing,
+  Reveal,
   SearchField,
+  Skeleton,
   Tabs,
   Toast,
   highlight,
@@ -88,9 +91,16 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
   if (isLoading || !patient) {
     return (
       <div className="view-panel active-view">
-        <div className="loading-state">
-          <span className="loading-pulse" aria-hidden="true" />
-          <span className="mono-val">Loading patient data...</span>
+        <div className="diag-skeleton" role="status">
+          <span className="sr-only">Loading patient data...</span>
+          <Skeleton height="48px" className="skeleton--block" />
+          <Skeleton height="72px" className="skeleton--block" />
+          <div className="diag-skeleton-cards">
+            {[0, 1, 2, 3].map(i => (
+              <Skeleton key={i} height="132px" className="skeleton--block" />
+            ))}
+          </div>
+          <Skeleton height="220px" className="skeleton--block" />
         </div>
       </div>
     );
@@ -338,10 +348,11 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
               appointment records.
             </InfoTip>
           </div>
-          <div className="diag-value-wrapper">
+          <div className="diag-value-wrapper diag-value-wrapper--ring">
             <div className={`diag-unified-val ${isHighRisk ? 'tone-critical' : ''}`}>
               {(patient.base_risk * 100).toFixed(1)}%
             </div>
+            <ProgressRing value={patient.base_risk} tone={riskTone} size={44} />
           </div>
           <div className="diag-subtext-wrapper">
             <div className="diag-subtext">Estimated from health records</div>
@@ -417,6 +428,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       />
 
       {/* Explanation & Intervention Grid */}
+      <Reveal>
       <div className="diag-explain-grid">
         <div className="clinical-panel">
           <div className="panel-header">
@@ -438,8 +450,10 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
         </div>
         <JitaiPanel isStressed={hrv.is_stressed} latestAlert={latestAlert} />
       </div>
+      </Reveal>
 
       {/* Full Clinical Profile */}
+      <Reveal>
       <CollapsiblePanel
         title="Full Clinical Profile"
         meta={`${profileEntries.length} features`}
@@ -471,6 +485,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
       </CollapsiblePanel>
+      </Reveal>
 
       {/* Live Heart Rate Monitor */}
       <div className="telemetry-live-box">
@@ -552,6 +567,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
       </div>
 
       {/* Event Timeline */}
+      <Reveal>
       <CollapsiblePanel
         title="Event Log"
         meta={`${eventLog.length} events`}
@@ -587,6 +603,7 @@ export const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({
           </div>
         </div>
       </CollapsiblePanel>
+      </Reveal>
     </div>
   );
 };

@@ -22,7 +22,7 @@ interface ReviewQueuePageProps {
 
 type StatusFilter = 'all' | PatientSummary['clinical_status'];
 
-export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
+const ReviewQueuePageInner: React.FC<ReviewQueuePageProps> = ({
   patients,
   onSelectPatient,
   onRefresh
@@ -180,9 +180,13 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
                   </td>
                 </tr>
               ) : (
-                shown.map(p => {
+                shown.map((p, rowIndex) => {
                   return (
-                    <tr key={p.patient_id} className={`accent-${statusTone(p.clinical_status)}`}>
+                    <tr
+                      key={p.patient_id}
+                      className={`accent-${statusTone(p.clinical_status)}${rowIndex < 12 ? ' row-enter' : ''}`}
+                      style={rowIndex < 12 ? ({ '--row-i': rowIndex } as React.CSSProperties) : undefined}
+                    >
                       <td className="mono-val cell-id">
                         <Popover
                           variant="card"
@@ -246,3 +250,5 @@ export const ReviewQueuePage: React.FC<ReviewQueuePageProps> = ({
     </div>
   );
 };
+
+export const ReviewQueuePage = React.memo(ReviewQueuePageInner);

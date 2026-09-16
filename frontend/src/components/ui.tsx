@@ -563,3 +563,102 @@ export const Toast: React.FC<{ message: string; onClose: () => void; duration?: 
     </div>
   );
 };
+
+/* ------------------------------------------------ Visibility & motion -- */
+
+/** True while the element intersects the viewport (or once, with `once`). */
+export function useInView(
+  ref: { current: Element | null },
+  options: { once?: boolean; rootMargin?: string; threshold?: number } = {}
+): boolean {
+  const { once = false, rootMargin = '0px', threshold = 0.15 } = options;
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          if (once) io.disconnect();
+        } else if (!once) {
+          setInView(false);
+        }
+      },
+      { rootMargin, threshold }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, once, rootMargin, threshold]);
+  return inView;
+}
+
+/** False while the browser tab is hidden, so loops can stop burning CPU. */
+export function useDocumentVisible(): boolean {
+  const [visible, setVisible] = useState<boolean>(() => typeof document === 'undefined' || !document.hidden);
+  useEffect(() => {
+    const onChange = () => setVisible(!document.hidden);
+    document.addEventListener('visibilitychange', onChange);
+    return () => document.removeEventListener('visibilitychange', onChange);
+  }, []);
+  return visible;
+}
+
+/** One-shot fade/rise as the block scrolls into view. */
+export const Reveal: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
+  children,
+  delay = 0,
+  className = ''
+}) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const shown = useInView(ref, { once: true, rootMargin: '0px 0px -6% 0px', threshold: 0.01 });
+  return (
+    <div
+      ref={ref}
+      className={`reveal${shown ? ' is-revealed' : ''}${className ? ` ${className}` : ''}`}
+      style={delay ? ({ '--reveal-delay': `${delay}ms` } as React.CSSProperties) : undefined}
+    >
+      {children}
+    </div>
+  );
+};
+
+/** Circular gauge (0..1). Decorative: always pair with the number in text. */
+export const ProgressRing: React.FC<{
+  value: number;
+  tone?: 'critical' | 'warn' | 'healthy' | 'neutral' | 'info';
+  size?: number;
+}> = ({ value, tone = 'neutral', size = 44 }) => {
+  const v = Math.min(1, Math.max(0, value));
+  return (
+    <svg
+      className={`progress-ring accent-${tone}`}
+      width={size}
+      height={size}
+      viewBox="0 0 44 44"
+      aria-hidden="true"
+      focusable="false"
+      style={{ '--ring-offset': `${1 - v}` } as React.CSSProperties}
+    >
+      <circle className="progress-ring-track" cx="22" cy="22" r="18" pathLength={1} />
+      <circle className="progress-ring-value" cx="22" cy="22" r="18" pathLength={1} />
+    </svg>
+  );
+};
+
+/** Shimmering placeholder block. */
+export const Skeleton: React.FC<{ width?: string; height?: string; className?: string }> = ({
+  width = '100%',
+  height = '12px',
+  className = ''
+}) => (
+  <span
+    className={`skeleton${className ? ` ${className}` : ''}`}
+    style={{ '--sk-w': width, '--sk-h': height } as React.CSSProperties}
+    aria-hidden="true"
+  />
+);

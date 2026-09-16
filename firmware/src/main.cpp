@@ -12,7 +12,7 @@ const char* WIFI_SSID = "WifiH"; // Change this to your real WiFi or Hotspot Nam
 const char* WIFI_PASS = "12345678";
 
 #if CLOUD_MODE
-  const char* WS_HOST = "awarely-hmfd.onrender.com";
+  const char* WS_HOST = "awarely-443293282760.asia-south1.run.app";
   const int   WS_PORT = 443;
 #else
   const char* WS_HOST = "10.221.129.235"; // Your laptop's local IP
@@ -99,6 +99,8 @@ void setup() {
         Serial.printf("\n[WiFi] Connected! IP: %s\n", WiFi.localIP().toString().c_str());
     } else {
         Serial.println("\n[WiFi] Warning: Connection timeout. Continuing in offline buffer mode.");
+    }
+    
     #if CLOUD_MODE
       webSocket.beginSSL(WS_HOST, WS_PORT, WS_PATH);
     #else

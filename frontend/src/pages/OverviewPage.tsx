@@ -11,6 +11,7 @@ import {
   Popover,
   RangeBar,
   SearchField,
+  Skeleton,
   spotlight,
   useIndicator
 } from '../components/ui';
@@ -30,7 +31,7 @@ type SortState = { key: SortKey; dir: 'asc' | 'desc' } | null;
 const FIRST_DIR: Record<SortKey, 'asc' | 'desc'> = { id: 'asc', adherence: 'asc', range: 'desc' };
 const MAX_ROWS = 50;
 
-export const OverviewPage: React.FC<OverviewPageProps> = ({
+const OverviewPageInner: React.FC<OverviewPageProps> = ({
   summary,
   patients,
   onSelectPatient,
@@ -257,11 +258,21 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
             </thead>
             <tbody>
               {isLoading ? (
-                <tr>
-                  <td colSpan={7} className="table-state-cell">
-                    Loading patients...
-                  </td>
-                </tr>
+                Array.from({ length: 6 }, (_, i) => (
+                  <tr key={`sk-${i}`} className="skeleton-row" style={{ '--row-i': i } as React.CSSProperties}>
+                    <td colSpan={7}>
+                      {i === 0 && <span className="sr-only">Loading patients...</span>}
+                      <span className="skeleton-line">
+                        <Skeleton width="72px" />
+                        <Skeleton width="56px" />
+                        <Skeleton width="120px" />
+                        <Skeleton width="96px" />
+                        <Skeleton width="72px" />
+                        <Skeleton width="104px" />
+                      </span>
+                    </td>
+                  </tr>
+                ))
               ) : visible.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="table-state-cell">
@@ -269,7 +280,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                   </td>
                 </tr>
               ) : (
-                visible.map(p => {
+                visible.map((p, rowIndex) => {
                   const isCritical = p.base_risk < 0.60;
                   const displayHmm = hmmStateToLabel(p.hmm_state);
                   const displayStatus = clinicalStatusToLabel(p.clinical_status);
@@ -277,7 +288,8 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
                   return (
                     <tr
                       key={p.patient_id}
-                      className={`clickable-row accent-${statusTone(p.clinical_status)}`}
+                      className={`clickable-row accent-${statusTone(p.clinical_status)}${rowIndex < 14 ? ' row-enter' : ''}`}
+                      style={rowIndex < 14 ? ({ '--row-i': rowIndex } as React.CSSProperties) : undefined}
                       onClick={() => onSelectPatient(p.patient_id)}
                       tabIndex={0}
                       role="button"
@@ -372,3 +384,5 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
     </div>
   );
 };
+
+export const OverviewPage = React.memo(OverviewPageInner);

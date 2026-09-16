@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { flushSync } from 'react-dom';
 import { ViewType } from '../types';
+import { API_BASE_URL } from '../services/api';
 import { hmmStateToLabel, clinicalStatusToLabel } from '../lib/clinicalLabels';
 import { IconMoon, IconReset, IconSearch, IconSun, Kbd, OPEN_PALETTE_EVENT, Popover, modKeyLabel } from './ui';
-import { API_BASE_URL } from '../services/api';
 
 interface TopbarProps {
   currentView: ViewType;
@@ -14,7 +14,7 @@ interface TopbarProps {
 
 type ViewTransitionDocument = Document & { startViewTransition?: (cb: () => void) => unknown };
 
-export const Topbar: React.FC<TopbarProps> = ({
+const TopbarInner: React.FC<TopbarProps> = ({
   currentView,
   activePatientId,
   patientStatus = 'Nominal',
@@ -148,3 +148,4 @@ export const Topbar: React.FC<TopbarProps> = ({
   );
 };
 
+export const Topbar = React.memo(TopbarInner);

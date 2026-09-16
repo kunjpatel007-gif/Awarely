@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './styles/stitch.css';
 import { ViewType, CohortSummary, PatientSummary, PatientDiagnostics } from './types';
 import { fetchCohortSummary, fetchPatients, fetchPatientDiagnostics } from './services/api';
@@ -35,7 +35,7 @@ export const App: React.FC = () => {
     eventLog
   } = useTelemetry(activePatientId);
 
-  const refreshData = () => {
+  const refreshData = useCallback(() => {
     setIsLoadingPatients(true);
     Promise.all([
       fetchCohortSummary().catch(err => null),
@@ -60,7 +60,7 @@ export const App: React.FC = () => {
           setIsLoadingDiagnostics(false);
         });
     }
-  };
+  }, [activePatientId]);
 
   // Load Cohort Summary & Patient Roster
   useEffect(() => {
@@ -83,10 +83,10 @@ export const App: React.FC = () => {
     }
   }, [activePatientId]);
 
-  const handleSelectPatient = (patientId: string) => {
+  const handleSelectPatient = useCallback((patientId: string) => {
     setActivePatientId(patientId);
     setCurrentView('diagnostics');
-  };
+  }, []);
 
   const currentPatientObj = patients.find(p => p.patient_id === activePatientId);
 

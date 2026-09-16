@@ -12,7 +12,7 @@ interface SidebarProps {
   isReceivingData: boolean;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
+const SidebarInner: React.FC<SidebarProps> = ({
   currentView,
   onSelectView,
   activePatientId,
@@ -135,3 +135,5 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </aside>
   );
 };
+
+export const Sidebar = React.memo(SidebarInner);
