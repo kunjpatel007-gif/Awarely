@@ -121,13 +121,25 @@ export function formatFeatureName(feature: string): string {
     gender: "Gender",
     medication_count: "Concurrent Medications",
     days_on_therapy: "Days on Therapy",
-    insurance_type_enc: "Insurance Tier"
+    insurance_type_enc: "Insurance Tier",
+    insurance_type: "Insurance Type",
+    pdc: "PDC Score",
+    adherent: "Adherent"
   };
-  return map[feature] || feature.replace(/_/g, ' ');
+  
+  if (map[feature]) return map[feature];
+
+  // Fallback: Convert snake_case to Title Case
+  return feature
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 export function formatFeatureValue(feature: string, val: any): string {
   if (feature === 'gender') return val === 1.0 ? 'Male' : val === 0.0 ? 'Female' : 'Other';
+  if (feature === 'adherent') return (val === 1.0 || val === 1 || val === true) ? 'Yes' : 'No';
+  if (feature === 'pdc') return `${Math.round(Number(val) * 100)}%`;
   
   if (typeof val === 'string') {
     return val.charAt(0).toUpperCase() + val.slice(1);
