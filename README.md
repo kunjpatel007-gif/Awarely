@@ -401,14 +401,14 @@ Open `firmware/` in VSCode with the PlatformIO extension. Set `WS_HOST` in `main
 │   └── outputs/                # cqr_predictions.csv, hmm_states.csv, tabular_features.csv
 ├── frontend/
 │   ├── src/
-│   │   ├── App.tsx             # Root component, global state, data fetching
-│   │   ├── types/index.ts      # TypeScript interfaces (source of truth)
-│   │   ├── services/api.ts     # REST fetch functions
+│   │   ├── App.tsx                # Root component, global state, data fetching
+│   │   ├── types/index.ts         # TypeScript interfaces (source of truth)
+│   │   ├── services/api.ts        # REST fetch functions
 │   │   ├── hooks/useTelemetry.ts  # WebSocket manager, 50 Hz buffer
-│   │   ├── components/         # Sidebar, Topbar, ConformalVisualizer, ShapPanel, JitaiPanel, PpgCanvas
-│   │   ├── pages/              # OverviewPage, DiagnosticsPage, ReviewQueuePage, SystemModelsPage
+│   │   ├── components/            # Sidebar, Topbar, ConformalVisualizer, ShapPanel, JitaiPanel, PpgCanvas
+│   │   ├── pages/                 # OverviewPage, DiagnosticsPage, ReviewQueuePage, SystemModelsPage
 │   │   ├── lib/clinicalLabels.ts  # Label translation utilities
-│   │   └── styles/stitch.css   # Complete design system, 1848 lines
+│   │   └── styles/stitch.css      # Complete design system
 │   ├── index.html
 │   └── Dockerfile
 ├── firmware/
