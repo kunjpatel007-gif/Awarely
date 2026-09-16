@@ -2,7 +2,7 @@
 
 **🔴 Live Demo:** [https://awarely-iota.vercel.app](https://awarely-iota.vercel.app)
 
-A full-stack clinical decision support system that infers medication non-adherence from indirect signals — pharmacy refill records, appointment history, and real-time biosignal telemetry — without relying on patient self-report. Developed for the Manipal Institute of Technology Hackathon 2026.
+A full-stack clinical decision support system that infers medication non-adherence from indirect signals — pharmacy refill records, appointment history, and real-time biosignal telemetry — without relying on patient self-report.
 
 ---
 
