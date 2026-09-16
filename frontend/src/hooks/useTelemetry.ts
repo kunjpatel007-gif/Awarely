@@ -39,7 +39,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<any>(null);
-  const dataTimeoutRef = useRef<any>(null);
+  const lastSampleTimeRef = useRef<number>(0);
 
   const addLog = useCallback((text: string, isAlert = false) => {
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
@@ -76,10 +76,6 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
     }
-    if (dataTimeoutRef.current) {
-      clearTimeout(dataTimeoutRef.current);
-      setIsReceivingData(false);
-    }
 
     function connect() {
       if (!activePatientId) return;
@@ -107,11 +103,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
           try {
             const msg = JSON.parse(event.data);
             if (msg.type === 'SAMPLE') {
-              setIsReceivingData(true);
-              if (dataTimeoutRef.current) clearTimeout(dataTimeoutRef.current);
-              dataTimeoutRef.current = setTimeout(() => {
-                if (!unmounted) setIsReceivingData(false);
-              }, 2000);
+              lastSampleTimeRef.current = Date.now();
 
               const sample: TelemetrySample = msg.data;
               setSamples(prev => {
@@ -178,10 +170,18 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
 
     connect();
 
+    const watchInterval = setInterval(() => {
+      if (Date.now() - lastSampleTimeRef.current > 2000) {
+        setIsReceivingData(false);
+      } else {
+        setIsReceivingData(true);
+      }
+    }, 1000);
+
     return () => {
       unmounted = true;
+      clearInterval(watchInterval);
       if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
-      if (dataTimeoutRef.current) clearTimeout(dataTimeoutRef.current);
       if (wsRef.current) {
         wsRef.current.close();
         wsRef.current = null;
