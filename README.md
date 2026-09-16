@@ -359,6 +359,28 @@ docker-compose ps
 Dashboard: `http://localhost:5173`  
 API documentation (Swagger UI): `http://localhost:8000/docs`
 
+### Docker Build Configurations (Local vs. Cloud)
+
+Because the backend relies on heavy ML packages (XGBoost, SciKit), the pip cache can become massive. You must use the correct `backend/Dockerfile` depending on your environment.
+
+**Version 1: Local Development (Default in repo)**
+Uses BuildKit cache mounts to prevent re-downloading massive files when rebuilding your container locally.
+```dockerfile
+# backend/Dockerfile (Local version)
+COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip pip install redis
+```
+
+**Version 2: Cloud Deployment (e.g., Render Free Tier)**
+Free cloud tiers have tight RAM/Disk limits (often 512MB). The local cache mounts will cause the server to crash (`BrokenPipeError`) during deployment. You must strip the cache mounts and use `--no-cache-dir`.
+```dockerfile
+# backend/Dockerfile (Cloud version)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir redis
+```
+
 ### Updating the Backend Without Rebuilding
 
 ```bash
