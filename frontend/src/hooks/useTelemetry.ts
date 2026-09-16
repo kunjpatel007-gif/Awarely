@@ -27,7 +27,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
   const [isReceivingData, setIsReceivingData] = useState<boolean>(false);
   const [connectionState, setConnectionState] = useState<ConnectionState>('disconnected');
   const [eventLog, setEventLog] = useState<Array<{ time: string; text: string; isAlert: boolean }>>([
-    { time: new Date().toISOString().substring(11, 19), text: 'Telemetry subscriber initialized', isAlert: false }
+    { time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }), text: 'Telemetry subscriber initialized', isAlert: false }
   ]);
 
   const [hrv, setHrv] = useState({
@@ -42,7 +42,7 @@ export function useTelemetry(activePatientId: string): UseTelemetryReturn {
   const dataTimeoutRef = useRef<any>(null);
 
   const addLog = useCallback((text: string, isAlert = false) => {
-    const time = new Date().toISOString().substring(11, 19);
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
     setEventLog(prev => [{ time, text, isAlert }, ...prev.slice(0, 24)]);
   }, []);
 
