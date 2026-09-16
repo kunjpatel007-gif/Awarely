@@ -26,7 +26,7 @@ A core feature of the Awarely architecture is its fully decoupled, cloud-native 
 
 ## Problem Statement
 
-Medication non-adherence causes approximately 125,000 deaths and costs the US healthcare system $300 billion annually. Patients routinely over-report adherence, making self-report an unreliable clinical instrument. This system treats adherence as a latent variable, estimating it from observable indirect signals via a multi-model ensemble with calibrated uncertainty quantification, triggering Just-In-Time Adaptive Interventions (JITAI) when physiological stress is detected.
+A patient may be prescribed the right medication, yet treatment can fail because doses are missed, taken at the wrong time, or stopped altogether. In practice, clinicians often have very little visibility into what happens between prescription and the next appointment. Pharmacy refills, prescription changes, symptom patterns, wearable data, and follow-up records may each reveal small clues, but these signals are rarely considered together. The challenge is especially difficult when non-adherence is intermittent rather than a complete abandonment of treatment. Design a system that can identify patterns suggesting medication non-adherence from indirect, routinely available healthcare signals. Rather than relying on patients to manually report every missed dose, the system should reason from changes and inconsistencies across available information, distinguish temporary irregularities from meaningful patterns, and communicate uncertainty clearly. The goal is to help healthcare professionals identify when a treatment may not be working because of how it is being taken, without automatically assuming that a patient is non-compliant.
 
 ---
 
