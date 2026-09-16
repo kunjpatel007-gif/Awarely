@@ -1,24 +1,3 @@
-/**
- * ============================================================================
- * The Vanishing Dose — ESP32 Dual-Mode Biosignal Telemetry Firmware
- * Author: Person B (Hardware & API Integration)
- * Repository Root: D:/manipal h/Hackathon-Manipal
- *
- * ARCHITECTURAL DESIGN & ASSUMPTIONS:
- * 1. DUAL-MODE SUPPORT:
- *    - Mode A (Physical Hardware): Probes I2C address 0x57 for MAX30102 pulse oximeter
- *      (SDA = GPIO 21, SCL = GPIO 22). If found, samples raw IR/Red photoplethysmogram (PPG).
- *    - Mode B (Simulation / Wokwi Fallback): If MAX30102 is not detected at boot
- *      or if FORCE_SIMULATION is set, generates a synthetic dicrotic-notch PPG waveform
- *      (1.2 Hz fundamental ~ 72 BPM, plus noise) at 50 Hz.
- * 2. TELEMETRY RATE:
- *    - Transmits 1 sample every 20ms (50 Hz sampling rate) matching backend SAMPLE_RATE_HZ = 50.
- * 3. CLOSED-LOOP JITAI:
- *    - Listens for incoming WebSocket messages from FastAPI gateway.
- *    - Triggers visual LED indicator (GPIO 2) when "JITAI_TRIGGERED" alert is received.
- * ============================================================================
- */
-
 #include <Arduino.h>
 #include <WiFi.h>
 #include <Wire.h>
@@ -26,34 +5,26 @@
 #include <ArduinoJson.h>
 #include "MAX30105.h"
 
-// --- Configuration ---
-// Set to true if running in Wokwi simulator or testing without physical sensor
 #define FORCE_SIMULATION false
 
-// WiFi Credentials
 const char* WIFI_SSID = "WifiH"; // Change this to your real WiFi or Hotspot Name
 const char* WIFI_PASS = "12345678";
 
-// FastAPI Gateway WebSocket Host & Port
-// For local physical testing, change to your PC's LAN IP (e.g., "192.168.1.50")
 const char* WS_HOST = "10.221.129.235"; // <--- IMPORTANT: DO NOT LEAVE AS 127.0.0.1
 const int   WS_PORT = 8000;
 const char* WS_PATH = "/ws/ppg";
 
-// Pinout
 #define LED_PIN 2       // ESP32 onboard blue LED
 #define I2C_SDA 21      // MAX30102 SDA
 #define I2C_SCL 22      // MAX30102 SCL
 
-// Global Objects
 WebSocketsClient webSocket;
 MAX30105 particleSensor;
 
 bool sensorConnected = false;
 unsigned long lastSampleTime = 0;
-const unsigned long SAMPLE_INTERVAL_MS = 20; // 50 Hz transmission
+const unsigned long SAMPLE_INTERVAL_MS = 20;
 
-// WebSocket Event Handler
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
     switch(type) {
         case WStype_DISCONNECTED:
@@ -90,7 +61,6 @@ void setup() {
     pinMode(LED_PIN, OUTPUT);
     digitalWrite(LED_PIN, LOW);
 
-    // Initialize I2C for MAX30102
     Wire.begin(I2C_SDA, I2C_SCL);
 
     if (!FORCE_SIMULATION) {
@@ -109,7 +79,6 @@ void setup() {
         sensorConnected = false;
     }
 
-    // Connect to WiFi
     Serial.printf("[WiFi] Connecting to %s", WIFI_SSID);
     WiFi.begin(WIFI_SSID, WIFI_PASS);
     int attempts = 0;
@@ -125,7 +94,6 @@ void setup() {
         Serial.println("\n[WiFi] Warning: Connection timeout. Continuing in offline buffer mode.");
     }
 
-    // Initialize WebSocket client
     webSocket.begin(WS_HOST, WS_PORT, WS_PATH);
     webSocket.onEvent(webSocketEvent);
     webSocket.setReconnectInterval(3000);
@@ -147,15 +115,12 @@ void loop() {
             raw_ir = particleSensor.getIR();
             raw_red = particleSensor.getRed();
 
-            // Check if finger is placed (IR reading threshold)
             if (raw_ir > 50000) {
                 mode_source = "MAX30102";
-                // Normalize AC-coupled signal roughly around [-1.0, 1.0]
                 static float dc_filter = 0.0;
                 dc_filter = 0.95 * dc_filter + 0.05 * (float)raw_ir;
                 ppg_val = ((float)raw_ir - dc_filter) / 1500.0;
             } else {
-                // Finger removed, fall back to low-level idle signal
                 mode_source = "MAX30102_NO_FINGER";
                 ppg_val = 0.0;
             }
@@ -174,7 +139,6 @@ void loop() {
             raw_red = (long)(52000 + ppg_val * 3800);
         }
 
-        // Send JSON payload to FastAPI WebSocket
         JsonDocument payloadDoc;
         payloadDoc["timestamp"] = now;
         payloadDoc["ppg"] = round(ppg_val * 1000.0) / 1000.0;

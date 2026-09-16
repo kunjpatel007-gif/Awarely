@@ -1,16 +1,5 @@
-"""
-=============================================================================
-The Vanishing Dose — Cache Service Layer
-Author: Person B
-Repository Root: D:/manipal h/Hackathon-Manipal
+"""Redis-primary, in-memory-LRU-fallback cache service with TTL support."""
 
-RESILIENCE SPECIFICATION:
-- Primary: Attempts connection to Redis instance (e.g. redis://redis:6379 or redis://localhost:6379).
-- Fallback: If Redis is offline or redis package is not installed, seamlessly falls back
-  to a thread-safe in-memory cache with TTL (Time-To-Live) expiration.
-- Never raises uncaught connection errors to calling endpoints.
-=============================================================================
-"""
 
 import json
 import logging
@@ -38,13 +27,11 @@ class InMemoryLRUCache:
             if key not in self._cache:
                 return None
             
-            # Check expiration
             if key in self._expirations and time.time() > self._expirations[key]:
                 del self._cache[key]
                 del self._expirations[key]
                 return None
 
-            # Move to end for LRU order
             self._cache.move_to_end(key)
             return self._cache[key]
 
@@ -55,7 +42,6 @@ class InMemoryLRUCache:
             self._cache[key] = value
             self._expirations[key] = time.time() + ttl
 
-            # Evict oldest if capacity exceeded
             if len(self._cache) > self.capacity:
                 oldest_key, _ = self._cache.popitem(last=False)
                 self._expirations.pop(oldest_key, None)
@@ -134,5 +120,4 @@ class CacheService:
         }
 
 
-# Singleton instance
 cache = CacheService()

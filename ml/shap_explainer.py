@@ -1,18 +1,5 @@
-"""
-=============================================================================
-The Vanishing Dose — SHAP Explainability Engine
-Author / Implementer: Person B (Formalized ownership per reconciliation log)
-Repository Root: D:/manipal h/Hackathon-Manipal
-Reviewed for: Person A ML Pipeline Integration
+"""SHAP TreeExplainer wrapper for XGBoost adherence model with analytical attribution fallback."""
 
-ARCHITECTURAL NOTES:
-1. CONTRACT: generate_shap_receipt(patient_features: dict) -> dict
-2. TreeExplainer is initialized against ml/models/xgb_model.json.
-3. RESILIENT FALLBACK: If shap library is not installed in the running environment,
-   an analytical tree-attribution approximation using XGBoost feature importances
-   and standard deviations is used so the API gateway never crashes.
-=============================================================================
-"""
 
 import json
 import logging
@@ -27,13 +14,11 @@ logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "xgb_model.json"
 
-# Cached model and explainer instances
 _xgb_model = None
 _shap_explainer = None
 _feature_names = None
 _shap_available = None
 
-# Expected feature order from XGBoost model
 FEATURE_COLUMNS = [
     'days_since_last_refill', 'avg_refill_gap_90d', 'refill_gap_std',
     'total_refills_90d', 'missed_appointments_90d', 'kept_appointments_90d',
@@ -41,7 +26,6 @@ FEATURE_COLUMNS = [
     'gender', 'medication_count', 'days_on_therapy', 'insurance_type_enc'
 ]
 
-# Clinical baseline statistics for fallback attribution
 FEATURE_BASELINES = {
     'days_since_last_refill': 32.0,
     'avg_refill_gap_90d': 6.5,
@@ -74,7 +58,6 @@ def _load_model_and_explainer():
     _xgb_model.load_model(str(MODEL_PATH))
     _feature_names = getattr(_xgb_model, "feature_names_in_", FEATURE_COLUMNS)
 
-    # Check for shap library
     try:
         import shap
         _shap_explainer = shap.TreeExplainer(_xgb_model)
@@ -97,12 +80,10 @@ def generate_shap_receipt(patient_features: Dict[str, Any]) -> Dict[str, Any]:
     """
     _load_model_and_explainer()
 
-    # Align input to model's feature vector
     row = {}
     cols = _feature_names if _feature_names is not None else FEATURE_COLUMNS
     for col in cols:
         val = patient_features.get(col, FEATURE_BASELINES.get(col, 0.0))
-        # Handle string gender encoding if passed as raw text
         if col == "gender" and isinstance(val, str):
             val = 1.0 if val.lower().startswith("m") else 0.0
         try:
@@ -112,13 +93,11 @@ def generate_shap_receipt(patient_features: Dict[str, Any]) -> Dict[str, Any]:
 
     X_df = pd.DataFrame([row], columns=cols)
 
-    # If shap is available, calculate actual TreeExplainer values
     if _shap_available and _shap_explainer is not None:
         try:
             shap_values = _shap_explainer.shap_values(X_df)
             base_value = float(_shap_explainer.expected_value) if hasattr(_shap_explainer, "expected_value") else 0.65
             
-            # Map features to impacts
             receipt = {"base_value": round(base_value, 4)}
             for i, col in enumerate(cols):
                 impact = float(shap_values[0][i])
@@ -127,12 +106,9 @@ def generate_shap_receipt(patient_features: Dict[str, Any]) -> Dict[str, Any]:
         except Exception as e:
             logger.warning(f"Error during TreeExplainer inference: {e}. Degrading to analytical attribution.")
 
-    # Analytical Attribution Fallback
-    # Computes directional attribution proportional to model feature importances
     base_value = 0.65
     receipt = {"base_value": base_value}
 
-    # Extract model importances if model is loaded
     if _xgb_model is not None and hasattr(_xgb_model, "feature_importances_"):
         importances = _xgb_model.feature_importances_
     else:

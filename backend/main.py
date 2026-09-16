@@ -1,24 +1,3 @@
-"""
-=============================================================================
-The Vanishing Dose — Clinical API Gateway & Telemetry Broker
-Author: Person B (API & Hardware Integration)
-Repository Root: D:/manipal h/Hackathon-Manipal
-
-PRE-BUILD RECONCILIATION & SPEC ALIGNMENT:
-1. WEBSOCKET /ws/ppg: Receives live 50 Hz PPG telemetry from ESP32 (MAX30102 / Wokwi).
-   Evaluates JITAI HRV stress metrics every 100 samples (2.0s).
-   Broadcasts stress intervention notifications.
-2. REST /api/patient/{id}/adherence: Returns CQR calibrated intervals, HMM state,
-   SHAP explanation receipts, and requires_human_review flag.
-3. HMM MODEL FALLBACK: Since ml/models/hmm_model.pkl was not serialized by Person A,
-   precomputed states from ml/outputs/hmm_states.csv are loaded at runtime.
-4. PERSON B ADDITIONS BEYOND ORIGINAL SPEC:
-   - GET /api/patients: Cohort roster with uncertainty filtering for Active Learning queue.
-   - GET /api/health: Operational health check of model artifacts and cache.
-   - GET /api/telemetry/latest: REST snapshot of buffered PPG for dashboard polling.
-=============================================================================
-"""
-
 import os
 import sys
 import json
@@ -32,7 +11,6 @@ import pandas as pd
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-# Ensure repo root is on Python path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -41,7 +19,6 @@ from backend.jitai_logic import calculate_hrv_metrics, SAMPLE_RATE_HZ
 from backend.redis_cache import cache
 from ml.shap_explainer import generate_shap_receipt
 
-# Setup Logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("vanishing-dose-backend")
 
@@ -51,11 +28,9 @@ app = FastAPI(
     version="2.1.0"
 )
 
-# Configurable CORS origins
 CORS_ORIGINS_RAW = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000")
 ALLOWED_ORIGINS = [origin.strip() for origin in CORS_ORIGINS_RAW.split(",") if origin.strip()]
 
-# Enable CORS for browser and dashboard clients
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
@@ -64,14 +39,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# File Paths
 CQR_PREDS_PATH = PROJECT_ROOT / "ml" / "outputs" / "cqr_predictions.csv"
 HMM_STATES_PATH = PROJECT_ROOT / "ml" / "outputs" / "hmm_states.csv"
 TABULAR_FEATURES_PATH = PROJECT_ROOT / "ml" / "outputs" / "tabular_features.csv"
 MEDICATIONS_PATH = PROJECT_ROOT / "ml" / "outputs" / "patient_medications.csv"
 XGB_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "xgb_model.json"
 
-# In-memory storage for loaded precomputed datasets
 _cqr_df: Optional[pd.DataFrame] = None
 _hmm_latest_map: Dict[str, int] = {}
 _tabular_features_map: Dict[str, Dict[str, Any]] = {}
@@ -79,7 +52,9 @@ _patient_list: List[Dict[str, Any]] = []
 _patient_simulators: Dict[str, Any] = {}
 _audit_log: List[Dict[str, Any]] = []
 
-# Sliding window buffer for real-time PPG telemetry
+_last_jitai_email_ts: Dict[str, float] = {}  # patient_id -> last email unix timestamp
+JITAI_COOLDOWN_SECONDS = 240
+
 active_ppg_stream: List[float] = []            # Display buffer (recent 200 samples = 4s for visualization)
 active_raw_stream: List[int] = []              # Raw IR display buffer
 active_ppg_analysis_buffer: List[float] = []   # Analysis buffer (up to 1500 samples = 30s for HRV)
@@ -220,7 +195,6 @@ def _load_clinical_data():
     else:
         logger.warning(f"Patient medications file not found at {MEDICATIONS_PATH}")
 
-    # 3. Build fast in-memory roster
     # CQR test split contains exactly the 198 monitored patients evaluated by CQR + MAPIE
     cqr_patient_ids = []
     if not _cqr_df.empty and "patient_id" in _cqr_df.columns:
@@ -246,7 +220,8 @@ def _load_clinical_data():
         
         # Evaluated from raw pre-clipped values: Trigger 1 (width > 0.40), Trigger 2 (out of bounds)
         width_triggered = bool(raw_w90 > 0.40)
-        oob_triggered = bool(raw_est < 0.0 or raw_est > 1.0)
+        OOB_EPSILON = 0.05
+        oob_triggered = bool(raw_est < -OOB_EPSILON or raw_est > (1.0 + OOB_EPSILON))
         requires_review = width_triggered or oob_triggered
         
         # Determine specific review reason for UI badges
@@ -283,21 +258,56 @@ def _load_clinical_data():
             "review_reason": review_reason,
             "clinical_status": clinical_status,
             "hmm_state": raw_hmm_state,
-            "hmm_state_label": state_labels.get(raw_hmm_state, f"State {raw_hmm_state}")
+            "hmm_state_label": state_labels.get(raw_hmm_state, f"State {raw_hmm_state}"),
+            "is_hardware_patient": False
         })
+        
+    # Inject a dedicated pure-dummy patient for the Review Queue Demo
+    # This ensures the real 199 ML patients remain completely untouched by the demo logic
+    _patient_list.insert(1, {
+        "patient_id": "demo-review-001",
+        "base_risk": 0.45,
+        "lower_90": 0.20,
+        "upper_90": 0.70,
+        "interval_width_90": 0.50,
+        "requires_human_review": True,
+        "review_reason": "High Epistemic Uncertainty (CI > 0.40)",
+        "clinical_status": "Review Required",
+        "hmm_state": 1,
+        "hmm_state_label": "Variable Pattern",
+        "is_hardware_patient": False
+    })
+    _medications_map["demo-review-001"] = [
+        {"name": "Atorvastatin 20 MG Oral Tablet", "time": "Once Daily — Evening"}
+    ]
+
+    # Inject hardware demo patient for ESP32 sensor
+    _patient_list.insert(0, {
+        "patient_id": "esp-test-001",
+        "base_risk": 0.75,
+        "lower_90": 0.62,
+        "upper_90": 0.88,
+        "interval_width_90": 0.26,
+        "requires_human_review": False,
+        "review_reason": None,
+        "clinical_status": "Nominal",
+        "hmm_state": 0,
+        "hmm_state_label": "Stable Routine",
+        "is_hardware_patient": True
+    })
+    _medications_map["esp-test-001"] = [
+        {"name": "Lisinopril 10 MG Oral Tablet", "time": "Once Daily — Morning"},
+        {"name": "Metformin Hydrochloride 500 MG Oral Tablet", "time": "Twice Daily — Morning & Evening"}
+    ]
 
 
 @app.on_event("startup")
 async def startup_event():
     _load_clinical_data()
 
-# Load clinical data immediately on import
 _load_clinical_data()
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# WEBSOCKET TELEMETRY & JITAI ENGINE
-# ─────────────────────────────────────────────────────────────────────────────
 @app.websocket("/ws/telemetry/subscribe")
 async def websocket_telemetry_subscriber(websocket: WebSocket):
     """
@@ -406,9 +416,6 @@ async def websocket_ppg_endpoint(websocket: WebSocket, role: str = Query("produc
         logger.error(f"WebSocket producer error: {e}")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# REST CLINICAL APIS
-# ─────────────────────────────────────────────────────────────────────────────
 @app.get("/api/patient/{patient_id}/adherence")
 async def get_patient_adherence(patient_id: str):
     """
@@ -501,8 +508,10 @@ async def get_patient_adherence(patient_id: str):
     # 5. Algorithmic Bias & Uncertainty Flag (Computed strictly from RAW, unclipped values)
     # Trigger 1: High epistemic uncertainty (raw 90% CI width > 0.40)
     width_triggered = bool(raw_w90 > 0.40)
-    # Trigger 2: Extrapolation failure (raw point estimate outside physical [0.0, 1.0] bound)
-    oob_triggered = bool(raw_base_risk < 0.0 or raw_base_risk > 1.0)
+    # Trigger 2: Extrapolation failure (raw point estimate outside physical bounds)
+    # Use a 5% tolerance to absorb floating-point noise (e.g. 1.0022 is not a real failure)
+    OOB_EPSILON = 0.05
+    oob_triggered = bool(raw_base_risk < -OOB_EPSILON or raw_base_risk > (1.0 + OOB_EPSILON))
 
     requires_human_review = bool(width_triggered or oob_triggered)
 
@@ -540,9 +549,13 @@ async def get_patient_adherence(patient_id: str):
     # Respect manual overrides from the active session roster
     for p in _patient_list:
         if p["patient_id"] == patient_id:
-            if not p.get("requires_human_review", True):
-                requires_human_review = False
-                review_reason = None
+            if "requires_human_review" in p:
+                requires_human_review = p["requires_human_review"]
+                if requires_human_review:
+                    review_reason = p.get("review_reason", review_reason)
+                    is_clipped = True # Force UI to show it in red if needed
+                else:
+                    review_reason = None
             if "base_risk" in p and p["base_risk"] != base_risk:
                 # Use the artificially boosted/tanked base risk if human overrode it
                 base_risk = p["base_risk"]
@@ -573,9 +586,6 @@ async def get_patient_adherence(patient_id: str):
     return response
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-# PERSON B EXTENSIONS (Roster, Live Telemetry Snapshot, Health)
-# ─────────────────────────────────────────────────────────────────────────────
 @app.get("/api/patients/summary")
 async def get_patients_summary():
     """
@@ -656,6 +666,16 @@ import asyncio
 from fastapi import WebSocketDisconnect, Body
 from backend.ppg_simulator import PatientSimulator
 
+async def _dispatch_jitai_email(patient_id: str, medications: list):
+    """Async wrapper to dispatch JITAI email without blocking the WebSocket loop."""
+    try:
+        success, content = send_jitai_reminder_email(patient_id, medications)
+        logger.info(f"JITAI email dispatched for {patient_id}: real={success}")
+        with open("sent_emails.log", "a") as f:
+            f.write(content + "\n\n" + "="*50 + "\n\n")
+    except Exception as e:
+        logger.error(f"Failed to dispatch JITAI email for {patient_id}: {e}")
+
 @app.websocket("/ws/simulated/{patient_id}")
 async def websocket_simulated(websocket: WebSocket, patient_id: str):
     await websocket.accept()
@@ -699,6 +719,14 @@ async def websocket_simulated(websocket: WebSocket, patient_id: str):
                                 "sdnn_ms": hrv["sdnn_ms"]
                             }
                         })
+                        # Auto-dispatch JITAI email with cooldown
+                        import time as _time
+                        now = _time.time()
+                        last_sent = _last_jitai_email_ts.get(patient_id, 0)
+                        if (now - last_sent) > JITAI_COOLDOWN_SECONDS:
+                            meds = _medications_map.get(patient_id, [])
+                            asyncio.create_task(_dispatch_jitai_email(patient_id, meds))
+                            _last_jitai_email_ts[patient_id] = now
     except WebSocketDisconnect:
         pass
     except Exception as e:
@@ -721,7 +749,7 @@ async def submit_adherence_review(patient_id: str, body: dict = Body(...)):
             return {"status": "success"}
     return {"status": "error", "message": "Patient not found"}
 
-from backend.email_dispatcher import send_followup_email
+from backend.email_dispatcher import send_followup_email, send_jitai_reminder_email, send_refill_reminder_email, send_missed_appointment_email
 
 @app.post("/api/patients/{patient_id}/follow-up")
 async def schedule_follow_up(patient_id: str, body: dict = Body(...)):
@@ -742,6 +770,46 @@ async def schedule_follow_up(patient_id: str, body: dict = Body(...)):
         
     cache.delete(f"adherence:{patient_id}")
     return {"status": "success", "email_dispatched": email_content, "real_email_sent": success}
+
+@app.post("/api/patients/{patient_id}/trigger-reminder")
+async def trigger_jitai_reminder(patient_id: str):
+    """Manual trigger for JITAI stress reminder email. Bypasses cooldown."""
+    meds = _medications_map.get(patient_id, [])
+    success, email_content = send_jitai_reminder_email(patient_id, meds)
+    _audit_log.append({"patient": patient_id, "action": "manual_jitai_trigger", "email": email_content})
+    with open("sent_emails.log", "a") as f:
+        f.write(email_content + "\n\n" + "="*50 + "\n\n")
+    return {"status": "success", "email_dispatched": email_content, "real_email_sent": success}
+
+@app.post("/api/patients/{patient_id}/remind-refill")
+async def remind_refill(patient_id: str):
+    """Dispatch a medication refill reminder email."""
+    meds = _medications_map.get(patient_id, [])
+    success, email_content = send_refill_reminder_email(patient_id, meds)
+    _audit_log.append({"patient": patient_id, "action": "refill_reminder", "email": email_content})
+    with open("sent_emails.log", "a") as f:
+        f.write(email_content + "\n\n" + "="*50 + "\n\n")
+    return {"status": "success", "email_dispatched": email_content, "real_email_sent": success}
+
+@app.post("/api/patients/{patient_id}/remind-appointment")
+async def remind_appointment(patient_id: str):
+    """Dispatch a missed appointment reminder email."""
+    meds = _medications_map.get(patient_id, [])
+    success, email_content = send_missed_appointment_email(patient_id, meds)
+    _audit_log.append({"patient": patient_id, "action": "appointment_reminder", "email": email_content})
+    with open("sent_emails.log", "a") as f:
+        f.write(email_content + "\n\n" + "="*50 + "\n\n")
+    return {"status": "success", "email_dispatched": email_content, "real_email_sent": success}
+
+@app.post("/api/patients/{patient_id}/force-stress")
+async def force_stress(patient_id: str):
+    """Force a simulated patient into stress state for demo purposes."""
+    sim = _patient_simulators.get(patient_id)
+    if sim and hasattr(sim, 'force_stress'):
+        sim.force_stress()
+        return {"status": "success", "message": f"Patient {patient_id} forced into stress state"}
+    return {"status": "error", "message": f"No active simulator found for {patient_id}"}
+
 @app.post("/api/reset")
 async def reset_demo():
     """Resets the in-memory patient list back to its original state for demo purposes."""
