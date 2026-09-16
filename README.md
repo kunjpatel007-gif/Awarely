@@ -22,7 +22,7 @@ A full-stack clinical decision support system that infers medication non-adheren
 
 ## Key Highlight: Cloud-Native IoT Telemetry
 
-A core feature of the Awarely architecture is its fully decoupled, cloud-native hardware integration. The system supports remote physiological monitoring via an ESP32 microcontroller that streams high-frequency Photoplethysmography (PPG) data directly to the cloud backend over secure WebSockets (WSS). This permits true remote patient monitoring—clinical staff can view live physiological streams on the dashboard from any device, anywhere in the world, while the patient hardware operates completely autonomously on a standard WiFi connection.
+A core feature of the Awarely architecture is its fully decoupled, cloud-native hardware integration. The system supports remote physiological monitoring via an ESP32 microcontroller that streams high-frequency Photoplethysmography (PPG) data directly to the cloud backend over secure WebSockets (WSS). This permits true remote patient monitoring—clinical staff can view live physiological streams on the dashboard from any device, anywhere in the world, while the patient hardware operates completely autonomously on a standard WiFi connection. Evaluators deploying their own ESP32 hardware can easily configure the device for their local network by modifying the `WIFI_SSID` and `WIFI_PASS` constants at **lines 11 and 12** in `firmware/src/main.cpp`.
 
 ## Problem Statement
 
