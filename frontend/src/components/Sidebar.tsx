@@ -95,8 +95,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="sys-status-row">
             <span className="sys-status-label">Server</span>
             <span className="status-pill">
-              <span className="dot green" aria-hidden="true" />
-              Online
+              <span className={`dot ${wsConnected ? 'green' : 'red'}`} aria-hidden="true" />
+              {wsConnected ? 'Online' : 'Offline'}
             </span>
           </div>
           <div className="sys-status-row">
