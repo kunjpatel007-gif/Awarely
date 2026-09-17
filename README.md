@@ -3,6 +3,7 @@
 **🔴 Live Demo:** [https://awarely-iota.vercel.app](https://awarely-iota.vercel.app)
 
 A full-stack clinical decision support system that infers medication non-adherence from indirect signals — pharmacy refill records, appointment history, and real-time biosignal telemetry — without relying on patient self-report.
+
 Use Mobile Hotspot if security error occurs for the link.
 
 ---
@@ -20,15 +21,22 @@ Use Mobile Hotspot if security error occurs for the link.
 9. [Hardware Integration](#hardware-integration)
 10. [Data Pipeline](#data-pipeline)
 11. [Cloud Architecture & Hosting](#cloud-architecture--hosting)
-12. [Directory Structure](#directory-structure)
-13. [Email Notifications & SMTP Setup](#email-notifications--smtp-setup)
-14. [Environment Variables](#environment-variables)
+12. [Local Development Quick Start](#local-development-quick-start)
+13. [Directory Structure](#directory-structure)
+14. [Email Notifications & SMTP Setup](#email-notifications--smtp-setup)
+15. [Environment Variables](#environment-variables)
 
 ---
 
 ## Key Highlight: Cloud-Native IoT Telemetry
 
-A core feature of the Awarely architecture is its fully decoupled, cloud-native hardware integration. The system supports remote physiological monitoring via an ESP32 microcontroller that streams high-frequency Photoplethysmography (PPG) data directly to the cloud backend over secure WebSockets (WSS). This permits true remote patient monitoring—clinical staff can view live physiological streams on the dashboard from any device, anywhere in the world, while the patient hardware operates completely autonomously on a standard WiFi connection. Evaluators deploying their own ESP32 hardware can easily configure the device for their local network by modifying the `WIFI_SSID` and `WIFI_PASS` constants at **lines 11 and 12** in `firmware/src/main.cpp`.
+A core feature of the Awarely architecture is its fully decoupled, cloud-native hardware integration. The system supports remote physiological monitoring via an ESP32 microcontroller that streams high-frequency Photoplethysmography (PPG) data directly to the cloud backend over secure WebSockets (WSS).
+
+This permits true remote patient monitoring—clinical staff can view live physiological streams on the dashboard from any device, anywhere in the world, while the patient hardware operates completely autonomously on a standard WiFi connection.
+
+Evaluators deploying their own ESP32 hardware can easily configure the device for their local network by modifying the `WIFI_SSID` and `WIFI_PASS` constants at **lines 11 and 12** in `firmware/src/main.cpp`.
+
+---
 
 ## Screenshots
 
@@ -36,20 +44,26 @@ A core feature of the Awarely architecture is its fully decoupled, cloud-native 
 ![Dashboard View](assets/screenshot1.png)
 
 ### Review Queue
-![Clinical Risk Profile](assets/screenshot2.png)
+![Review Queue](assets/screenshot2.png)
 
 ### JITAI Interventions
 ![JITAI Interventions](assets/screenshot3.png)
 
 ### Clinical Risk Profile
-![Review Queue](assets/screenshot4.png)
+![Clinical Risk Profile](assets/screenshot4.png)
 
 ### System Diagnostics
 ![System Diagnostics](assets/screenshot5.png)
 
+---
+
 ## Problem Statement
 
-A patient may be prescribed the right medication, yet treatment can fail because doses are missed, taken at the wrong time, or stopped altogether. In practice, clinicians often have very little visibility into what happens between prescription and the next appointment. Pharmacy refills, prescription changes, symptom patterns, wearable data, and follow-up records may each reveal small clues, but these signals are rarely considered together. The challenge is especially difficult when non-adherence is intermittent rather than a complete abandonment of treatment. Design a system that can identify patterns suggesting medication non-adherence from indirect, routinely available healthcare signals. Rather than relying on patients to manually report every missed dose, the system should reason from changes and inconsistencies across available information, distinguish temporary irregularities from meaningful patterns, and communicate uncertainty clearly. The goal is to help healthcare professionals identify when a treatment may not be working because of how it is being taken, without automatically assuming that a patient is non-compliant.
+A patient may be prescribed the right medication, yet treatment can fail because doses are missed, taken at the wrong time, or stopped altogether. In practice, clinicians often have very little visibility into what happens between prescription and the next appointment. Pharmacy refills, prescription changes, symptom patterns, wearable data, and follow-up records may each reveal small clues, but these signals are rarely considered together. The challenge is especially difficult when non-adherence is intermittent rather than a complete abandonment of treatment.
+
+Design a system that can identify patterns suggesting medication non-adherence from indirect, routinely available healthcare signals.
+
+Rather than relying on patients to manually report every missed dose, the system should reason from changes and inconsistencies across available information, distinguish temporary irregularities from meaningful patterns, and communicate uncertainty clearly. The goal is to help healthcare professionals identify when a treatment may not be working because of how it is being taken, without automatically assuming that a patient is non-compliant.
 
 ---
 
@@ -185,9 +199,12 @@ When either trigger fires, the patient is flagged `requires_human_review: true` 
 **Decoding:** Viterbi algorithm decodes the most probable state sequence per patient. The final (most recent) decoded state is indexed at startup from `hmm_states.csv`.
 
 **State labels exposed via API:**
-- State 0 — Stable Routine
-- State 1 — Variable Pattern
-- State 2 — Volatile Phase
+
+| State | Label |
+|---|---|
+| State 0 | Stable Routine |
+| State 1 | Variable Pattern |
+| State 2 | Volatile Phase |
 
 ### SHAP Explainability
 
@@ -231,8 +248,11 @@ flowchart LR
 **Evaluation cadence:** HRV metrics are computed every 100 samples (2 seconds at 50 Hz) using the 1500-sample rolling analysis buffer.
 
 **Stress thresholds:**
-- `SDNN < 25ms` — low autonomic variability, sympathetic hyperactivation
-- `SDNN > 120ms` — erratic arrhythmic variance
+
+| Condition | Interpretation |
+|---|---|
+| `SDNN < 25ms` | low autonomic variability, sympathetic hyperactivation |
+| `SDNN > 120ms` | erratic arrhythmic variance |
 
 **JITAI cooldown:** `JITAI_COOLDOWN_SECONDS = 240`. The system enforces a per-patient 4-minute cooldown to prevent alert flooding. Manual REST triggers (`/trigger-reminder`) bypass the cooldown for demonstration purposes.
 
@@ -362,19 +382,19 @@ Patient medications are extracted directly from Synthea FHIR `MedicationRequest`
 
 The application is deployed using a decoupled, serverless microservice architecture to ensure high availability and scalable WebSocket connections.
 
-### 1. Frontend (Vercel)
+### Frontend (Vercel)
 The React/Vite frontend is continuously deployed on **Vercel** via GitHub integration. Vercel's Edge Network serves the static assets and provides automatic SSL termination.
 - **Environment Variables**: 
   - `VITE_API_URL` -> Points to the Google Cloud Run backend REST URL.
   - `VITE_WS_URL` -> Points to the secure `wss://` Google Cloud Run WebSocket URL.
 
-### 2. Backend (Google Cloud Run)
+### Backend (Google Cloud Run)
 The FastAPI backend and machine learning inference engine are containerized and deployed on **Google Cloud Run**.
 - **Continuous Deployment**: Connected directly to the GitHub repository using GCP Cloud Build. Upon every push to the `main` branch, Cloud Build compiles the Docker image and pushes it to **Artifact Registry**, which automatically provisions a new Cloud Run revision.
 - **Concurrency**: Configured to support up to 80 concurrent requests per container to maintain stable 50Hz WebSocket streams for the hardware integration.
 - **Stateless ML Models**: The XGBoost and HMM models are pre-trained, pickled, and embedded directly into the Docker container. 
 
-### 3. Edge Hardware (ESP32)
+### Edge Hardware (ESP32)
 The ESP32 microcontroller (utilizing an HW-605 / MAX30102 sensor) is flashed via PlatformIO. 
 - It establishes a direct TLS encrypted `wss://` WebSocket connection to the Cloud Run backend.
 - It operates at a stable I2C standard speed (100kHz) and streams raw PPG buffers at an effective 50Hz.
@@ -382,13 +402,14 @@ The ESP32 microcontroller (utilizing an HW-605 / MAX30102 sensor) is flashed via
 
 ---
 
-### Local Development Quick Start
+## Local Development Quick Start
 
 ### Docker Build Configurations (Local vs. Cloud)
 
 Because the backend relies on heavy ML packages (XGBoost, SciKit), the pip cache can become massive. You must use the correct `backend/Dockerfile` depending on your environment.
 
-**Version 1: Local Development (Default in repo)**
+#### Version 1: Local Development (default in repo)
+
 Uses BuildKit cache mounts to prevent re-downloading massive files when rebuilding your container locally.
 ```dockerfile
 # backend/Dockerfile (Local version)
@@ -397,7 +418,8 @@ RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 RUN --mount=type=cache,target=/root/.cache/pip pip install redis
 ```
 
-**Version 2: Cloud Deployment (e.g., Render Free Tier)**
+#### Version 2: Cloud Deployment (e.g., Render Free Tier)
+
 Free cloud tiers have tight RAM/Disk limits (often 512MB). The local cache mounts will cause the server to crash (`BrokenPipeError`) during deployment. You must strip the cache mounts and use `--no-cache-dir`.
 ```dockerfile
 # backend/Dockerfile (Cloud version)
@@ -471,21 +493,28 @@ Open `firmware/` in VSCode with the PlatformIO extension. Set `WS_HOST` in `main
 
 ---
 
+---
+
 ## Email Notifications & SMTP Setup
 
 The backend utilizes `backend/email_dispatcher.py` to automatically send clinical alerts (like JITAI stress interventions, missed refills, and appointment reminders).
 
 To enable live email dispatch, you must provide the following environment variables in your `.env` file (or Cloud Run environment):
-- `SMTP_USER`: A valid Gmail address used to send the emails.
-- `SMTP_PASSWORD`: An App Password generated from your Google Account settings (do not use your actual account password).
-- `TARGET_EMAIL`: The destination email address where you want to receive the alerts (e.g., your personal email for testing).
+
+| Variable | Description |
+|---|---|
+| `SMTP_USER` | A valid Gmail address used to send the emails. |
+| `SMTP_PASSWORD` | An App Password generated from your Google Account settings (do not use your actual account password). |
+| `TARGET_EMAIL` | The destination email address where you want to receive the alerts (e.g., your personal email for testing). |
 
 > [!WARNING]  
 > **Anti-Spam & Bot Detection Risk:** If you test the system heavily, Google's automated spam filters may flag your `SMTP_USER` account for sending too many automated/robotic emails in rapid succession, which can lead to a temporary or permanent account ban. 
 > 
 > **Recommendation:** Do NOT use your primary personal or work email as the `SMTP_USER`. Only use a dedicated, throwaway service account (e.g., `awarely-alerts-bot@gmail.com`) that is explicitly meant to handle auto-generated bot traffic. 
 
-*(Note: If these environment variables are left blank, the system automatically falls back to **Simulation Mode**. No actual emails will be sent, but the email payload will be cleanly logged to `sent_emails.log` and returned in the API payload for debugging.)*
+If these environment variables are left blank, the system automatically falls back to **Simulation Mode**. No actual emails will be sent, but the email payload will be cleanly logged to `sent_emails.log` and returned in the API payload for debugging.
+
+---
 
 ## Environment Variables
 
