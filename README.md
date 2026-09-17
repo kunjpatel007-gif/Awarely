@@ -21,7 +21,8 @@ Use Mobile Hotspot if security error occurs for the link.
 10. [Data Pipeline](#data-pipeline)
 11. [Cloud Architecture & Hosting](#cloud-architecture--hosting)
 12. [Directory Structure](#directory-structure)
-13. [Environment Variables](#environment-variables)
+13. [Email Notifications & SMTP Setup](#email-notifications--smtp-setup)
+14. [Environment Variables](#environment-variables)
 
 ---
 
@@ -469,6 +470,22 @@ Open `firmware/` in VSCode with the PlatformIO extension. Set `WS_HOST` in `main
 ```
 
 ---
+
+## Email Notifications & SMTP Setup
+
+The backend utilizes `backend/email_dispatcher.py` to automatically send clinical alerts (like JITAI stress interventions, missed refills, and appointment reminders).
+
+To enable live email dispatch, you must provide the following environment variables in your `.env` file (or Cloud Run environment):
+- `SMTP_USER`: A valid Gmail address used to send the emails.
+- `SMTP_PASSWORD`: An App Password generated from your Google Account settings (do not use your actual account password).
+- `TARGET_EMAIL`: The destination email address where you want to receive the alerts (e.g., your personal email for testing).
+
+> [!WARNING]  
+> **Anti-Spam & Bot Detection Risk:** If you test the system heavily, Google's automated spam filters may flag your `SMTP_USER` account for sending too many automated/robotic emails in rapid succession, which can lead to a temporary or permanent account ban. 
+> 
+> **Recommendation:** Do NOT use your primary personal or work email as the `SMTP_USER`. Only use a dedicated, throwaway service account (e.g., `awarely-alerts-bot@gmail.com`) that is explicitly meant to handle auto-generated bot traffic. 
+
+*(Note: If these environment variables are left blank, the system automatically falls back to **Simulation Mode**. No actual emails will be sent, but the email payload will be cleanly logged to `sent_emails.log` and returned in the API payload for debugging.)*
 
 ## Environment Variables
 
