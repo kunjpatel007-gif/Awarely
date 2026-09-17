@@ -35,13 +35,13 @@ A core feature of the Awarely architecture is its fully decoupled, cloud-native 
 ### Main Dashboard & Telemetry
 ![Dashboard View](assets/screenshot1.png)
 
-### Clinical Risk Profile
+### Review Queue
 ![Clinical Risk Profile](assets/screenshot2.png)
 
 ### JITAI Interventions
 ![JITAI Interventions](assets/screenshot3.png)
 
-### Review Queue
+### Clinical Risk Profile
 ![Review Queue](assets/screenshot4.png)
 
 ### System Diagnostics
