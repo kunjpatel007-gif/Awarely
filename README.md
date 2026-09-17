@@ -10,23 +10,41 @@ Use Mobile Hotspot if security error occurs for the link.
 ## Table of Contents
 
 1. [Key Highlight: Cloud-Native IoT Telemetry](#key-highlight-cloud-native-iot-telemetry)
-2. [Problem Statement](#problem-statement)
-3. [System Architecture](#system-architecture)
-4. [ML Pipeline](#ml-pipeline)
-5. [Real-Time Telemetry and JITAI Engine](#real-time-telemetry-and-jitai-engine)
-6. [Backend API Reference](#backend-api-reference)
-7. [Frontend Architecture](#frontend-architecture)
-8. [Hardware Integration](#hardware-integration)
-9. [Data Pipeline](#data-pipeline)
-10. [Cloud Architecture & Hosting](#cloud-architecture--hosting)
-11. [Directory Structure](#directory-structure)
-12. [Environment Variables](#environment-variables)
+2. [Screenshots](#screenshots)
+3. [Problem Statement](#problem-statement)
+4. [System Architecture](#system-architecture)
+5. [ML Pipeline](#ml-pipeline)
+6. [Real-Time Telemetry and JITAI Engine](#real-time-telemetry-and-jitai-engine)
+7. [Backend API Reference](#backend-api-reference)
+8. [Frontend Architecture](#frontend-architecture)
+9. [Hardware Integration](#hardware-integration)
+10. [Data Pipeline](#data-pipeline)
+11. [Cloud Architecture & Hosting](#cloud-architecture--hosting)
+12. [Directory Structure](#directory-structure)
+13. [Environment Variables](#environment-variables)
 
 ---
 
 ## Key Highlight: Cloud-Native IoT Telemetry
 
 A core feature of the Awarely architecture is its fully decoupled, cloud-native hardware integration. The system supports remote physiological monitoring via an ESP32 microcontroller that streams high-frequency Photoplethysmography (PPG) data directly to the cloud backend over secure WebSockets (WSS). This permits true remote patient monitoring—clinical staff can view live physiological streams on the dashboard from any device, anywhere in the world, while the patient hardware operates completely autonomously on a standard WiFi connection. Evaluators deploying their own ESP32 hardware can easily configure the device for their local network by modifying the `WIFI_SSID` and `WIFI_PASS` constants at **lines 11 and 12** in `firmware/src/main.cpp`.
+
+## Screenshots
+
+### Main Dashboard & Telemetry
+![Dashboard View](assets/screenshot1.png)
+
+### Clinical Risk Profile
+![Clinical Risk Profile](assets/screenshot2.png)
+
+### JITAI Interventions
+![JITAI Interventions](assets/screenshot3.png)
+
+### Review Queue
+![Review Queue](assets/screenshot4.png)
+
+### System Diagnostics
+![System Diagnostics](assets/screenshot5.png)
 
 ## Problem Statement
 
